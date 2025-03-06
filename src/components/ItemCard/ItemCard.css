@@ -1,0 +1,55 @@
+.card-container {
+    width: 100%;
+}
+.card {
+    height: 100%; 
+    border: 2px solid hsl(0, 0%, 80%);
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px hsla(0, 0%, 0%,0.1);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.card .card-image {
+    width: 98%;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.card-name, .card-original-price, .card-discounted-price, .card-discount {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 3%;
+}
+
+.card-name {
+    font-weight: normal;
+    font-size: 1rem;
+    color: black;
+    word-wrap: break-word;
+    display: block;
+    max-width: 96%;
+}
+
+.card-discounted-price {
+    font-weight: bold;
+    font-size: 1rem;
+    color: red;
+}
+
+.card-original-price {
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-decoration: line-through;
+    color: grey;
+}
+
+.card-discount {
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: red;
+}
+

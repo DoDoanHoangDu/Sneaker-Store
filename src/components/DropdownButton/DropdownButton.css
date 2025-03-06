@@ -1,0 +1,29 @@
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    width: fit-content;   
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    border: 2px solid hsl(0, 0%, 50%);
+    box-shadow: 1px 1px 1px hsla(0, 0%, 0%,0.1);
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.dropdown-btn-open {
+    border: 2px solid #2A83E9;
+}
+
+.toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    font-size: 0.7rem;
+    font-weight: normal;
+    color: hsla(0, 0%, 0%,0.8);
+}
