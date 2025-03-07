@@ -24,7 +24,7 @@ function ItemViewer() {
     const [windowSize, setWindowSize] = useState(window.innerWidth);
     useEffect(() => {
         const handleResize = () => {
-            setWindowSize(window.innerWidth); // Update state on resize
+            setWindowSize(window.innerWidth);
         };
 
         window.addEventListener("resize", handleResize);
@@ -34,13 +34,6 @@ function ItemViewer() {
     }, []);
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
-          <p>HELLO</p>
-          <p>HELLO</p>
-          <p>HELLO</p>
-          <p>HELLO</p>
-          <p>HELLO</p>
-          <p>HELLO</p>
-          <p>HELLO</p>
           <div className="dropdown-container">
             <Dropdown buttonText = "Filter 1" 
             content = {<>

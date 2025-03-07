@@ -12,6 +12,11 @@
     font-size: 1.1rem;
     margin-top: 2px;
     margin-bottom: 2px;
+    transition: background-color 50ms ease-in-out;
+}
+
+.dropdown-btn:hover {
+    background-color: hsl(0, 0%, 95%);
 }
 
 .dropdown-btn-open {
