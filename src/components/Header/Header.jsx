@@ -8,9 +8,10 @@ function Header() {
     const windowSize = useWindowSize()
     return (
         <div className="header">
-            
-            <img className={`logo ${windowSize < 1000? "logo-small" : "null"}`} src={source_logo} alt="ShoeVN"></img>
-            <div className="brand-name">topShoe</div>
+            <div className="brand-signature">
+                <img className="logo" src={source_logo} alt="ShoeVN"></img>
+                <span className="brand-name">topShoe</span>
+            </div>
             <SearchBar/>
             <CartHeader/>
             <LoginHeader/>            

@@ -1,12 +1,11 @@
 .login-header {
     display: flex;
-    width: 70px;
-    margin: 10px;
+    width: fit-content;
+    margin: 10px 5px;
     border-radius: 5px;
     border:solid;
     padding: 5px; 
     gap: 8px;
-    
 }
 
 .login-header:hover {

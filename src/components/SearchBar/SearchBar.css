@@ -1,18 +1,16 @@
 .search-bar {
-    display: flex;
+    display: inline-flex;
+    align-items: center;
     background-color: white;
     width: 30%;
-    margin: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin: 10px 8%;
     border-radius: 25px;
     padding: 2px;
     padding-left: 10px;
 }
 
 .search-icon {
-    padding-top: 18px;
-    padding-bottom: 18px;
+    height: 50%;
     padding-right: 10px;
     opacity: 50%;
 }
