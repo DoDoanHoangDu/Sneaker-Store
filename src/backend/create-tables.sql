@@ -15,14 +15,14 @@ CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL,
     product_id INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
 CREATE TABLE size (
     size_id SERIAL PRIMARY KEY,
     size_name VARCHAR(255) NOT NULL,
     product_id INT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
 );
 
 CREATE TABLE product (
@@ -38,13 +38,13 @@ CREATE TABLE cart (
     cart_id SERIAL PRIMARY KEY,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
-    FOREIGN KEY (account_id) REFERENCES Account(account_id),
-    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (account_id) REFERENCES account(account_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
 );
 
 CREATE TABLE order (
     order_id SERIAL PRIMARY KEY,
     cart_id INT NOT NULL,
     order_time TIMESTAMP NOT NULL,
-    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id),
+    FOREIGN KEY (cart_id) REFERENCES cart(cart_id),
 );
