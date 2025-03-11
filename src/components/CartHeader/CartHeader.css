@@ -1,24 +1,23 @@
-.login-header {
-    display: flex;
+.cart-header {
+    display: inline-flex;
     width: 70px;
     margin: 10px;
     border-radius: 5px;
     border:solid;
     padding: 5px; 
     gap: 8px;
-    
 }
 
-.login-header:hover {
+.cart-header:hover {
     cursor: pointer;
 }
 
-.login-logo {
+.cart-logo {
     height: 100%;
     object-fit: contain;
 }
 
-.login-block-text {
+.cart-block-text {
     font-family: "SF Pro Display", 'Arial', sans-serif;
     font-weight: bold;
     font-size: 0.8rem;

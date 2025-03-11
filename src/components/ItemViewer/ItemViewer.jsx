@@ -21,6 +21,14 @@ function ItemViewer() {
         link: "#"
       }
 
+      const item3 = {
+        image : source,
+        name : "Shoe Shi",
+        originalPrice : 100000,
+        discountedPrice: 100000,
+        link: "#"
+      }
+
     const windowSize = useWindowSize()
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
@@ -38,14 +46,19 @@ function ItemViewer() {
           <div className={`product-container ${windowSize < 1000? "product-container-small" : "null"}`}>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
           </div>
         </div>
     )

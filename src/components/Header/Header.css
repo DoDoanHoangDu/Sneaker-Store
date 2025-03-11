@@ -1,7 +1,7 @@
 .header {
     display: flex;
     width: 100%;
-    max-height: 75px;
+    max-height: 60px;
     background-color: white;
     border: 1px solid black;
     justify-content: center;
