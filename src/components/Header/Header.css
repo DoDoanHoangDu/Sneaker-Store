@@ -13,6 +13,7 @@
 .brand-signature {
     display: inline-flex;
     max-width: fit-content;
+    gap: 5px;
 }
 
 .logo {
