@@ -1,4 +1,4 @@
-CREATE TABLE Account (
+CREATE TABLE account (
     account_id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -11,30 +11,30 @@ CREATE TABLE Account (
     sex VARCHAR(255) NOT NULL,
 );
 
-CREATE TABLE Category (
+CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL,
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );
 
-CREATE TABLE Size (
+CREATE TABLE size (
     size_id SERIAL PRIMARY KEY,
     size_name VARCHAR(255) NOT NULL,
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
 );
 
-CREATE TABLE Product (
+CREATE TABLE product (
     product_id SERIAL PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     brand VARCHAR(255) NOT NULL,
     remaining INT NOT NULL,
     price DECIMAL NOT NULL,
     description TEXT NOT NULL,
-    category_id INT NOT NULL,
-    size_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES Category(category_id),
-    FOREIGN KEY (size_id) REFERENCES Size(size_id),
 );
 
-CREATE TABLE Cart (
+CREATE TABLE cart (
     cart_id SERIAL PRIMARY KEY,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE Cart (
     FOREIGN KEY (product_id) REFERENCES Product(product_id),
 );
 
-CREATE TABLE Order (
+CREATE TABLE order (
     order_id SERIAL PRIMARY KEY,
     cart_id INT NOT NULL,
     order_time TIMESTAMP NOT NULL,
