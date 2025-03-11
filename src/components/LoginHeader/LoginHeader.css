@@ -1,0 +1,17 @@
+.login-header {
+    display: flex;
+    width: max-content;
+    margin: 10px;
+    border-radius: 5px;
+    border:solid;
+    padding: 5px; 
+}
+
+.login-logo {
+    width: 5%;
+    object-fit: contain;
+}
+
+.login-logo-small {
+    width: 10%;
+}

@@ -1,7 +1,7 @@
 import Dropdown from "../Dropdown/Dropdown";
 import ItemCard from "../ItemCard/ItemCard";
 import DropdownItem from "../DropdownItem/DropdownItem";
-import { useState, useEffect } from "react";
+import useWindowSize from "../../customHook/useWindowSize";
 import "./ItemViewer.css"
 function ItemViewer() {
     const source = "/shoe.jpg"
@@ -21,17 +21,7 @@ function ItemViewer() {
         link: "#"
       }
 
-    const [windowSize, setWindowSize] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowSize(window.innerWidth);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    const windowSize = useWindowSize()
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
           <div className="dropdown-container">
