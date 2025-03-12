@@ -2,14 +2,11 @@ from pydantic import BaseModel
 from typing import Optional
 class ProductBase(BaseModel):
     product_name: str
-    brand: str
-    price: float
+    brand: str 
+    description: str
     discount: float
-    status: str
-    item_sold: int
-    remaining_stock: int
-    review_score: float
-    review_count: int
+    price: float
+    remaining: int
     category: list[str]
     promotion: list[str]
     size: list[int]
@@ -23,13 +20,10 @@ class ProductResponse(ProductBase):
 class ProductUpdate(ProductBase):
     product_name: Optional[str] = None
     brand: Optional[str] = None
-    price: Optional[float] = None
+    description: Optional[str] = None
     discount: Optional[float] = None
-    status: Optional[str] = None
-    item_sold: Optional[int] = None
-    remaining_stock: Optional[int] = None
-    review_score: Optional[float] = None
-    review_count: Optional[int] = None
+    price: Optional[float] = None
+    remaining: Optional[int] = None
     category: Optional[list[str]] = None
     promotion: Optional[list[str]] = None
     size: Optional[list[int]] = None
