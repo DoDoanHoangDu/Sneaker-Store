@@ -9,7 +9,7 @@ class Product(Base):
     __tablename__ = "products"
 
     product_id = Column(Integer, primary_key=True, index=True)
-    product_name = Column(String(256))
+    product_name = Column(String(256), unique=True)
     brand = Column(String(256))
     price = Column(Integer)
     discount = Column(Integer)
