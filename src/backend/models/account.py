@@ -1,5 +1,5 @@
 from sqlalchemy import Column , Integer ,String , DATE , ForeignKey
-
+from sqlalchemy.orm import relationship
 from backend.db.base_class import Base
 
 class Account(Base):
@@ -13,4 +13,4 @@ class Account(Base):
     address = Column(String(256))
     sex = Column(String(256))
     email =  Column(String(256))
-
+    orders = relationship("Order", backref = "account")

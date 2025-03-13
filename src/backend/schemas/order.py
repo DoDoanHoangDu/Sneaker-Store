@@ -12,7 +12,7 @@ class OrderCreate(OrderBase):
     delivery_method : str
 
 class OrderInDBBase(OrderCreate):
-    order_id : int
+    id : int
 
 class Order(OrderInDBBase):
     pass
