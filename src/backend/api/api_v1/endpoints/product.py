@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session, joinedload
 from db.base_class import Base
 from db.session import get_db, engine
-from models.product_model import Product, ProductCategory, ProductPromotion, ProductSize
+from models.product import Product, ProductCategory, ProductPromotion, ProductSize
 from schemas.product import ProductCreate, ProductUpdate
 from fastapi.middleware.cors import CORSMiddleware
 

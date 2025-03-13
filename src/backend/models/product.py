@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.orm import relationship
 from db.base_class import Base
-from .product_category_model import ProductCategory
-from .product_promotion_model import ProductPromotion
-from .product_size_model import ProductSize
+from .product_categor import ProductCategory
+from .product_promotion import ProductPromotion
+from .product_size import ProductSize
+
 
 class Product(Base):
     __tablename__ = "products"
@@ -13,6 +14,8 @@ class Product(Base):
     description = Column(String(256))
     brand = Column(String(256))
     discount = Column(Float)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
     price = Column(Integer)
     remaining = Column(Integer)
 
