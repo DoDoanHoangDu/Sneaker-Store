@@ -32,6 +32,16 @@ class ProductUpdate(ProductBase):
     category: Optional[list[str]] = None
     promotion: Optional[list[str]] = None
     size: Optional[list[int]] = None
+
+
+class ProductFilter(BaseModel):
+    product_name: Optional[str] = None
+    brand: Optional[str] = None
+    price_min: Optional[float] = None
+    price_max: Optional[float] = None
+    category: Optional[list[str]] = None
+    promotion: Optional[list[str]] = None
+    size: Optional[list[int]] = None
     
 class ProductInDBBase(ProductBase):
     product_id: int

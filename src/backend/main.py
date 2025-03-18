@@ -1,11 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from api.api_v1.api import api_router
 
-app = FastAPI(title="Recipe API")
+app = FastAPI(title="Product API")
 
-
-app.include_router(api_router)
 
 # Allow requests from your React frontend 
 app.add_middleware(
@@ -15,3 +13,9 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
     allow_headers=["*"],  # Allow all headers
 )
+
+@app.get("/")
+def root():
+    return {"message": "Welcome"}
+
+app.include_router(api_router)

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.orm import relationship
 from db.base_class import Base
-from .product_categor import ProductCategory
+from .product_category import ProductCategory
 from .product_promotion import ProductPromotion
 from .product_size import ProductSize
 
