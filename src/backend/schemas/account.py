@@ -22,3 +22,7 @@ class AccountINDBBase(AccountCreate):
     id: int
     class Config:
         orm_mode = True
+
+
+class AccountUpdate(AccountBase):
+    pass

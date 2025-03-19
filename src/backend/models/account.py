@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from backend.db.base_class import Base
 
 class Account(Base):
-    account_id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     username = Column(String(256), unique=True, index=True)
     password = Column(String(256))
     full_name = Column(String(256)) 

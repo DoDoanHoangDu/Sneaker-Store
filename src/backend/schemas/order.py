@@ -17,6 +17,9 @@ class OrderInDBBase(OrderCreate):
 class Order(OrderInDBBase):
     pass
 
+class OrderUpdate(OrderBase):
+    pass
+
 class OrderSearchResults(Order):
     
     results = Sequence(Order)
