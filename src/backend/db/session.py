@@ -12,11 +12,3 @@ engine = create_engine(DATABASE_URL, echo=True)
 
 # Create a SessionLocal class (to interact with the database)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-
-# Get DB session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()

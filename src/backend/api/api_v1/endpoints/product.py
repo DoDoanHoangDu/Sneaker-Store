@@ -1,7 +1,13 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session, joinedload
+import crud.crud_category
+import crud.crud_product
+import crud.crud_promotion
+import crud.crud_size
 from db.base_class import Base
-from db.session import get_db, engine
+from db.session import engine
+from api.deps import get_db
+import crud
 from models.product import Product, ProductCategory, ProductPromotion, ProductSize
 from schemas.product import ProductCreate, ProductUpdate
 from typing import Optional
@@ -16,9 +22,17 @@ Base.metadata.create_all(bind=engine)
 
 @router.get("/product/id/{product_id}")
 def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
-    result = db.query(Product).options(joinedload(Product.category).load_only(ProductCategory.category_name), joinedload(Product.promotion).load_only(ProductPromotion.promotion_name), joinedload(Product.size).load_only(ProductSize.size)).filter(Product.product_id == product_id).first()
-    if not result:
+    main_result = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_result:
         raise HTTPException(status_code=404, detail="Product not found")
+    category = crud.crud_category.category.get_multi(db = db, skip = 0, limit = 100)
+    promotion = crud.crud_promotion.promotion.get_multi(db = db, skip = 0, limit = 100)
+    size = crud.crud_size.size.get_multi(db = db, skip = 0, limit = 100)
+    result = main_result.__dict__
+    result["category"] = [cat.category_name for cat in category if cat.product_id == product_id]
+    result["promotion"] = [promo.promotion_name for promo in promotion if promo.product_id == product_id]
+    result["size"] = [s.size for s in size if s.product_id == product_id]
+
     return result
 
 @router.get("/product/search")
@@ -66,46 +80,25 @@ def get_product_general(
     return query.all()
 @router.post("/product")
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
-    product_data = {k: v for k, v in product.dict().items() if k not in ["category", "promotion", "size"]}
-    new_product = Product(**product_data)
-    db.add(new_product)
-    db.commit()
-    db.refresh(new_product)
-
-    add_categories = [ProductCategory(product_id = new_product.product_id, category_name = category) for category in product.category]
-    add_promotions = [ProductPromotion(product_id = new_product.product_id, promotion_name = promotion) for promotion in product.promotion]
-    add_sizes = [ProductSize(product_id = new_product.product_id, size = size) for size in product.size]
-
-    db.add_all(add_categories + add_promotions + add_sizes)
-    db.commit()
-    return {"message": "Product created successfully with product_id: " + str(new_product.product_id)}
+    main_part = crud.crud_product.product.create(db=db, obj_in=product)
+    if not main_part:
+        raise HTTPException(status_code=409, detail="Product already exists")
+    return { "message" : "Product created successfully" }
 
 @router.put("/product/{product_id}")
 def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
-    update_data = {k: v for k, v in product.dict().items() if k not in ["category", "promotion", "size"]}
-    db.query(Product).filter(Product.product_id == product_id).update(update_data)
-    db.flush()
+    main_part = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_part:
+        raise HTTPException(status_code=404, detail="Product not found")
+    crud.crud_product.product.update(id = product_id, db = db, obj_in = product)
 
-    if "category" in product.dict().keys():
-        db.query(ProductCategory).filter(ProductCategory.product_id == product_id).delete()
-        add_categories = [ProductCategory(product_id = product_id, category_name = category) for category in product.category]
-        db.add_all(add_categories)
-    if "promotion" in product.dict().keys():
-        db.query(ProductPromotion).filter(ProductPromotion.product_id == product_id).delete()
-        add_promotions = [ProductPromotion(product_id = product_id, promotion_name = promotion) for promotion in product.promotion]
-        db.add_all(add_promotions)
-    if "size" in product.dict().keys():
-        db.query(ProductSize).filter(ProductSize.product_id == product_id).delete()
-        add_sizes = [ProductSize(product_id = product_id, size = size) for size in product.size]
-        db.add_all(add_sizes)
-    db.commit()
-    return db.query(Product).options(joinedload(Product.category).load_only(ProductCategory.category_name), joinedload(Product.promotion).load_only(ProductPromotion.promotion_name), joinedload(Product.size).load_only(ProductSize.size)).filter(Product.product_id == product_id).first()
+
+    return { "message" : "Product updated successfully" }
 
 @router.delete("/product/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
-    db.query(Product).filter(Product.product_id == product_id).delete()
-    db.query(ProductCategory).filter(ProductCategory.product_id == product_id).delete()
-    db.query(ProductPromotion).filter(ProductPromotion.product_id == product_id).delete()
-    db.query(ProductSize).filter(ProductSize.product_id == product_id).delete()
-    db.commit()
-    return {"message": f"Product with product id = {product_id} deleted successfully"}
+    main_part = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_part:
+        raise HTTPException(status_code=404, detail="Product not found")
+    crud.crud_product.product.remove(db = db, id = product_id)
+    return { "message" : "Product deleted successfully" }
