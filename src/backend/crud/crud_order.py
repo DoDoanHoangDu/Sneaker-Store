@@ -14,4 +14,4 @@ class CRUDOrder(CRUDBase[Order, OrderCreate, OrderUpdate]):
             update_data = obj_in
         else:
             update_data = obj_in.model_dump(exclude_unset=True)
-        return super().update(db, db_obj=db_obj, obj_in=obj_in)
+        return super().update(db, db_obj=db_obj, obj_in=update_data)
