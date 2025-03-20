@@ -23,6 +23,8 @@
 
 
 .brand-name {
+    text-decoration: none;
+    color: black;
     display: inline-flex;
     align-items: center;
     height: 100%;

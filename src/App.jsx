@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import Store from './Store/Store';
+import Store from './Pages/Store/Store.jsx';
+import Cart from './Pages/Cart/Cart.jsx';
 import Header from './components/Header/Header';
-import LoginPage from './LoginPage/LoginPage.jsx';
+import LoginPage from './components/LoginBoard/LoginPage.jsx';
 import Modal from 'react-modal';
+import { BrowserRouter  as Router, Routes, Route } from 'react-router-dom';
 
-Modal.setAppElement('#root'); // This is important for accessibility
+Modal.setAppElement('#root');
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,7 +22,13 @@ function App() {
   return (
     <>
       <Header onLoginClick={handleLoginClick} />
-      <Store />
+      <Router>
+        <Routes>
+        <Route path="/" element = {<Store/>} />
+          <Route path="/store" element = {<Store/>} />
+          <Route path="/cart" element = {<Cart/>} />
+        </Routes>
+      </Router>
       <Modal
         isOpen={showLogin}
         onRequestClose={handleCloseLogin}

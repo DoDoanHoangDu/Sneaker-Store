@@ -11,10 +11,10 @@ function Header({ onLoginClick }) {
 
     return (
         <div className="header">
-            <div className="brand-signature">
+            <a className="brand-signature" href='/'>
                 <img className="logo" src={source_logo} alt="ShoeVN"></img>
                 <span className="brand-name">topShoe</span>
-            </div>
+            </a>
             <SearchBar />
             <CartHeader />
             <LoginHeader onLoginClick={onLoginClick} />
