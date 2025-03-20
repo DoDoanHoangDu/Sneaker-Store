@@ -1,0 +1,12 @@
+.scroll-to-top {
+    position: fixed;
+    right: 50px;
+    bottom: 100px;
+    height: 60px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.scroll-to-top:hover {
+    opacity: 0.7;
+}

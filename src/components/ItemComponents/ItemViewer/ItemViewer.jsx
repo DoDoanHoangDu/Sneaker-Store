@@ -1,7 +1,7 @@
-import Dropdown from "../Dropdown/Dropdown";
+import Dropdown from "../../DropdownComponents/Dropdown/Dropdown";
 import ItemCard from "../ItemCard/ItemCard";
-import DropdownItem from "../DropdownItem/DropdownItem";
-import useWindowSize from "../../customHook/useWindowSize";
+import DropdownItem from "../../DropdownComponents/DropdownItem/DropdownItem";
+import useWindowSize from "../../../customHook/useWindowSize";
 import "./ItemViewer.css"
 function ItemViewer() {
     const source = "/shoe.jpg"

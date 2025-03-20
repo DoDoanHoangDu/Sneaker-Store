@@ -1,5 +1,5 @@
 import "./Store.css"
-import ItemViewer from "../../components/ItemViewer/ItemViewer"
+import ItemViewer from "../../components/ItemComponents/ItemViewer/ItemViewer";
 function Store() {   
       return (
         <div className="store">

@@ -1,0 +1,11 @@
+.dropdown-item {
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: color 20ms ease-in-out, background-color 20ms ease-in-out;
+}
+
+.dropdown-item:hover {
+    color: blue;
+    background-color: hsl(0,0%,95%);
+} 

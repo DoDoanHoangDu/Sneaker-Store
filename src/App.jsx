@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Store from './Pages/Store/Store.jsx';
 import Cart from './Pages/Cart/Cart.jsx';
-import Header from './components/Header/Header';
-import LoginPage from './components/LoginBoard/LoginPage.jsx';
+import Header from './components/HeaderComponents/Header/Header.jsx';
+import LoginPage from './components/HeaderComponents/LoginBoard/LoginPage.jsx';
+import NavigationBar from './components/HeaderComponents/NavigationBar/NavigationBar.jsx';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop.jsx';
 import Modal from 'react-modal';
 import { BrowserRouter  as Router, Routes, Route } from 'react-router-dom';
 
@@ -21,12 +23,14 @@ function App() {
 
   return (
     <>
-      <Header onLoginClick={handleLoginClick} />
+      <Header onLoginClick={handleLoginClick}/>
+      <NavigationBar/>
       <Router>
         <Routes>
         <Route path="/" element = {<Store/>} />
           <Route path="/store" element = {<Store/>} />
           <Route path="/cart" element = {<Cart/>} />
+          <Route path="/about" element = {<Store/>} />
         </Routes>
       </Router>
       <Modal
@@ -38,6 +42,7 @@ function App() {
       >
         <LoginPage onClose={handleCloseLogin} />
       </Modal>
+      <ScrollToTop/>
     </>
   );
 }

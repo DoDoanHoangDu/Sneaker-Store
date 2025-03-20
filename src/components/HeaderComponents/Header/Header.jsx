@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Header.css";
-import useWindowSize from "../../customHook/useWindowSize";
+import useWindowSize from "../../../customHook/useWindowSize";
 import SearchBar from "../SearchBar/SearchBar";
 import LoginHeader from "../LoginHeader/LoginHeader";
 import CartHeader from "../CartHeader/CartHeader";
