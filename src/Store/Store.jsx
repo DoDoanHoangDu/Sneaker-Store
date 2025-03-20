@@ -4,7 +4,6 @@ import ItemViewer from "../components/ItemViewer/ItemViewer"
 function Store() {   
       return (
         <div className="store">
-          <Header/>
           <div className="store-content">
           <ItemViewer/>
           </div>

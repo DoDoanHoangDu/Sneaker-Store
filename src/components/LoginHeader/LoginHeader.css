@@ -1,9 +1,11 @@
 .login-header {
     display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
     width: fit-content;
     margin: 10px 5px;
     border-radius: 5px;
-    border:solid;
+    border: solid;
     padding: 5px; 
     gap: 8px;
 }
@@ -13,7 +15,8 @@
 }
 
 .login-logo {
-    height: 100%;
+    width: 30px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
     object-fit: contain;
 }
 
@@ -21,4 +24,15 @@
     font-family: "SF Pro Display", 'Arial', sans-serif;
     font-weight: bold;
     font-size: 0.8rem;
+    margin: 0;
+}
+
+.login-logo-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
 }
