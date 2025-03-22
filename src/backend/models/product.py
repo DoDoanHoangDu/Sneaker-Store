@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
 from db.base_class import Base
 from .product_category import ProductCategory
@@ -19,9 +19,12 @@ class Product(Base):
     price = Column(Integer)
     remaining = Column(Integer)
 
+    __table_args__ = (
+        CheckConstraint('end_date > start_date', name='check_end_date_after_start_date'),
+    )
 
-    category = relationship("ProductCategory", back_populates = "product_link", cascade="all, delete-orphan")
-    promotion = relationship("ProductPromotion", back_populates = "product_link", cascade="all, delete-orphan")
-    size = relationship("ProductSize", back_populates = "product_link", cascade="all, delete-orphan")
+    category = relationship("ProductCategory", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
+    promotion = relationship("ProductPromotion", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
+    size = relationship("ProductSize", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
 
 

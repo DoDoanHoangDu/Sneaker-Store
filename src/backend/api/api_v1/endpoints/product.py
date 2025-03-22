@@ -1,9 +1,6 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session, joinedload
-import crud.crud_category
 import crud.crud_product
-import crud.crud_promotion
-import crud.crud_size
 from db.base_class import Base
 from db.session import engine
 from api.deps import get_db
@@ -25,13 +22,10 @@ def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
     main_result = crud.crud_product.product.get(db = db, id = product_id)
     if not main_result:
         raise HTTPException(status_code=404, detail="Product not found")
-    category = crud.crud_category.category.get_multi(db = db, skip = 0, limit = 100)
-    promotion = crud.crud_promotion.promotion.get_multi(db = db, skip = 0, limit = 100)
-    size = crud.crud_size.size.get_multi(db = db, skip = 0, limit = 100)
     result = main_result.__dict__
-    result["category"] = [cat.category_name for cat in category if cat.product_id == product_id]
-    result["promotion"] = [promo.promotion_name for promo in promotion if promo.product_id == product_id]
-    result["size"] = [s.size for s in size if s.product_id == product_id]
+    result["category"] = [cat.category_name for cat in main_result.category if cat.product_id == product_id]
+    result["promotion"] = [promo.promotion_name for promo in main_result.promotion if promo.product_id == product_id]
+    result["size"] = [s.size for s in main_result.size if s.product_id == product_id]
 
     return result
 
@@ -67,7 +61,6 @@ def get_product_general(
         query = query.filter(Product.price <= price_max)
     if discount_min is not None:
         query = query.filter(Product.discount >= discount_min).filter(Product.start_date <= datetime.now()).filter(Product.end_date >= datetime.now())
-
     # Filtering many-to-many relationships
     if category:
         query = query.filter(Product.category.any(ProductCategory.category_name.in_(category)))
@@ -75,9 +68,18 @@ def get_product_general(
         query = query.filter(Product.promotion.any(ProductPromotion.promotion_name.in_(promotion)))
     if size:
         query = query.filter(Product.size.any(ProductSize.size.in_(size)))
-    if not query.all():
+    
+    result = query.all()
+    if not result:
         raise HTTPException(status_code=404, detail="No product found")
-    return query.all()
+    return [
+        {
+        **product.__dict__,
+        "category": [cat.category_name for cat in product.category if cat.product_id == product.product_id],
+        "promotion": [promo.promotion_name for promo in product.promotion if promo.product_id == product.product_id],
+        "size": [size.size for size in product.size if size.product_id == product.product_id],
+        } for product in result
+    ]
 @router.post("/product")
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.create(db=db, obj_in=product)

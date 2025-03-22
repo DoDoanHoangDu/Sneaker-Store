@@ -13,18 +13,17 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
     def get(self, db: Session, id: int) -> Optional[Product]:
         return db.query(self.model).filter(self.model.product_id == id).first()
     def create(self, db: Session, obj_in: ProductCreate) -> Product:
-        product_data = {k: v for k, v in obj_in.dict().items() if k not in ["category", "promotion", "size"]}
-        new_product = Product(**product_data)
+        new_product = Product(
+        **{k: v for k, v in obj_in.dict().items() if k not in ["category", "promotion", "size"]},
+        category=[ProductCategory(category_name=category) for category in obj_in.category] if obj_in.category else [],
+        promotion=[ProductPromotion(promotion_name=promotion) for promotion in obj_in.promotion] if obj_in.promotion else [],
+        size=[ProductSize(size=size) for size in obj_in.size] if obj_in.size else [],
+        )
+
         db.add(new_product)
         db.commit()
         db.refresh(new_product)
 
-        add_categories = [ProductCategory(product_id = new_product.product_id, category_name = category) for category in obj_in.category]
-        add_promotions = [ProductPromotion(product_id = new_product.product_id, promotion_name = promotion) for promotion in obj_in.promotion]
-        add_sizes = [ProductSize(product_id = new_product.product_id, size = size) for size in obj_in.size]
-
-        db.add_all(add_categories + add_promotions + add_sizes)
-        db.commit()
         return new_product
     def update(self, id: int, db: Session, obj_in: ProductUpdate):
         update_data = {k: v for k, v in obj_in.dict().items() if k not in ["category", "promotion", "size"]}
@@ -45,13 +44,7 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             db.add_all(add_sizes)
         db.commit()
         return db.query(Product).filter(Product.product_id == id).first()
-    def delete_product(self, product_id: int, db: Session):
-        db.query(Product).filter(Product.product_id == product_id).delete()
-        db.query(ProductCategory).filter(ProductCategory.product_id == product_id).delete()
-        db.query(ProductPromotion).filter(ProductPromotion.product_id == product_id).delete()
-        db.query(ProductSize).filter(ProductSize.product_id == product_id).delete()
-        db.commit()
-        return {"message": f"Product with product id = {product_id} deleted successfully"}
+
 
 
 product = CRUDProduct(Product)
