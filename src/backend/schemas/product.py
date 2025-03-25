@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 class ProductBase(BaseModel):
+    img_url: Optional[str]
     product_name: str
     brand: str 
     description: str
@@ -21,6 +22,7 @@ class ProductResponse(ProductBase):
     product_id: int
 
 class ProductUpdate(ProductBase):
+    img_url: Optional[str] = None
     product_name: Optional[str] = None
     brand: Optional[str] = None
     description: Optional[str] = None

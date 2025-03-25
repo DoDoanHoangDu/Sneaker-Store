@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException, File, UploadFile
+from cloud.cloudinary_config import cloudinary
+import re
 from sqlalchemy.orm import Session, joinedload
 import crud.crud_product
 from db.base_class import Base
@@ -9,6 +11,7 @@ from models.product import Product, ProductCategory, ProductPromotion, ProductSi
 from schemas.product import ProductCreate, ProductUpdate
 from typing import Optional
 from datetime import datetime
+
 
 
 router = APIRouter()
@@ -80,6 +83,15 @@ def get_product_general(
         "size": [size.size for size in product.size if size.product_id == product.product_id],
         } for product in result
     ]
+
+@router.post("/upload-image")
+def upload_image(image: UploadFile = File(...)):
+    try:
+        upload_result = cloudinary.uploader.upload(image.file)
+        return {"img_url": upload_result["secure_url"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
+
 @router.post("/product")
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.create(db=db, obj_in=product)
@@ -97,6 +109,22 @@ def update_product(product_id: int, product: ProductUpdate, db: Session = Depend
 
     return { "message" : "Product updated successfully" }
 
+@router.delete("/delete-image")
+def delete_cloudinary_image(image_url: str):
+    try:
+        public_id = image_url.split("/")[-1].split(".")[0]
+
+        # Delete the image from Cloudinary
+        result = cloudinary.uploader.destroy(public_id)
+
+        if result.get("result") == "ok":
+            return {"message": "Image deleted successfully"}
+        else:
+            raise HTTPException(status_code=400, detail="Failed to delete image")
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 @router.delete("/product/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.get(db = db, id = product_id)

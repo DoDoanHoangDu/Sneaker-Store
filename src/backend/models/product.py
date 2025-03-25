@@ -11,6 +11,7 @@ class Product(Base):
 
     product_id = Column(Integer, primary_key=True, index=True)
     product_name = Column(String(256), unique=True)
+    img_url = Column(String(256))
     description = Column(String(256))
     brand = Column(String(256))
     discount = Column(Float)
