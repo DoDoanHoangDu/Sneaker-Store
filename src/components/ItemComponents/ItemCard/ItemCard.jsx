@@ -1,9 +1,5 @@
 import "./ItemCard.css"
-
-function formatPrice(price) {
-    return price.toLocaleString('de-DE');
-}
-
+import formatPrice from "../../../customHook/formatPrice"
 function ItemCard({item}) {
     return(
         <a href={item.link} className="card-container">

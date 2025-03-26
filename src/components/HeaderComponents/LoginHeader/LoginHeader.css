@@ -1,0 +1,38 @@
+.login-header {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    width: fit-content;
+    margin: 10px 5px;
+    border-radius: 5px;
+    border: solid;
+    padding: 5px; 
+    gap: 8px;
+}
+
+.login-header:hover {
+    cursor: pointer;
+}
+
+.login-logo {
+    width: 30px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain;
+}
+
+.login-block-text {
+    font-family: "SF Pro Display", 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.login-logo-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+}

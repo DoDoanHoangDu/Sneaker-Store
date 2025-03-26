@@ -1,7 +1,7 @@
-import Dropdown from "../Dropdown/Dropdown";
+import Dropdown from "../../DropdownComponents/Dropdown/Dropdown";
 import ItemCard from "../ItemCard/ItemCard";
-import DropdownItem from "../DropdownItem/DropdownItem";
-import { useState, useEffect } from "react";
+import DropdownItem from "../../DropdownComponents/DropdownItem/DropdownItem";
+import useWindowSize from "../../../customHook/useWindowSize";
 import "./ItemViewer.css"
 function ItemViewer() {
     const source = "/shoe.jpg"
@@ -21,17 +21,15 @@ function ItemViewer() {
         link: "#"
       }
 
-    const [windowSize, setWindowSize] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowSize(window.innerWidth);
-        };
+      const item3 = {
+        image : source,
+        name : "Shoe Shi",
+        originalPrice : 100000,
+        discountedPrice: 100000,
+        link: "#"
+      }
 
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    const windowSize = useWindowSize()
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
           <div className="dropdown-container">
@@ -48,14 +46,19 @@ function ItemViewer() {
           <div className={`product-container ${windowSize < 1000? "product-container-small" : "null"}`}>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
               <ItemCard item = {item1}/>
               <ItemCard item = {item2}/>
+              <ItemCard item = {item3}/>
           </div>
         </div>
     )
