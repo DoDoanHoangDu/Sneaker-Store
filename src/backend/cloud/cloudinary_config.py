@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 # Configuration       
 cloudinary.config( 
-    cloud_name = "dddsn07b9", 
+    cloud_name = os.getenv("cloud_name"), 
     api_key = os.getenv("api_key"),
     api_secret = os.getenv("api_secret"),
     secure=True
