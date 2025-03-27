@@ -1,0 +1,132 @@
+.footer {
+    width: 100%;
+    background-color: #f8f8f8;
+    padding-top: 26.67px; /* 40px * 0.67 */
+    border-top: 1px solid #ddd;
+    position: relative;
+    bottom: 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 20px 60px; /* Increase padding for more space */
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 133.33px; /* 200px * 0.67 */
+    margin: 0px;
+}
+
+.footer-section h3 {
+    font-size: 1rem; /* 1.5rem * 0.67 */
+    margin-bottom: 6.67px; /* 10px * 0.67 */
+    line-height: 1.5; /* Increase line height */
+}
+
+.footer-section p {
+    margin: 3.33px 0; /* 5px * 0.67 */
+    font-size: 1rem; /* 1.2rem * 0.67 */
+    line-height: 1.5; /* Increase line height */
+}
+
+.footer-section a {
+    color: #000;
+    text-decoration: none;
+    font-size: 1rem; /* 1.2rem * 0.67 */
+    line-height: 1.5; /* Increase line height */
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+.footer-subscribe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff6600; /* Match the background color */
+    padding: 20px 0; /* Increase padding for a bigger subscribe footer */
+    color: white;
+}
+
+.footer-subscribe h1 {
+    margin-right: 33.33px; /* 50px * 0.67 */
+    font-size: 1rem; /* 1.5rem * 0.67 */
+}
+
+.subscribe-form {
+    display: flex;
+    align-items: center;
+}
+
+.subscribe-form input {
+    padding: 10px; /* 15px * 0.67 */
+    border: none;
+    border-radius: 13.33px; /* 20px * 0.67 */
+    width: 440px; /* 660px * 0.67 */
+    height: 33.33px; /* 50px * 0.67 */
+    font-size: 1rem; /* 1.5rem * 0.67 */
+}
+
+.subscribe-form button {
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -46.67px; /* 70px * 0.67 */
+    height: 52px; /* 78px * 0.67 */
+    width: 46.67px; /* 70px * 0.67 */
+    border-radius: 0 13.33px 13.33px 0; /* 0 20px 20px 0 * 0.67 */
+}
+
+.subscribe-form button img {
+    width: 13.33px; /* 20px * 0.67 */
+    height: 13.33px; /* 20px * 0.67 */
+}
+
+.news {
+    height: 66.67px; /* 100px * 0.67 */
+    margin-right: 40px; /* 60px * 0.67 */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 8.89px 0; /* 13.33px * 0.67 */
+    background-color: gray;
+    color: white;
+    width: 100%; /* Ensure it fills the width of the page */
+}
+
+.footer-bottom h3 {
+    font-size: 0.67rem; /* 1rem * 0.67 */
+    margin-bottom: 6.67px; /* 10px * 0.67 */
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 13.33px; /* 20px * 0.67 */
+}
+
+.social-icons a img {
+    width: 26.67px; /* 40px * 0.67 */
+    height: 26.67px; /* 40px * 0.67 */
+    border: 2.67px solid white; /* 4px * 0.67 */
+    border-radius: 50%; /* Optional: Make the icons circular */
+}
+
+.footer-section img.shipping-partners {
+    width: 66.67px; /* 100px * 0.67 */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.footer-section img.payment-methods {
+    width: 66.67px; /* 100px * 0.67 */
+    height: auto; /* Maintain aspect ratio */
+}

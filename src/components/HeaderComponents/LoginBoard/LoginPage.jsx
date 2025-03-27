@@ -5,7 +5,7 @@ import Loginapp from './loginapp.jsx';
 const LoginPage = ({ onClose }) => {
   return (
     <div className="login-page-container">
-      <Loginapp />
+      <Loginapp onClose={onClose}/>
     </div>
   );
 };
