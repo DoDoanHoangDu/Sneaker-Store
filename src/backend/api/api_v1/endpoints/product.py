@@ -8,6 +8,9 @@ from db.session import engine
 from api.deps import get_db
 import crud
 from models.product import Product, ProductCategory, ProductPromotion, ProductSize
+from models.account import Account
+from models.order import Order
+from models.contain import Contain
 from schemas.product import ProductCreate, ProductUpdate
 from typing import Optional
 from datetime import datetime
