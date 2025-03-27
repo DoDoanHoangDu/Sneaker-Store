@@ -1,28 +1,30 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, EmailStr
 
 from typing import Optional
 
 class AccountBase(BaseModel):
-    email: str
-
+    username: Optional[str]
+    password: Optional[str]
+    full_name: Optional[str]
+    dob: Optional[str]
+    phone_number: Optional[str]
+    address: Optional[str]
+    email: Optional[EmailStr] = None
+    role: str = 'customer'
 
 # Schema to create a new account
 class AccountCreate(AccountBase):
-    username: str
-    password: str
-    full_name: str
-    dob: str
-    role: str
-    phone_number: str
-    address: str
+    email : EmailStr
+    role : str
 
 
 # Schema define account in database
 class AccountINDBBase(AccountCreate):
-    id: int
+    id: Optional[int] = None
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AccountUpdate(AccountBase):
     pass
+

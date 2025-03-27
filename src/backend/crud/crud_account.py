@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional, Type, Union
 from sqlalchemy.orm import Session
 
-from crud.base import CRUDBase
-from models.account import Account
-from schemas.account import AccountCreate, AccountUpdate   
+from backend.crud.base import CRUDBase
+from backend.models.account import Account
+from backend.schemas.account import AccountCreate, AccountUpdate   
 
 
 class CRUDAccount(CRUDBase[Account, AccountCreate, AccountUpdate]):
