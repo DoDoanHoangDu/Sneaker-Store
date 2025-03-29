@@ -29,3 +29,4 @@ class Product(Base):
     size = relationship("ProductSize", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
 
 
+

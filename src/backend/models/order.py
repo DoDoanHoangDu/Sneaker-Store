@@ -9,4 +9,5 @@ class Order(Base):
     account_id = Column(Integer, ForeignKey('account.account_id'))
     order_time = Column(TIMESTAMP)
     delivery_method = Column(String)
-    product_list = relationship("Contain", back_populates = "order")
+    account = relationship("Account", back_populates="order")
+    product_list = relationship("Contain", back_populates="order", cascade="all, delete-orphan")

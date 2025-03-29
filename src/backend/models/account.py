@@ -15,4 +15,4 @@ class Account(Base):
     address = Column(String(256))
     sex = Column(String(256))
     email =  Column(String(256))
-    order = relationship("Order", back_populates = "product_list")
+    order = relationship("Order", back_populates="account")
