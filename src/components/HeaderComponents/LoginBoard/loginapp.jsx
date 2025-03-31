@@ -1,5 +1,4 @@
-// filepath: c:\Users\TinTin\Documents\GitHub\Sneaker-Store\src\components\HeaderComponents\LoginBoard\loginapp.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Login from './login.jsx';
 import Register from './register.jsx';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import email_icon from "/email_icon.png";
 import lock from "/lock_icon.png";
 import login_icon from "/login_icon.png"; 

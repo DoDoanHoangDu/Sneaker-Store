@@ -1,13 +1,10 @@
-import React from 'react';
-import ProductSection from '../../components/ProductSection/ProductSection';
-import Footer from '../../components/Footer/Footer';
+import ProductSection from '../../components/ItemComponents/ProductSlider/ProductSection';
 import './MainPage.css';
 
 function MainPage() {
     return (
         <div className="main-page">
-            <ProductSection />
-            <Footer />
+            <ProductSection/>
         </div>
     );
 }

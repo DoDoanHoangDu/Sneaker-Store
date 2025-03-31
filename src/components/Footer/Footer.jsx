@@ -1,4 +1,3 @@
-import React from 'react';
 import './Footer.css';
 
 function Footer() {
@@ -35,9 +34,9 @@ function Footer() {
                 </div>
                 <div className="footer-section">
                     <h3>TỔNG ĐÀI HỖ TRỢ 24/24</h3>
-                    <p>Mua hàng: <a href="tel:20220060">20220060</a></p>
-                    <p>Bảo hành: <a href="tel:20220060">20220060</a></p>
-                    <p>Khiếu nại: <a href="tel:20220060">20220060</a></p>
+                    <p>Mua hàng: <a href="tel:123456789">123456789</a></p>
+                    <p>Bảo hành: <a href="tel:123456789">123456789</a></p>
+                    <p>Khiếu nại: <a href="tel:123456789">123456789</a></p>
                     <p>Email: <a href="mailto:cskh@topshoe.com">cskh@topshoe.com</a></p>
                 </div>
                 <div className="footer-section">

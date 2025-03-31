@@ -25,10 +25,11 @@ function  CartViewer() {
         link: "#"
     }
     return (
-        <div className={`cart-viewer`}>
+        <div className={`cart-viewer ${window.innerWidth < 1000? "cart-viewer-small" : "null"}`}>
             <CartItem item = {item1}/>
             <CartItem item = {item2}/>
             <CartItem item = {item3}/>
+            <div className="order-button">Đặt hàng</div>
         </div>
     )
 }
