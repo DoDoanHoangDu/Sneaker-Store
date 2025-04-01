@@ -3,11 +3,11 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    width: 50%;
+    width: 40%;
     padding: 10px;
     border: 1cap solid hsl(0, 0%, 0%, 0.1);
     border-radius: 5px;
-    gap: 1vh
+    gap: 1vh;
 }
 
 .cart-viewer-small {
@@ -16,12 +16,14 @@
 
 .order-button {
     display: flex;
-    width: 70%;
+    width: 100%;
     height: 5vh;
-    border-radius: 10px;
+    border-radius: 5px;
     justify-content: center;
     align-items: center;
     background-color: red;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-family: "SF Pro Display", 'Arial', sans-serif;
+    cursor: pointer;
 }
