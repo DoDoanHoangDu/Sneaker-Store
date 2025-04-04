@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 from jose import JWTError, jwt
 from pydantic import BaseModel
 
-from backend.core.auth import oath2_schema
+from backend.core.auth import oauth2_schema
 from backend.models.account import Account
 from backend.db.session import SessionLocal
 
@@ -24,7 +24,7 @@ def get_db() -> Generator:
 
 async def get_current_user(
         db: Session = Depends(get_db),
-        token: str = Depends(oath2_schema),
+        token: str = Depends(oauth2_schema),
 ) :
     
     credentials_exception = HTTPException(

@@ -12,7 +12,7 @@ JWTPayloadMapping = MutableMapping[
     str, Union[datetime, bool, str, List[str], List[int]]
 ]
 
-oath2_schema = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_schema = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 def authenticate(*, db: Session, email: str, password: str) -> Optional[Account]:
     
