@@ -6,7 +6,7 @@ import backend.crud.crud_product
 from backend.db.base_class import Base
 from backend.db.session import engine
 from backend.api.deps import get_db
-import backend.crud
+from backend import crud
 from backend.models.product import Product, ProductCategory, ProductPromotion, ProductSize
 from backend.models.account import Account
 from backend.models.order import Order
