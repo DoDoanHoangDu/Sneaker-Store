@@ -3,9 +3,9 @@ from sqlalchemy.orm import relationship
 from backend.db.base_class import Base
 
 class Account(Base):
-    id = Column(Integer, primary_key=True, index=True)
+    account_id = Column(Integer, primary_key=True, index=True)
     username = Column(String(256), unique=True, index=True)
-    password = Column(String(256))
+    hashed_password = Column(String(256))
     full_name = Column(String(256)) 
     dob = Column(DATE)
     role = Column(String(256))

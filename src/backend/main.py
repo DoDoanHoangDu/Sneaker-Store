@@ -1,28 +1,21 @@
-from pathlib import Path
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from backend.api.v1.api import api_router
 
-from fastapi import FastAPI, APIRouter, Request, Depends
-from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
-
-from app import crud
-from app.api import deps
-from app.api.api_v1.api import api_router
-from app.core.config import settings
-
-BASE_PATH = Path(__file__).resolve().parent
-
-root_router = APIRouter()
-app = FastAPI(title="Recipe API")
+app = FastAPI(title="API")
 
 
+# Allow requests from your React frontend 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust based on frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
+@app.get("/")
+def root():
+    return {"message": "Welcome"}
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
-app.include_router(root_router)
-
-
-if __name__ == "__main__":
-    # Use this for debugging purposes only
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8001, log_level="debug")
+app.include_router(api_router)

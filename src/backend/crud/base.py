@@ -1,3 +1,9 @@
+from pydantic import BaseModel
+from typing import TypeVar, Generic, Optional, Type
+from backend.db.base_class import Base
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
+
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
@@ -10,23 +16,19 @@ ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
-
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
-    def get(self, db: Session, id: Any) -> Optional[ModelType]:
+    def get(self, db: Session, id: int) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
-
-    def get_multi(
-        self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+    
+    def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> list[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
-
-    def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+    
+    def create(self, db: Session, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data)  # type: ignore
+        db_obj = self.model(**obj_in_data)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -51,9 +53,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.commit()
         db.refresh(db_obj)
         return db_obj
-
-    def remove(self, db: Session, *, id: int) -> ModelType:
-        obj = db.query(self.model).get(id)
+    
+    def remove(self, db: Session, id: int) -> ModelType:
+        obj = db.query(self.model).get(id)  
         db.delete(obj)
         db.commit()
         return obj
