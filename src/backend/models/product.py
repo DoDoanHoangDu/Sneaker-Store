@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
-from db.base_class import Base
+from backend.db.base_class import Base
 from .product_category import ProductCategory
 from .product_promotion import ProductPromotion
 from .product_size import ProductSize
@@ -27,6 +27,5 @@ class Product(Base):
     category = relationship("ProductCategory", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
     promotion = relationship("ProductPromotion", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
     size = relationship("ProductSize", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
-
 
 

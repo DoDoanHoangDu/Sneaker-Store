@@ -3,11 +3,9 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 class Account(Base):
-    __tablename__ = "account"
-
     account_id = Column(Integer, primary_key=True, index=True)
     username = Column(String(256), unique=True, index=True)
-    password = Column(String(256))
+    hashed_password = Column(String(256))
     full_name = Column(String(256)) 
     dob = Column(DATE)
     role = Column(String(256))
@@ -15,4 +13,4 @@ class Account(Base):
     address = Column(String(256))
     sex = Column(String(256))
     email =  Column(String(256))
-    order = relationship("Order", back_populates="account")
+    orders = relationship("Order", backref = "account")

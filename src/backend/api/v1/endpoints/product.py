@@ -1,17 +1,17 @@
 from fastapi import APIRouter, Depends, Query, HTTPException, File, UploadFile
-from cloud.cloudinary_config import cloudinary
+#from cloud.cloudinary_config import cloudinary
 import re
 from sqlalchemy.orm import Session, joinedload
-import crud.crud_product
-from db.base_class import Base
-from db.session import engine
-from api.deps import get_db
-import crud
-from models.product import Product, ProductCategory, ProductPromotion, ProductSize
-from models.account import Account
-from models.order import Order
-from models.contain import Contain
-from schemas.product import ProductCreate, ProductUpdate
+import backend.crud.crud_product
+from backend.db.base_class import Base
+from backend.db.session import engine
+from backend.api.deps import get_db
+from backend import crud
+from backend.models.product import Product, ProductCategory, ProductPromotion, ProductSize
+from backend.models.account import Account
+from backend.models.order import Order
+from backend.models.order_has_product import order_has_product
+from backend.schemas.product import ProductCreate, ProductUpdate
 from typing import Optional
 from datetime import datetime
 

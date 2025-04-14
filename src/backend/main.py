@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.v1.api import api_router
+from backend.api.v1.api import api_router
 
-app = FastAPI(title="Product API")
+app = FastAPI(title="API")
 
 
 # Allow requests from your React frontend 

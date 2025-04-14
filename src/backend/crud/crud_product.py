@@ -1,13 +1,13 @@
-from crud.base import CRUDBase
-from models.product import Product
-from schemas.product import ProductCreate, ProductUpdate
+from backend.crud.base import CRUDBase
+from backend.models.product import Product
+from backend.schemas.product import ProductCreate, ProductUpdate
 
 from sqlalchemy.orm import Session  
 from typing import Optional
 from fastapi.encoders import jsonable_encoder
-from models.product_category import ProductCategory
-from models.product_promotion import ProductPromotion
-from models.product_size import ProductSize
+from backend.models.product_category import ProductCategory
+from backend.models.product_promotion import ProductPromotion
+from backend.models.product_size import ProductSize
 
 class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
     def get(self, db: Session, id: int) -> Optional[Product]:
