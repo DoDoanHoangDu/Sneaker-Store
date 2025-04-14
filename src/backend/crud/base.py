@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import TypeVar, Generic, Optional, Type
-from db.base_class import Base
+from backend.db.base_class import Base
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
@@ -10,7 +10,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from db.base_class import Base
+from backend.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
