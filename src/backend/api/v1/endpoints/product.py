@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query, HTTPException, File, UploadFile
-#from cloud.cloudinary_config import cloudinary
+from backend.cloud.cloudinary_config import cloudinary
 import re
 from sqlalchemy.orm import Session, joinedload
 import backend.crud.crud_product

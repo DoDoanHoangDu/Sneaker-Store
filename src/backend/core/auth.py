@@ -14,9 +14,9 @@ JWTPayloadMapping = MutableMapping[
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
-def authenticate(*, db: Session, email: str, password: str) -> Optional[Account]:
+def authenticate(*, db: Session, username: str, password: str) -> Optional[Account]:
     
-    account = db.query(Account).filter(Account.email == email).first()
+    account = db.query(Account).filter(Account.username == username).first()
     if not account:
         return None
     if not verify_password(password, account.hashed_password):

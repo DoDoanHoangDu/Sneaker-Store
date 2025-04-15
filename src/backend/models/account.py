@@ -1,6 +1,6 @@
 from sqlalchemy import Column , Integer ,String , DATE , ForeignKey
 from sqlalchemy.orm import relationship
-from db.base_class import Base
+from backend.db.base_class import Base
 
 class Account(Base):
     account_id = Column(Integer, primary_key=True, index=True)
