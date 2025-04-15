@@ -43,11 +43,11 @@ def login(
     db: Session = Depends(deps.get_db),
     form_data: OAuth2PasswordRequestForm = Depends(),
 ):
-    account = authenticate(db= db, email=form_data.username, password=form_data.password)
+    account = authenticate(db= db, username=form_data.username, password=form_data.password)
     if not account:
         raise HTTPException(
             status_code=400,
-            detail="Incorrect email or password",
+            detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token = create_access_token(sub=account.account_id)
