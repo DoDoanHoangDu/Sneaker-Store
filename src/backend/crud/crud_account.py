@@ -8,8 +8,8 @@ from backend.core.security import get_password_hash
 
 class CRUDAccount(CRUDBase[Account, AccountCreate, AccountUpdate]):
 
-    def get_by_email(self, db: Session, *, email: str) -> Optional[Account]:
-        return db.query(Account).filter(Account.email == email).first()
+    def get_by_username(self, db: Session, *, username: str) -> Optional[Account]:
+        return db.query(Account).filter(Account.username == username).first()
     
     def create(self, db, obj_in : AccountCreate) -> Account:
         create_data = obj_in.model_dump(exclude_unset=True)
