@@ -23,11 +23,11 @@ def create_account_signup(
     """
     Create new account.
     """
-    created_account = account.get_by_email(db, email=account_in.email)
+    created_account = account.get_by_username(db, username=account_in.username)
     if created_account:
         raise HTTPException(
             status_code=400,
-            detail="The account with this email already exists in the system.",
+            detail="The account with this username already exists in the system.",
         )
     try: 
         created_account = account.create(db=db, obj_in=account_in)
