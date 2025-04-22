@@ -1,14 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
-import os
+from pathlib import Path
+import os 
 
-load_dotenv()
 
-# Get database URL from environment variables
-DATABASE_URL = os.getenv("DATABASE_URL")
+BASE_PATH = Path(__file__).resolve().parent
 
-engine = create_engine(DATABASE_URL, echo=True)
+env_dir = os.path.join(BASE_PATH, ".env")
 
-# Create a SessionLocal class (to interact with the database)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+load_dotenv(dotenv_path=env_dir)
+
+POSTGRES_URL = os.getenv("POSTGRES_URL")
+
+
+engine = create_engine(POSTGRES_URL)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

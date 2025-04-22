@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 # Configuration       
 cloudinary.config( 
-    cloud_name = os.getenv("cloud_name"), 
-    api_key = os.getenv("api_key"),
-    api_secret = os.getenv("api_secret"),
+    cloud_name = os.getenv("CLOUD_NAME"), 
+    api_key = os.getenv("API_KEY"),
+    api_secret = os.getenv("API_SECRET"),
     secure=True
 )
