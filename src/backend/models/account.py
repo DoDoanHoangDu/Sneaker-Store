@@ -1,4 +1,4 @@
-from sqlalchemy import Column , Integer ,String , DATE , ForeignKey
+from sqlalchemy import Column , Integer ,String , DATE , ForeignKey, CheckConstraint
 from sqlalchemy.orm import relationship
 from backend.db.base_class import Base
 
@@ -14,3 +14,10 @@ class Account(Base):
     sex = Column(String(256))
     email =  Column(String(256))
     orders = relationship("Order", backref = "account")
+
+    __table_args__ = (
+        CheckConstraint(
+            "role IN ('Admin', 'Manager', 'Customer')",
+            name='check_user_role'
+        ),
+    )
