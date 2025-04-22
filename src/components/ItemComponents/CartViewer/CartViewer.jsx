@@ -31,6 +31,7 @@ function  CartViewer() {
             <CartItem item = {item1}/>
             <CartItem item = {item2}/>
             <CartItem item = {item3}/>
+            <div className="total-price">Tổng tiền:</div>
             <div className="order-button">ĐẶT HÀNG</div>
         </div>
     )
