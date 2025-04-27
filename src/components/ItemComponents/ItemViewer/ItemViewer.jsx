@@ -29,7 +29,7 @@ function ItemViewer() {
         link: "#"
       }
 
-    const windowSize = useWindowSize()
+    const windowSize = useWindowSize();
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
           <div className="dropdown-container">

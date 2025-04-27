@@ -5,6 +5,7 @@
     height: 60px;
     opacity: 0.6;
     cursor: pointer;
+    z-index: 1;
 }
 
 .scroll-to-top:hover {

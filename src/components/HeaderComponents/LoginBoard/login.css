@@ -8,8 +8,8 @@ a:hover {
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 2.5em;
+  line-height: 1;
   text-align: center;
 }
 
@@ -27,7 +27,7 @@ h1 {
   display: flex;
   align-items: center;
   padding: 10px;
-  width: 100%;
+  width: 200px;
 }
 .login-page-container button:hover {
   border-color: #646cff;
@@ -49,22 +49,22 @@ h1 {
     background-color: #f9f9f9;
   }
 }
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 80%; /* Make the container take the full width */
-  max-width: 1200px; /* Optional: Set a max width for better readability */
+  width: calc(100% - 40px); /* Adjust the width to account for padding */
+  max-width: 360px; /* Optional: Set a max width for better readability */
   margin: 0 auto; /* Center the container horizontally */
-  padding: 20px; /* Optional: Add some padding */
+  box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 .inputcontainer {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
   margin-bottom: 1em;
 }
 
@@ -87,62 +87,74 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 2em;
   width: 100%;
 }
 
 .inputcontainer input:focus {
   border-color: #535bf2;
 }
-
-.loginbutton, .signup {
-  margin-top: 1em;
+.signup{
+  width: 100px;
 }
-
 .registerredirect, .loginredirect {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the content horizontally */
   align-items: center;
   padding: 10px;
   width: 100%;
-  max-width: 400px; /* Optional: Set a max width for better readability */
+  max-width: 360px; /* Optional: Set a max width for better readability */
 }
 
 .registerredirect button, .loginredirect button {
   margin-left: auto; /* Push the button to the far right */
 }
 
-.forgotpassword {
-  margin-top: 10px; /* Add some margin if needed */
-}
+
 
 .forgotpassword:hover {
   color: #800080;
+}
+
+.registerredirect {
+  display: flex;
+  justify-content: space-between; /* Ensure space between elements */
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  max-width: 360px; /* Optional: Set a max width for better readability */
+}
+.registerredirect button, .loginredirect button {
+  margin-left: auto; /* Push the button to the far right */
 }
 .signup {
   margin-top: 1em;
 }
 .loginredirect {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-top: 10px;
   width: 100%;
-  max-width: 1200px; /* Optional: Set a max width for better readability */
+  max-width: 300px; /* Optional: Set a max width for better readability */
 }
-
-.loginredirect p {
+.loginredirect p, .registerredirect p {
   margin: 0; /* Remove default margin */
+  text-align: center; /* Center the text */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: color 0.3s ease; /* Smooth color transition */
 }
 
-.loginredirect button {
-  margin-left: 20px; /* Push the button to the far right */
+
+.loginredirect p:hover,.registerredirect p:hover {
+  color: #800080; /* Change color on hover */
+  text-decoration: underline; /* Add underline on hover */
 }
+
 .inputcontainer img {
   margin-right: 0.5em; /* Add some space between the icon and the input */
   width: 2.5em; /* Adjust the size of the icon */
   height: auto;
 }
+
 /* Add these styles to your login.css or a new CSS file */
 .login-modal {
   position: absolute;
@@ -152,8 +164,9 @@ h1 {
   bottom: auto;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 0; /* Remove padding */
   border-radius: 10px;
+  border: 20% solid transparent;
   outline: none;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -176,4 +189,51 @@ h1 {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
+}
+
+.header-row {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Ensure space between elements */
+  align-items: center;
+  width: 100%; /* Make the header-row span the full width */
+  height: 20px;
+  background-color: cyan;
+  border: 20% solid transparent;
+  border-radius: 10px 10px 0 0; /* Adjust border radius */
+  color: black;
+  box-sizing: border-box; /* Ensure padding is included in the width */
+  margin: 0; /* Remove any default margin */
+}
+
+.login-icon, .close-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.header-title {
+  margin-left: 10px;
+  font-size: 0.8rem; /* Adjust font size */
+  font-weight: bold;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top:10px
+}
+
+.login-icon {
+  margin-left: 5px;
+}
+
+.close-icon {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.test {
+  width: 100%; /* Make the test class take the full width */
+  max-width: 400px; /* Set a max width to match the login-modal */
+  margin: 0 auto; /* Center the test class horizontally */
 }

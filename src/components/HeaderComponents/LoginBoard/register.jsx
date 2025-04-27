@@ -1,7 +1,10 @@
 import email_icon from "/email_icon.png";
 import lock from "/lock_icon.png";
+import login_icon from "/login_icon.png"; // Add the login icon
+import close_icon from "/close_icon.png"; // Add the close icon
+import './login.css'; // Ensure you have the CSS file for styling
 
-const Register = ({ onLoginClick }) => {
+const Register = ({ onLoginClick, onClose }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const emailInput = event.target.elements.email;
@@ -16,8 +19,14 @@ const Register = ({ onLoginClick }) => {
     };
 
     return (
+        <div className="test">
+        <div className="header-row">
+            <img src={login_icon} alt="Login Icon" className="login-icon" />
+            <h2 className="header-title">Đăng ký</h2>
+            <img src={close_icon} alt="Close Icon" className="close-icon" onClick={onClose} />
+        </div>
         <div className="container">
-            <h1 className="title">Register</h1>
+            <h1 className="title">Đăng ký</h1>
             <form className="inputform" onSubmit={handleSubmit}>
                 <div className="inputcontainer">
                     <img src={email_icon} alt="Email Icon" />
@@ -34,7 +43,7 @@ const Register = ({ onLoginClick }) => {
                     <img src={lock} alt="Lock Icon" />
                     <input
                         type="password"
-                        placeholder="Password"
+                        placeholder="Nhập mật khẩu"
                         className="password"
                         required
                     />
@@ -43,17 +52,17 @@ const Register = ({ onLoginClick }) => {
                     <img src={lock} alt="Lock Icon" />
                     <input
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="Xác nhận mật khẩu"
                         className="password"
                         required
                     />
                 </div>
-                <button className="signup">Sign Up</button>
+                <button className="signup">Đăng ký</button>
             </form>
             <div className="loginredirect">
-                <p>Already have an account?</p>
-                <button className="login" onClick={onLoginClick}>Login</button>
+                <p className="login" onClick={onLoginClick}>Bạn đã có tài khoản?</p>
             </div>
+        </div>
         </div>
     );
 };

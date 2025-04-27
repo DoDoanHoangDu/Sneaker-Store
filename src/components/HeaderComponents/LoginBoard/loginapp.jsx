@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Login from './login.jsx';
 import Register from './register.jsx';
 
-function loginapp() {
+function Loginapp({ onClose }) {
     const [isRegister, setIsRegister] = useState(false);
 
     const handleRegisterClick = () => {
@@ -15,9 +15,12 @@ function loginapp() {
 
     return (
         <div>
-            {isRegister ? <Register onLoginClick={handleLoginClick} /> : <Login onRegisterClick={handleRegisterClick} />}
+            {isRegister ? 
+                <Register onLoginClick={handleLoginClick} onClose={onClose} /> : 
+                <Login onRegisterClick={handleRegisterClick} onClose={onClose} />
+            }
         </div>
     );
 }
 
-export default loginapp;
+export default Loginapp;
