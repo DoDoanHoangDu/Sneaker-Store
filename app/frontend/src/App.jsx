@@ -11,6 +11,8 @@ import Modal from 'react-modal';
 import UserProfile from './Pages/UserProfile/UserProfile.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
+
 Modal.setAppElement('#root');
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
           <Route path="/store" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<UserProfile />} />
+          <Route path="/itemcreator" element={<ItemCreator />} />
         </Routes>
       </Router>
       <Modal
@@ -46,6 +49,7 @@ function App() {
         <LoginPage onClose={handleCloseLogin} />
       </Modal>
       <ScrollToTop />
+      
       <Footer />
     </>
   );
