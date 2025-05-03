@@ -4,7 +4,6 @@ from typing import Optional
 
 class AccountBase(BaseModel):
     username: Optional[str] = None
-    password: Optional[str] = None
     full_name: Optional[str] = None
     dob: Optional[datetime] = None
     phone_number: Optional[str] = None
@@ -21,7 +20,7 @@ class AccountCreate(AccountBase):
 
 # Schema define account in database
 class AccountDBBase(AccountBase):
-    id: Optional[int] = None
+    account_id: Optional[int] = None
     class Config:
         from_attributes = True
 
@@ -32,8 +31,13 @@ class AccountInDB(AccountDBBase):
         from_attributes = True
 
 class Account(AccountInDB):
+    sex : Optional[str] = None
     pass
 
-class AccountUpdate(AccountBase):
-    pass
+class AccountUpdate(BaseModel):
+    full_name: Optional[str] = None
+    dob: Optional[datetime] = None
+    phone_number: Optional[str] = None
+    address: Optional[str] = None
+    sex : Optional[str] = None
 

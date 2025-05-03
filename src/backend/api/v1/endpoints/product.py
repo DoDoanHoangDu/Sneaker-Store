@@ -17,13 +17,13 @@ from datetime import datetime
 
 
 
-router = APIRouter()
+router = APIRouter(prefix="/product")
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
 
-@router.get("/product/id/{product_id}")
+@router.get("/id/{product_id}")
 def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
     main_result = crud.crud_product.product.get(db = db, id = product_id)
     if not main_result:
@@ -35,7 +35,7 @@ def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
 
     return result
 
-@router.get("/product/search")
+@router.get("/search")
 def get_product_general(
     db: Session = Depends(get_db),
     product_name: Optional[str] = None,
@@ -95,14 +95,14 @@ def upload_image(image: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
 
-@router.post("/product")
+@router.post("/")
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.create(db=db, obj_in=product)
     if not main_part:
         raise HTTPException(status_code=409, detail="Product already exists")
     return { "message" : "Product created successfully" }
 
-@router.put("/product/{product_id}")
+@router.put("/{product_id}")
 def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.get(db = db, id = product_id)
     if not main_part:
@@ -128,7 +128,7 @@ def delete_cloudinary_image(image_url: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@router.delete("/product/{product_id}")
+@router.delete("/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.get(db = db, id = product_id)
     if not main_part:

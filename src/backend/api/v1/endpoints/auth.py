@@ -9,10 +9,10 @@ from backend.api import deps
 from backend.models.account import Account
 from backend.schemas.account import Account as AccountSchema
 from backend.crud.crud_account import account
-from backend.schemas.account import AccountInDB , AccountCreate
+from backend.schemas.account import AccountInDB , AccountCreate, AccountUpdate
 from backend.core.auth import (authenticate, create_access_token)
 
-router = APIRouter()
+router = APIRouter(prefix="/auth")
 
 @router.post("/signup", response_model=AccountSchema)
 def create_account_signup(
@@ -70,3 +70,15 @@ def get_me(
     Get current account.
     """
     return current_account
+
+@router.put("/me/update", response_model=AccountSchema)
+def update_me(
+    account_in: AccountUpdate,
+    db: Session = Depends(deps.get_db),
+    current_account: AccountSchema = Depends(deps.get_current_user),
+) -> AccountSchema:
+    """
+    Update current account.
+    """
+    updated_account = account.update(db=db, obj_in=account_in, current_account=current_account)
+    return updated_account
