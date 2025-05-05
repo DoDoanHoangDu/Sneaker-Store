@@ -35,6 +35,42 @@ def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
 
     return result
 
+@router.get("/product/subtable")
+def get_all_subtables(
+    db: Session = Depends(get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    result = crud.crud_product.product.get_multi(db=db, skip=skip, limit=limit)
+    output = { "category": set(), "promotion": set(), "size": set() }
+    if not result:
+        raise HTTPException(status_code=404, detail="No subtable found")
+    for product in result:
+        for category in product.category:
+            if category.category_name not in output["category"]:
+                output["category"].add(category.category_name)
+        for promotion in product.promotion:
+            if promotion.promotion_name not in output["promotion"]:
+                output["promotion"].add(promotion.promotion_name)
+        for size in product.size:
+            if size.size not in output["size"]:
+                output["size"].add(size.size)
+    return output
+
+@router.get("/product/all_brand")
+def get_all_brands(
+    db: Session = Depends(get_db),
+    skip: int = 0,
+    limit: int = 100,
+):
+    result = crud.crud_product.product.get_multi(db=db, skip=skip, limit=limit)
+    output = set()
+    if not result:
+        raise HTTPException(status_code=404, detail="No brand found")
+    for product in result:
+        if product.brand not in output:
+            output.add(product.brand)
+    return list(output)
 @router.get("/product/search")
 def get_product_general(
     db: Session = Depends(get_db),
