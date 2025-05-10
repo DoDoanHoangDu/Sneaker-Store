@@ -3,20 +3,20 @@ import lock from "/lock_icon.png";
 import login_icon from "/login_icon.png"; 
 import close_icon from "/close_icon.png"; 
 import './login.css'; 
+import './error.css';
 import { useState } from "react";
 import { useAuth } from "../../../customHook/useAuth.jsx";
 
 const Login = ({ onRegisterClick, onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
-
-    const handleSubmit = async (event) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const { login } = useAuth();const handleSubmit = async (event) => {
         event.preventDefault();
-        const emailInput = event.target.elements.email;
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-        if (!emailPattern.test(emailInput.value)) {
+        if (!emailPattern.test(email)) {
             alert("Please enter a valid email address.");
             return;
         }
@@ -29,10 +29,11 @@ const Login = ({ onRegisterClick, onClose }) => {
         formData.append('password', password);
         formData.append('scope', '');
         formData.append('client_id', '');
-        formData.append('client_secret', '');
-
+        formData.append('client_secret', '');        setIsLoading(true);
+        setErrorMessage('');
+        
         try {
-            const response = await fetch('http://127.0.0.1:8000/login', {
+            const response = await fetch('http://127.0.0.1:8000/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,7 +43,7 @@ const Login = ({ onRegisterClick, onClose }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login successful:', data);                // Determine role based on username (in a real app, this would come from the backend)
+                console.log('Login successful:', data);
                 // Add 'abcd' to the list of admin usernames
                 const adminUsers = ['admin', 'abcd'];
                 const role = adminUsers.includes(username) ? 'admin' : 'user';
@@ -60,13 +61,21 @@ const Login = ({ onRegisterClick, onClose }) => {
                 
                 onClose(); // Close the login window after successful login
             } else {
-                const error = await response.text();
-                console.error('Login failed:', error);
-                alert('Login failed: ' + error);
+                let errorText = '';
+                try {
+                    const errorData = await response.json();
+                    errorText = errorData.detail || 'Unknown error';
+                } catch (e) {
+                    errorText = await response.text();
+                }
+                console.error('Login failed:', errorText);
+                setErrorMessage('Đăng nhập thất bại: ' + errorText);
             }
         } catch (err) {
             console.error('Error connecting to backend:', err);
-            alert('Could not connect to server.');
+            setErrorMessage('Không thể kết nối đến máy chủ. Vui lòng thử lại sau.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -79,14 +88,15 @@ const Login = ({ onRegisterClick, onClose }) => {
             </div>
             <div className="container">
                 <h1 className="title">Đăng Nhập</h1>
-                <form className="inputform" onSubmit={handleSubmit}>
-                    <div className="inputcontainer">
+                <form className="inputform" onSubmit={handleSubmit}>                    <div className="inputcontainer">
                         <img src={email_icon} alt="Email Icon" />
                         <input
                             type="email"
                             name="email"
                             placeholder="Email"
                             className="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                         />
@@ -95,12 +105,21 @@ const Login = ({ onRegisterClick, onClose }) => {
                         <img src={lock} alt="Lock Icon" />
                         <input
                             type="password"
+                            name="password"
                             placeholder="Nhập mật khẩu"
                             className="password"
-                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}                            required
                         />
                     </div>
-                    <button className="loginbutton">Đăng nhập</button>
+                    {errorMessage && (
+                        <div className="error-message">
+                            {errorMessage}
+                        </div>
+                    )}
+                    <button className="loginbutton" disabled={isLoading}>
+                        {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
+                    </button>
                 </form>
                 <div className="registerredirect">
                     <a href="#" className="forgotpassword">Quên mật khẩu?</a>
