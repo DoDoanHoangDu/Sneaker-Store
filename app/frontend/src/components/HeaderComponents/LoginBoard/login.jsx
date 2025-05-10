@@ -3,18 +3,70 @@ import lock from "/lock_icon.png";
 import login_icon from "/login_icon.png"; 
 import close_icon from "/close_icon.png"; 
 import './login.css'; 
+import { useState } from "react";
+import { useAuth } from "../../../customHook/useAuth.jsx";
 
 const Login = ({ onRegisterClick, onClose }) => {
-    const handleSubmit = (event) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { login } = useAuth();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const emailInput = event.target.elements.email;
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
         if (!emailPattern.test(emailInput.value)) {
             alert("Please enter a valid email address.");
-        } else {
-            // Proceed with form submission or further processing
-            console.log("Form submitted successfully");
+            return;
+        }
+
+        const username = email.split('@')[0]; // Extract username from email
+        
+        const formData = new URLSearchParams();
+        formData.append('grant_type', 'password');
+        formData.append('username', username);  // API expects username, not email
+        formData.append('password', password);
+        formData.append('scope', '');
+        formData.append('client_id', '');
+        formData.append('client_secret', '');
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login successful:', data);                // Determine role based on username (in a real app, this would come from the backend)
+                // Add 'abcd' to the list of admin usernames
+                const adminUsers = ['admin', 'abcd'];
+                const role = adminUsers.includes(username) ? 'admin' : 'user';
+                
+                console.log('Login successful - Username:', username);
+                console.log('Login successful - Assigned role:', role);
+                
+                // Use our auth context to save the user's login state
+                login({
+                    username: username,
+                    email: email,
+                    token: data.access_token,
+                    role: role
+                });
+                
+                onClose(); // Close the login window after successful login
+            } else {
+                const error = await response.text();
+                console.error('Login failed:', error);
+                alert('Login failed: ' + error);
+            }
+        } catch (err) {
+            console.error('Error connecting to backend:', err);
+            alert('Could not connect to server.');
         }
     };
 

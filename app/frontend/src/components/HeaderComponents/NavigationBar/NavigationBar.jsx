@@ -1,11 +1,12 @@
 import "./NavigationBar.css"
+import { Link } from "react-router-dom";
 
 function NavigationBar() {
   return (
     <div className="nav-bar">
-        <a className="nav-option" href="/">Home</a>
-        <a className="nav-option" href="/store">Store</a>
-        <a className="nav-option" href="/about">About</a>
+        <Link className="nav-option" to="/">Home</Link>
+        <Link className="nav-option" to="/store">Store</Link>
+        <Link className="nav-option" to="/about">About</Link>
     </div>
         
   );
