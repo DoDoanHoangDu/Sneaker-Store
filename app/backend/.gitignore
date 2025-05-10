@@ -1,0 +1,8 @@
+venv
+.venv
+db/.env
+__pycache__
+Dockerfile
+compose.yaml
+README.Docker.md
+.dockerignore
