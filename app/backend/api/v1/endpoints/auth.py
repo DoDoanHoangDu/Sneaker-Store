@@ -82,3 +82,30 @@ def update_me(
     """
     updated_account = account.update(db=db, obj_in=account_in, current_account=current_account)
     return updated_account
+
+@router.get("/all", response_model=list[AccountSchema])
+def get_all_accounts(
+    db: Session = Depends(deps.get_db),
+    current_account: AccountSchema = Depends(deps.get_current_active_Admin_user),
+) -> list[AccountSchema]:
+    """
+    Get all accounts.
+    """
+    accounts = db.query(Account).all()
+    return accounts
+
+@router.delete("/delete/{username}")
+def delete_account(
+    username: str,
+    db: Session = Depends(deps.get_db),
+    current_account: AccountSchema = Depends(deps.get_current_active_Admin_user),
+) -> Any:
+    """
+    Delete account.
+    """
+    account_to_delete = account.get_by_username(db, username=username)
+    if not account_to_delete:
+        raise HTTPException(status_code=404, detail="Account not found")
+    
+    account.remove(db=db, id=account_to_delete.account_id)
+    return {"message": "Account deleted successfully"}

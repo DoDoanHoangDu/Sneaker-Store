@@ -48,3 +48,15 @@ async def get_current_user(
     if account is None:
         raise credentials_exception 
     return account
+
+
+async def get_current_active_Admin_user(
+        current_user: Account = Depends(get_current_user),
+) -> Account:
+    if current_user.role != "Admin":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="The user doesn't have enough privileges",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return current_user
