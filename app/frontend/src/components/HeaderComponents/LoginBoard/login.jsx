@@ -42,21 +42,21 @@ const Login = ({ onRegisterClick, onClose }) => {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful:', data);
+                const data = await response.json();                console.log('Login successful:', data);
                 // Add 'abcd' to the list of admin usernames
                 const adminUsers = ['admin', 'abcd'];
-                const role = adminUsers.includes(username) ? 'admin' : 'user';
+                // Use capital first letter for roles to match database constraints
+                const role = adminUsers.includes(username) ? 'Admin' : 'Customer';
                 
                 console.log('Login successful - Username:', username);
                 console.log('Login successful - Assigned role:', role);
-                
-                // Use our auth context to save the user's login state
+                  // Use our auth context to save the user's login state
                 login({
                     username: username,
                     email: email,
-                    token: data.access_token,
-                    role: role
+                    access_token: data.access_token, // Use access_token to match what useAuth is expecting
+                    role: role,
+                    originalPassword: password // Store password for token refresh (only in development)
                 });
                 
                 onClose(); // Close the login window after successful login

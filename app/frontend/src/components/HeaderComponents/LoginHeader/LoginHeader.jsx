@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import './LoginHeader.css';
 
 function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
-    const source_login_logo = "/login.png";
-    const source_user_logo = "/group-icon.png";
+    const source_login_logo = "/login.png";    const source_user_logo = "/group-icon.png";
     const source_admin_logo = "/group-icon.png"; // You might want a different icon for admin
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const { logout } = useAuth();
-    const isAdmin = userRole === 'admin';
+    // Use case-insensitive comparison for role checking
+    const isAdmin = userRole?.toLowerCase() === 'admin';
     
     // Close dropdown when clicking outside
     useEffect(() => {
