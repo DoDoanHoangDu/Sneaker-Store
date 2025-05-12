@@ -35,7 +35,7 @@ function ItemViewer() {
           <div className="dropdown-container">
             <Dropdown buttonText = "Filter 1" 
             content = {<>
-              {categories.map(c => <DropdownItem key = {c} content = {c}/>)}
+              {categories.map(c => <DropdownItem checkbox={true} key = {c} content = {c}/>)}
             </>}/>
 
             <Dropdown buttonText = "Filter 2" 
