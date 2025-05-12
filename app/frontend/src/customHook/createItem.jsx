@@ -16,6 +16,7 @@ const createItem = async (formData, resetCreator) => {
     delete payload.image;
     payload.img_url = data.img_url;
 
+    console.log("Payload:", payload);
     const productRes = await fetch("http://localhost:8000/product", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

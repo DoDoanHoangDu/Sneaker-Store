@@ -1,17 +1,101 @@
 .item-creator-container {
-  background-color: red;
-  color: red;
-  width: 70%;
-  display: flex;
-
-  flex-direction: column;
-  align-items: center;
-  border: 5px solid black;
-  padding: 20px;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+  font-family: MS Sans Serif4, Geneva, sans-serif;
 }
 
-.item-creator-container h1 {
-  color: red;
-  font-size: 5rem;
+.item-creator-title {
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.item-creator-label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+.item-creator-input,
+.item-creator-textarea {
+  width: 100%;
+  padding: 10px 12px;
   margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.item-creator-input:focus,
+.item-creator-textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.item-creator-textarea {
+  resize: vertical;
+  height: 80px;
+}
+
+.item-creator-preview {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+
+.item-category-input input[type="text"] {
+  margin-bottom: 10px;
+}
+
+.item-gender-input label,
+.item-age-input label {
+  margin-right: 15px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.creator-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.item-creator-button {
+  flex: 1;
+  padding: 10px;
+  margin: 0 8px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.item-creator-button:hover {
+  background-color: #357ab8;
+}
+
+@media (max-width: 600px) {
+  .creator-button-container {
+    flex-direction: column;
+  }
+
+  .item-creator-button {
+    margin: 8px 0;
+  }
 }

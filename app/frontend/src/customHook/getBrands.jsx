@@ -1,0 +1,17 @@
+const getBrands = async () => {
+    try {
+        const response = await fetch("http://localhost:8000/product/all_brand");
+        if (!response.ok) {
+            throw new Error("Failed to fetch brands");
+        }
+        const data = await response.json();
+        console.log("Brands data:", data);
+        console.log(Array.isArray(data));
+        return data;
+    } catch (error) {
+        console.error("Error fetching brands:", error);
+        return [];
+    }
+}
+
+export default getBrands;
