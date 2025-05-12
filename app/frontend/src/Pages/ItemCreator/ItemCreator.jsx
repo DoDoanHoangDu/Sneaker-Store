@@ -58,13 +58,6 @@ function ItemCreator() {
       return;
     }
     let { name, value } = e.target;
-    if (["price", "remaining", "discount"].includes(name)) {
-      value = parseFloat(value);
-      if (isNaN(value)) {
-        alert(`${name} phải là một số`);
-        return;
-      }
-    }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     return;
   }
@@ -80,6 +73,9 @@ function ItemCreator() {
           alert("Kích cỡ không hợp lệ. Vui lòng nhập theo định dạng 'min-max', ví dụ: 34-38.");
           return;
         }
+      }
+      if (!Array.isArray(formData.promotion)) {
+        setFormData((prev) => ({...prev ,promotion: prev.promotion.split(",").map((s) => s.trim()),}));
       }
       if (!formData.category.includes("nam") && !formData.category.includes("nữ")) {
         alert("Vui lòng chọn giới tính cho sản phẩm");
@@ -101,9 +97,9 @@ function ItemCreator() {
         alert("Số lượng sản phẩm không được nhỏ hơn 0");
         return;
       }
-      ///const submitData = { ...formData, discount: formData.discount / 100 };
-      ///console.log("Submit data:", submitData);
-      await createItem(formData, resetCreator);
+      const submitData = { ...formData, discount: formData.discount / 100 };
+      console.log("Submit data:", submitData);
+      await createItem(submitData, resetCreator);
     } catch (error) {
       console.error("Error creating item:", error);
       alert("Đã xảy ra lỗi khi tạo sản phẩm. Vui lòng thử lại.");

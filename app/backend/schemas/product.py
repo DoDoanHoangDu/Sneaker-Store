@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
 from datetime import datetime
 class ProductBase(BaseModel):
@@ -14,7 +14,8 @@ class ProductBase(BaseModel):
     category: list[str]
     promotion: list[str]
     size: list[int]
-    @validator('price', pre=True)
+    @field_validator('price', mode='before')
+    @classmethod
     def convert_price(cls, value):
         if isinstance(value, str):
             try:
@@ -22,7 +23,8 @@ class ProductBase(BaseModel):
             except ValueError:
                 raise ValueError("price must be a float or string that can be converted to float")
         return value
-    @validator('discount', pre=True)
+    @field_validator('discount', mode='before')
+    @classmethod
     def convert_price(cls, value):
         if isinstance(value, str):
             try:
@@ -30,7 +32,8 @@ class ProductBase(BaseModel):
             except ValueError:
                 raise ValueError("discount must be a float or string that can be converted to float")
         return value
-    @validator('remaining', pre=True)
+    @field_validator('remaining', mode='before')
+    @classmethod
     def convert_price(cls, value):
         if isinstance(value, str):
             try:
