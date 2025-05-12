@@ -14,7 +14,30 @@ class ProductBase(BaseModel):
     category: list[str]
     promotion: list[str]
     size: list[int]
-
+    @validator('price', pre=True)
+    def convert_price(cls, value):
+        if isinstance(value, str):
+            try:
+                return float(value)
+            except ValueError:
+                raise ValueError("price must be a float or string that can be converted to float")
+        return value
+    @validator('discount', pre=True)
+    def convert_price(cls, value):
+        if isinstance(value, str):
+            try:
+                return float(value)
+            except ValueError:
+                raise ValueError("discount must be a float or string that can be converted to float")
+        return value
+    @validator('remaining', pre=True)
+    def convert_price(cls, value):
+        if isinstance(value, str):
+            try:
+                return int(value)
+            except ValueError:
+                raise ValueError("remaining must be a int or string that can be converted to float")
+        return value
 class ProductCreate(ProductBase):
     pass
     
