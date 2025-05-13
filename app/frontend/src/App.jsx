@@ -10,7 +10,7 @@ import Footer from './components/Footer/Footer.jsx';
 import Modal from 'react-modal';
 import UserProfile from './Pages/UserProfile/UserProfile.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import ItemUpdater from './Pages/ItemUpdater/ItemUpdater.jsx';
 import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
 
 Modal.setAppElement('#root');
@@ -37,6 +37,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<UserProfile />} />
           <Route path="/itemcreator" element={<ItemCreator />} />
+          <Route path="/itemupdater" element={<ItemUpdater />} />
         </Routes>
       </Router>
       <Modal

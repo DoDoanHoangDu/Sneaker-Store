@@ -138,7 +138,7 @@ def create_product(product: ProductCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=409, detail="Product already exists")
     return { "message" : "Product created successfully" }
 
-@router.put("/product/{product_id}")
+@router.put("/product/update/{product_id}")
 def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
     main_part = crud.crud_product.product.get(db = db, id = product_id)
     if not main_part:

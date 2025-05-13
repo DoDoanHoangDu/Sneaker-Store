@@ -1,6 +1,6 @@
 const getCategories = async () => {
     try {
-        const response = await fetch("http://localhost:8000/product/subtable");
+        const response = await fetch("http://localhost:8000/product/subtable?limit=100000");
         if (!response.ok) {
             throw new Error("Failed to fetch categories");
         }

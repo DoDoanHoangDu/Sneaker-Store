@@ -1,12 +1,34 @@
-import { useState,useEffect,useRef  } from "react";
-import "./ItemCreator.css";
-import createItem from "../../customHook/createItem";
+import { useState,useEffect,useRef, use  } from "react";
+import "./ItemUpdater.css";
+import getItemById from "../../customHook/getItemById";
+import updateItem from "../../customHook/updateItem";
 import getBrands from "../../customHook/getBrands";
 import getCategories from "../../customHook/getCategories";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
 
-function ItemCreator() {
+function ItemUpdater({itemID = 400}) {
+  const [productIdInput, setProductIdInput] = useState(itemID);
+  const fetchItem = async (id) => {
+    try {
+        const data = await getItemById(id);
+        data.discount = data.discount * 100;
+        setFormData({...data});
+        console.log("Fetched item data:", formData);
+    } catch (error) {
+        alert("Error fetching item:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (productIdInput !== "") {
+      fetchItem(productIdInput);
+    }
+  }, []);
+
+  const handleProductIdChange = (e) => {
+    setProductIdInput(e.target.value);
+  };
   const fileInputRef = useRef(null);
   const sizeInputRef = useRef(null);
   const [brands, setBrands] = useState([]);
@@ -35,8 +57,8 @@ function ItemCreator() {
       remaining: 0,
       category: [],
       promotion: [],
-      size:[]
-,   });
+      size:[],
+   });
 
   const resetCreator = () => {
     setFormData({
@@ -71,6 +93,7 @@ function ItemCreator() {
   }
 
   const handleSubmit = async () => {
+    console.log("Submitting form data...");
     console.log("Form data:", formData);
     try {
       if (!(formData.image instanceof File)) {
@@ -111,10 +134,10 @@ function ItemCreator() {
       }
       const submitData = { ...formData, discount: formData.discount / 100 };
       console.log("Submit data:", submitData);
-      await createItem(submitData, resetCreator);
+      await updateItem(productIdInput,submitData);
     } catch (error) {
       console.error("Error creating item:", error);
-      alert("Đã xảy ra lỗi khi tạo sản phẩm. Vui lòng thử lại.");
+      alert("Đã xảy ra lỗi khi cập nhật sản phẩm. Vui lòng thử lại.");
     }
   }
 
@@ -135,7 +158,18 @@ function ItemCreator() {
 
   return (
     <div className="item-creator-container">
-      <h1 className="item-creator-title">Nhập sản phẩm mới</h1>
+      <h1 className="item-creator-title">Cập nhật sản phẩm</h1>
+      
+      <div className="item-id-input">
+        <label className="item-creator-label">Id sản phẩm:</label>
+        <input type="text" name="product_id" className="item-creator-input" placeholder="Nhập id sản phẩm" value={productIdInput} onChange={handleProductIdChange}
+        onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                fetchItem(productIdInput);
+              }
+            }}/>
+        <br/>
+      </div>
 
       <div className="item-image-input">
         <label className="item-creator-label">Hình ảnh sản phẩm:</label>
@@ -271,16 +305,16 @@ function ItemCreator() {
       </div>
 
       <div className="item-size-input">
-        <label className="item-creator-label">Kích cỡ:</label>
+        <label className="item-creator-label">Kích cỡ: ({Math.min(...formData.size)}-{Math.max(...formData.size)})</label>
         <input type="text" name="size" className="item-creator-input" placeholder="Nhập kích cỡ, vd: 34-38" ref={sizeInputRef} onChange={handleChange}/>
         <br/>
       </div>
 
       <div className="creator-button-container">
-        <button className="item-creator-button" onClick={handleSubmit}>Tạo sản phẩm</button>
+        <button className="item-creator-button" onClick={handleSubmit}>Cập nhật sản phẩm</button>
         <button className="item-creator-button" onClick={resetCreator}>Hủy</button>
       </div>
     </div>
   );
 }
-export default ItemCreator;
+export default ItemUpdater;
