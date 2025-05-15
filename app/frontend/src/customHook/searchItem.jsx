@@ -2,7 +2,7 @@ const searchItem = async (
     product_name = "",
     brand = "",
     price_min = 0,
-    price_max = 999999999,
+    price_max = 1000000000,
     discount_min = 0,
     category = [],
     promotion = [],
@@ -23,6 +23,7 @@ const searchItem = async (
         promotion.forEach(p => params.append("promotion", p));
         size.forEach(s => params.append("size", s.toString()));
 
+        console.log(`http://localhost:8000/product/search?${params.toString()}`)
         const response = await fetch(`http://localhost:8000/product/search?${params.toString()}`);
 
         if (!response.ok) {
@@ -33,7 +34,6 @@ const searchItem = async (
         return data;
     } catch (error) {
         console.error("Error fetching item:", error);
-        alert("Error fetching item");
         return [];
     }
 };

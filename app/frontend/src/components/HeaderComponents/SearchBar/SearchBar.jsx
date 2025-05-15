@@ -12,14 +12,16 @@ function SearchBar({ onSearch }) {
 
   return (
     <div className="search-bar">
-      <img src="/search-icon.png" className="search-icon" />
+      <img src="/search-icon.png" className="search-icon" onClick={handleSearch}/>
       <input
         type="search"
         className="search-input"
         placeholder="Tìm sản phẩm"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleSearch();
+        }}
       />
     </div>
   );

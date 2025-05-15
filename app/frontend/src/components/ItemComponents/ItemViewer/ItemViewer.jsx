@@ -4,64 +4,71 @@ import DropdownItem from "../../DropdownComponents/DropdownItem/DropdownItem";
 import useWindowSize from "../../../customHook/useWindowSize";
 import getBrands from "../../../customHook/getBrands";
 import getCategories from "../../../customHook/getCategories";
+import { useEffect, useState } from "react";
 import "./ItemViewer.css"
-function ItemViewer() {
-    const source = "/shoe.jpg"
-    const categories = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(c => "Categories " + c)
-    const item1 = {
-        image : source,
-        name : "One two three four five six seven eight nine ten",
-        originalPrice : 200000,
-        discountedPrice: 100000,
-        link: "#"
-      }
-      const item2 = {
-        image : source,
-        name : "Shoe 2",
-        originalPrice : 400000,
-        discountedPrice: 300000,
-        link: "#"
-      }
 
-      const item3 = {
-        image : source,
-        name : "Shoe Shi",
-        originalPrice : 100000,
-        discountedPrice: 100000,
-        link: "#"
-      }
+function ItemViewer({items}) {
+    const [currentItems, setItems] = useState(items);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+
+    useEffect(() => {
+      setItems(items);
+    }, [items]);
+
+    useEffect(() => {
+      const fetchCategories = async () => {
+        const data = await getCategories({ short: true });
+        data.sort();
+        setCategories(data);
+      };
+
+      const fetchBrands = async () => {
+        const data = await getBrands();
+        data.sort();
+        setBrands(data);
+      };
+
+      fetchCategories();
+      fetchBrands();
+      console.log(items)
+    }, []);
+
 
     const windowSize = useWindowSize();
     return (
         <div className={`item-viewer ${windowSize < 1000? "item-viewer-small" : "null"}`}>
           <div className="dropdown-container">
-            <Dropdown buttonText = "Filter 1" 
+            <Dropdown buttonText = "Loại sản phẩm" 
             content = {<>
               {categories.map(c => <DropdownItem checkbox={true} key = {c} content = {c}/>)}
             </>}/>
 
-            <Dropdown buttonText = "Filter 2" 
+            <Dropdown buttonText = "Thương hiệu" 
             content = {<>
-              {categories.map(c => <DropdownItem key = {c} content = {c}/>)}
+              {brands.map(c => <DropdownItem key = {c} content = {c}/>)}
             </>}/>
+
+            <Dropdown buttonText = "Giới tính" 
+            content = {<>
+              {['nam', 'nữ'].map(c => <DropdownItem checkbox={true} key = {c} content = {c}/>)}
+            </>}/>
+
+            <Dropdown buttonText = "Độ tuổi" 
+            content = {<>
+              {['trẻ em', 'người lớn'].map(c => <DropdownItem checkbox={true} key = {c} content = {c}/>)}
+            </>}/>
+
           </div>
-          <div className={`product-container ${windowSize < 1000? "product-container-small" : "null"}`}>
-              <ItemCard item = {item1}/>
-              <ItemCard item = {item2}/>
-              <ItemCard item = {item3}/>
-              <ItemCard item = {item1}/>
-              <ItemCard item = {item2}/>
-              <ItemCard item = {item3}/>
-              <ItemCard item = {item1}/>
-              <ItemCard item = {item2}/>
-              <ItemCard item = {item3}/>
-              <ItemCard item = {item1}/>
-              <ItemCard item = {item2}/>
-              <ItemCard item = {item3}/>
-              <ItemCard item = {item1}/>
-              <ItemCard item = {item2}/>
-              <ItemCard item = {item3}/>
-          </div>
+          {currentItems && currentItems.length > 0 ? (
+            <div className={`product-container ${windowSize < 1000 ? "product-container-small" : ""}`}>
+              {currentItems.map(item => (
+                <ItemCard key={item.product_id} item={item} />
+              ))}
+            </div>
+          ) : (
+            <p>Không có sản phẩm nào để hiển thị.</p>
+      )}
         </div>
     )
 };

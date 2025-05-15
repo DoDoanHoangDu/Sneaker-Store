@@ -1,5 +1,6 @@
 .card-container {
     width: 100%;
+    cursor: pointer;
 }
 .card {
     height: 100%; 

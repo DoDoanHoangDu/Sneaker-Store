@@ -1,10 +1,10 @@
 import "./Store.css"
 import ItemViewer from "../../components/ItemComponents/ItemViewer/ItemViewer";
-function Store() {   
+function Store({items}) {   
       return (
         <div className="store">
           <div className="store-content">
-          <ItemViewer/>
+          <ItemViewer items = {items}/>
           </div>
         </div>
         
