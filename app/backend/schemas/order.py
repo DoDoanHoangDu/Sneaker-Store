@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Sequence
+from typing import List
 
 class OrderBase(BaseModel):
     pass
@@ -21,5 +21,4 @@ class OrderUpdate(OrderBase):
     pass
 
 class OrderSearchResults(Order):
-    
-    results = Sequence(Order)
+    pass

@@ -12,6 +12,7 @@ import UserProfile from './Pages/UserProfile/UserProfile.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ItemUpdater from './Pages/ItemUpdater/ItemUpdater.jsx';
 import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
+import { AuthProvider } from './customHook/useAuth.jsx';
 
 Modal.setAppElement('#root');
 
@@ -24,35 +25,32 @@ function App() {
 
   const handleCloseLogin = () => {
     setShowLogin(false);
-  };
-
-  return (
-    <>
-      <Header onLoginClick={handleLoginClick} />
-      <NavigationBar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
+  };  return (
+    <Router>
+      <AuthProvider>
+        <Header onLoginClick={handleLoginClick} />
+        <NavigationBar />
+        <Routes>          <Route path="/" element={<MainPage />} />
           <Route path="/store" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<UserProfile />} />
+          <Route path="/admin" element={<MainPage adminForce={true} />} />
           <Route path="/itemcreator" element={<ItemCreator />} />
           <Route path="/itemupdater" element={<ItemUpdater />} />
         </Routes>
-      </Router>
-      <Modal
-        isOpen={showLogin}
-        onRequestClose={handleCloseLogin}
-        contentLabel="Login Modal"
-        className="login-modal"
-        overlayClassName="login-modal-overlay"
-      >
-        <LoginPage onClose={handleCloseLogin} />
-      </Modal>
-      <ScrollToTop />
-      
-      <Footer />
-    </>
+        <Modal
+          isOpen={showLogin}
+          onRequestClose={handleCloseLogin}
+          contentLabel="Login Modal"
+          className="login-modal"
+          overlayClassName="login-modal-overlay"
+        >
+          <LoginPage onClose={handleCloseLogin} />
+        </Modal>
+        <ScrollToTop />
+        <Footer />
+      </AuthProvider>
+    </Router>
   );
 }
 

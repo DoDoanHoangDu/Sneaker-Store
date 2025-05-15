@@ -20,11 +20,12 @@ class CRUDAccount(CRUDBase[Account, AccountCreate, AccountUpdate]):
         db.commit()
         return db_obj
     
-    def update(self, db, *, db_obj, obj_in):
-        if isinstance(obj_in, dict):
-            update_data = obj_in
-        else:
-            update_data = obj_in.model_dump(exclude_unset=True)
-        return super().update(db, db_obj=db_obj, obj_in=update_data)
-    
+    def update(self, db : Session, *, obj_in : AccountUpdate, current_account : Account):
+        update_data = obj_in.model_dump(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(current_account, key, value)
+        db.add(current_account)
+        db.commit()
+        db.refresh(current_account)
+        return current_account
 account = CRUDAccount(Account)

@@ -1,6 +1,6 @@
 from crud.base import CRUDBase
-from models.order import Order
-from schemas.order import OrderCreate, OrderUpdate
+from backend.models.order import Order
+from backend.schemas.order import OrderCreate, OrderUpdate
 from sqlalchemy.orm import Session
 from typing import Any, Dict, Optional, Type, Union 
 

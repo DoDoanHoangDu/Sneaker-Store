@@ -1,6 +1,6 @@
 venv
-.env
-
+.venv
+db/.env
 __pycache__
 Dockerfile
 compose.yaml

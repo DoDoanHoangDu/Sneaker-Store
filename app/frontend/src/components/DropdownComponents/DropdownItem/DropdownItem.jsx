@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./DropdownItem.css";
 
 function DropdownItem({ content, onClick, checkbox, checked }) {
@@ -21,3 +22,15 @@ function DropdownItem({ content, onClick, checkbox, checked }) {
 }
 
 export default DropdownItem;
+=======
+import "./DropdownItem.css"
+function DropdownItem(props) {
+    return (
+        <div className="dropdown-item" onClick={props.onClick}>
+            {props.content}
+        </div>
+    )
+}
+
+export default DropdownItem
+>>>>>>> main

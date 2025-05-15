@@ -1,6 +1,6 @@
 import logging
 from sqlalchemy.orm import Session
-from backend.crud.account import account
+from backend.crud.crud_account import account
 from backend.schemas.account import AccountCreate
 from backend.db.base import Base
 from backend.db.session import engine

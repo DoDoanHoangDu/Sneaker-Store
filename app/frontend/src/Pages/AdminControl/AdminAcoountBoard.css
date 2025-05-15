@@ -1,0 +1,145 @@
+.admin-account-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-account-title {
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  border-bottom: 3px solid #1976d2;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.admin-subtitle {
+  color: #616161;
+  margin-bottom: 2rem;
+}
+
+.admin-account-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.create-account-btn {
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 4px !important;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2) !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  background-color: #1976d2 !important;
+}
+
+.create-account-btn:hover {
+  background-color: #0d47a1 !important;
+}
+
+.search-field {
+  border-radius: 4px;
+  width: 300px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.search-field input:focus {
+  border-color: #1976d2;
+}
+
+@media (max-width: 600px) {
+  .search-field {
+    width: 100%;
+  }
+}
+
+.table-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.table-header {
+  background-color: #e3f2fd;
+}
+
+.table-header-cell {
+  font-weight: 600 !important;
+  color: #1976d2 !important;
+  font-size: 1rem !important;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.table-row {
+  transition: background-color 0.2s;
+}
+
+.table-row-odd {
+  background-color: #fafafa;
+}
+
+.table-row:hover {
+  background-color: #f1f7fd;
+}
+
+.table-cell {
+  padding: 16px !important;
+  font-size: 1rem;
+}
+
+.role-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.role-admin {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  border: 1px solid #bbdefb;
+}
+
+.role-manager {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.role-customer {
+  background-color: #f5f5f5;
+  color: #616161;
+  border: 1px solid #e0e0e0;
+}
+
+.action-button {
+  margin-left: 8px !important;
+  font-size: 0.8rem !important;
+  padding: 5px 12px !important;
+}
+
+.empty-message {
+  padding: 2rem !important;
+  color: #9e9e9e;
+}
+
+.empty-message {
+  padding: 2rem;
+  color: rgba(0, 0, 0, 0.6);
+}
