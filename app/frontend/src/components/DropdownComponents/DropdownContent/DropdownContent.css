@@ -18,6 +18,7 @@
     transition: transform 100ms ease-in-out, opacity 100ms ease-in-out;
     pointer-events: none;
     text-transform: capitalize;
+    z-index: 1;
 }
 
 .dropdown-content-open {

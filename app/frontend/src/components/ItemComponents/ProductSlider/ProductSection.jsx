@@ -1,89 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import './ProductSection.css';
 import ItemCard from '../ItemCard/ItemCard';
+import getItemById from '../../../customHook/getItemById';
 
-function ProductSection() {
+function ProductSection({ids = [201, 202, 203, 204, 205, 206, 207, 208, 209, 210]}) {
     const productGridRef = useRef(null);
     const [isManualScroll, setIsManualScroll] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
 
-    const item1 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 1",
-        originalPrice: 200000,
-        discountedPrice: 100000,
-        link: "#"
-    };
-    const item2 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 2",
-        originalPrice: 400000,
-        discountedPrice: 300000,
-        link: "#"
-    };
-    const item3 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 3",
-        originalPrice: 100000,
-        discountedPrice: 100000,
-        link: "#"
-    };
-    const item4 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 4",
-        originalPrice: 250000,
-        discountedPrice: 150000,
-        link: "#"
-    };
-    const item5 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 5",
-        originalPrice: 300000,
-        discountedPrice: 200000,
-        link: "#"
-    };
-    const item6 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 6",
-        originalPrice: 350000,
-        discountedPrice: 250000,
-        link: "#"
-    };
-    const item7 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 7",
-        originalPrice: 400000,
-        discountedPrice: 300000,
-        link: "#"
-    };
-    const item8 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 8",
-        originalPrice: 450000,
-        discountedPrice: 350000,
-        link: "#"
-    };
-    const item9 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 9",
-        originalPrice: 500000,
-        discountedPrice: 400000,
-        link: "#"
-    };
-    const item10 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 10",
-        originalPrice: 550000,
-        discountedPrice: 450000,
-        link: "#"
-    };
-    const item11 = {
-        image: '/shoe1.jpg',
-        name: "Shoe 11",
-        originalPrice: 350000,
-        discountedPrice: 280000,
-        link: "#"
-    };
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            const fetchedItems = await Promise.all(
+            ids.map(id => getItemById(id))
+            );
+            setItems(fetchedItems.filter(item => item !== null));
+        };
+        fetchItems();
+    }, [ids]);
 
     useEffect(() => {
         const scrollInterval = setInterval(() => {
@@ -171,21 +106,15 @@ function ProductSection() {
 
     return (
         <div className="product-section">
-            <h2>Discover our Best-seller products</h2>
+            <h2>Discover our featured products</h2>
             <div className="product-grid-container">
                 <button className="scroll-button left" onClick={handleScrollLeft}>&lt;</button>
                 <div className="product-grid" ref={productGridRef}>
-                    <div className="card-container"><ItemCard item={item1} /></div>
-                    <div className="card-container"><ItemCard item={item2} /></div>
-                    <div className="card-container"><ItemCard item={item3} /></div>
-                    <div className="card-container"><ItemCard item={item4} /></div>
-                    <div className="card-container"><ItemCard item={item5} /></div>
-                    <div className="card-container"><ItemCard item={item6} /></div>
-                    <div className="card-container"><ItemCard item={item7} /></div>
-                    <div className="card-container"><ItemCard item={item8} /></div>
-                    <div className="card-container"><ItemCard item={item9} /></div>
-                    <div className="card-container"><ItemCard item={item10} /></div>
-                    <div className="card-container"><ItemCard item={item11} /></div>
+                    {items.map((item, index) => (
+                        <div key={index} className="card-container">
+                        <ItemCard item={item} />
+                        </div>
+                    ))}
                 </div>
                 <button className="scroll-button right" onClick={handleScrollRight}>&gt;</button>
             </div>

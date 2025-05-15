@@ -35,7 +35,7 @@ function AppContent() {
     return (
         <>
             <Header onLoginClick={handleLoginClick} onSearch = {handleSearch}/>
-            <NavigationBar />
+            <NavigationBar onSearch={handleSearch}/>
             <Routes>          
                 <Route path="/" element={<MainPage />} />
                 <Route path="/store" element={<Store items = {searchResults}/>} />
