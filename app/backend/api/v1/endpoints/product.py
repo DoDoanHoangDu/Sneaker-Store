@@ -102,7 +102,7 @@ def get_product_general(
     if price_max is not None:
         query = query.filter(Product.price <= price_max)
     if discount_min is not None:
-        query = query.filter(Product.discount >= discount_min).filter(Product.start_date <= datetime.now()).filter(Product.end_date >= datetime.now())
+        query = query.filter(Product.discount >= discount_min)
     # Filtering many-to-many relationships
     if category:
         query = query.filter(Product.category.any(ProductCategory.category_name.in_(category)))
