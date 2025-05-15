@@ -5,7 +5,6 @@ const getItemById = async (productId) => {
             throw new Error("Failed to fetch categories");
         }
         const data = await response.json();
-        console.log("Data:", data);
         delete data.start_date;
         delete data.end_date;
         return data;

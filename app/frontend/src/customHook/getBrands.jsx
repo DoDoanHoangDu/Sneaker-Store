@@ -5,8 +5,6 @@ const getBrands = async () => {
             throw new Error("Failed to fetch brands");
         }
         const data = await response.json();
-        console.log("Brands data:", data);
-        console.log(Array.isArray(data));
         return data;
     } catch (error) {
         console.error("Error fetching brands:", error);

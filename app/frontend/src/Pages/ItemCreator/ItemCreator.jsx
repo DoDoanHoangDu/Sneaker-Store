@@ -65,6 +65,11 @@ function ItemCreator() {
       setFormData((prevData) => ({ ...prevData, image: e.target.files[0] }));
       return;
     }
+    if (e.target.name === "promotion") {
+      const value = e.target.value.split(",").map((s) => s.trim());
+      setFormData((prevData) => ({ ...prevData, promotion: value }));
+      return;
+    }
     let { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     return;

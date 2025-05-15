@@ -7,28 +7,7 @@ import getCategories from "../../customHook/getCategories";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
 
-function ItemUpdater({itemID = 400}) {
-  const [productIdInput, setProductIdInput] = useState(itemID);
-  const fetchItem = async (id) => {
-    try {
-        const data = await getItemById(id);
-        data.discount = data.discount * 100;
-        setFormData({...data});
-        console.log("Fetched item data:", formData);
-    } catch (error) {
-        alert("Error fetching item:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (productIdInput !== "") {
-      fetchItem(productIdInput);
-    }
-  }, []);
-
-  const handleProductIdChange = (e) => {
-    setProductIdInput(e.target.value);
-  };
+function ItemUpdater({itemID = 405}) {
   const fileInputRef = useRef(null);
   const sizeInputRef = useRef(null);
   const [brands, setBrands] = useState([]);
@@ -58,7 +37,9 @@ function ItemUpdater({itemID = 400}) {
       category: [],
       promotion: [],
       size:[],
-   });
+      start_date: "",
+      end_date: ""
+  });
 
   const resetCreator = () => {
     setFormData({
@@ -72,7 +53,9 @@ function ItemUpdater({itemID = 400}) {
         remaining: 0,
         category: [],
         promotion: [],
-        size:[]
+        size:[],
+        start_date: "",
+        end_date: ""
     });
     if (fileInputRef.current) {
       fileInputRef.current.value = null;
@@ -82,9 +65,49 @@ function ItemUpdater({itemID = 400}) {
     }
   };
 
+  const [productIdInput, setProductIdInput] = useState(itemID);
+  const fetchItem = async (id) => {
+    try {
+        const data = await getItemById(id);
+        data.discount = data.discount * 100;
+        const now = new Date();
+        const later = new Date(now.getTime() + 1000*3600*24);
+        data.start_date = now.toISOString();
+        data.end_date = later.toISOString();
+        setFormData({...data});
+        if (data.img_url) {
+          const response = await fetch(data.img_url);
+          const blob = await response.blob();
+
+          const filename = data.img_url.split("/").pop() || "image.jpg";
+          const file = new File([blob], filename, { type: blob.type });
+
+          setFormData(prev => ({ ...prev, image: file }));
+        }
+        console.log("Fetched item data:", data);
+    } catch (error) {
+        alert("Error fetching item:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (productIdInput !== "") {
+      fetchItem(productIdInput);
+    }
+  }, []);
+
+  const handleProductIdChange = (e) => {
+    setProductIdInput(e.target.value);
+  };
+
   const handleChange = (e) => {
     if (e.target.name === "image") {
       setFormData((prevData) => ({ ...prevData, image: e.target.files[0] }));
+      return;
+    }
+    if (e.target.name === "promotion") {
+      const value = e.target.value.split(",").map((s) => s.trim());
+      setFormData((prevData) => ({ ...prevData, promotion: value }));
       return;
     }
     let { name, value } = e.target;
@@ -173,7 +196,7 @@ function ItemUpdater({itemID = 400}) {
 
       <div className="item-image-input">
         <label className="item-creator-label">Hình ảnh sản phẩm:</label>
-        <input id="input-image" ref={fileInputRef} type="file" name="image" className="item-creator-input" accept="image/*" onChange={handleChange}/>
+        <input id="input-image" src={formData.img_url} ref={fileInputRef} type="file" name="image" className="item-creator-input" accept="image/*" onChange={handleChange}/>
         <br/>
       </div>
       
