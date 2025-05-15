@@ -1,12 +1,16 @@
-import { FaChevronDown, FaChevronUp} from "react-icons/fa"
-import "./DropdownButton.css"
-function DropdownButton(props) {
-    return (
-        <div ref={props.ref} className={`dropdown-btn ${props.open ? "dropdown-btn-open":null}`} onClick={props.toggle}>
-            <span>{props.text}</span>
-            <span className="toggle-icon" >{props.open ? <FaChevronUp/> : <FaChevronDown/>}</span>
-        </div>
-    )
-}
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import "./DropdownButton.css";
+import React, { forwardRef } from "react";
 
-export default DropdownButton
+const DropdownButton = forwardRef((props, ref) => {
+    return (
+        <div ref={ref} className={`dropdown-btn ${props.open ? "dropdown-btn-open" : ""}`} onClick={props.toggle}>
+            <span>{props.text}</span>
+            <span className="toggle-icon">
+                {props.open ? <FaChevronUp /> : <FaChevronDown />}
+            </span>
+        </div>
+    );
+});
+
+export default DropdownButton;

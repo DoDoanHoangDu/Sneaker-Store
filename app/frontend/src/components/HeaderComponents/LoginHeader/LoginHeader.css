@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-=======
 .login-header-container {
     position: relative;
     display: inline-block;
 }
 
->>>>>>> main
 .login-header {
     display: flex;
     align-items: center; /* Center items vertically */
@@ -20,10 +17,7 @@
 
 .login-header:hover {
     cursor: pointer;
-<<<<<<< HEAD
-=======
     background-color: rgba(0, 0, 0, 0.04);
->>>>>>> main
 }
 
 .login-logo {
@@ -39,8 +33,6 @@
     margin: 0;
 }
 
-<<<<<<< HEAD
-=======
 .username-text {
     font-size: 1rem;
     color: #1976d2;
@@ -104,17 +96,10 @@
     color: #0d47a1;
 }
 
->>>>>>> main
 .login-logo-button {
     background: none;
     border: none;
     padding: 0;
-<<<<<<< HEAD
-    cursor: pointer;
-    display: flex;
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-=======
     cursor: pointer;    display: flex;
     align-items: center; /* Center items vertically */
     justify-content: center; /* Center items horizontally */
@@ -132,5 +117,4 @@
 
 .admin-role-indicator:hover {
     background-color: #d32f2f;
->>>>>>> main
 }

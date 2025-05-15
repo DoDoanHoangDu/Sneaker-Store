@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
-class order_has_productBase(BaseModel):
+class OrderHasProductBase(BaseModel):
     pass
 
-class order_has_productCreate(order_has_productBase):
+class OrderHasProductCreate(OrderHasProductBase):
     order_id : int
     product_id : int
     quantity : int
 
-class order_has_productInDBBase(order_has_productCreate):
+class OrderHasProductInDBBase(OrderHasProductCreate):
     pass

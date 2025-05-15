@@ -3,48 +3,24 @@ import lock from "/lock_icon.png";
 import login_icon from "/login_icon.png"; 
 import close_icon from "/close_icon.png"; 
 import './login.css'; 
-<<<<<<< HEAD
-import { useState } from "react";
-=======
 import './error.css';
 import { useState } from "react";
 import { useAuth } from "../../../customHook/useAuth.jsx";
->>>>>>> main
 
 const Login = ({ onRegisterClick, onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-<<<<<<< HEAD
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-=======
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const { login } = useAuth();const handleSubmit = async (event) => {
         event.preventDefault();
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
->>>>>>> main
         if (!emailPattern.test(email)) {
             alert("Please enter a valid email address.");
             return;
         }
 
-<<<<<<< HEAD
-        const formData = new URLSearchParams();
-        formData.append('grant_type', 'password');
-        formData.append('username', email.split('@')[0]);  // API expects username, not email
-        formData.append('password', password);
-        formData.append('scope', '');
-        formData.append('client_id', '');
-        formData.append('client_secret', '');
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/login', {
-=======
         const username = email.split('@')[0]; // Extract username from email
         
         const formData = new URLSearchParams();
@@ -58,7 +34,6 @@ const Login = ({ onRegisterClick, onClose }) => {
         
         try {
             const response = await fetch('http://127.0.0.1:8000/auth/login', {
->>>>>>> main
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -67,19 +42,6 @@ const Login = ({ onRegisterClick, onClose }) => {
             });
 
             if (response.ok) {
-<<<<<<< HEAD
-                const data = await response.json();
-                console.log('Login successful:', data);
-                onClose(); // Close the login window after successful login
-            } else {
-                const error = await response.text();
-                console.error('Login failed:', error);
-                alert('Login failed: ' + error);
-            }
-        } catch (err) {
-            console.error('Error connecting to backend:', err);
-            alert('Could not connect to server.');
-=======
                 const data = await response.json();                console.log('Login successful:', data);
                 // Add 'abcd' to the list of admin usernames
                 const adminUsers = ['admin', 'abcd'];
@@ -114,7 +76,6 @@ const Login = ({ onRegisterClick, onClose }) => {
             setErrorMessage('Không thể kết nối đến máy chủ. Vui lòng thử lại sau.');
         } finally {
             setIsLoading(false);
->>>>>>> main
         }
     };
 
@@ -127,12 +88,7 @@ const Login = ({ onRegisterClick, onClose }) => {
             </div>
             <div className="container">
                 <h1 className="title">Đăng Nhập</h1>
-<<<<<<< HEAD
-                <form className="inputform" onSubmit={handleSubmit}>
-                    <div className="inputcontainer">
-=======
                 <form className="inputform" onSubmit={handleSubmit}>                    <div className="inputcontainer">
->>>>>>> main
                         <img src={email_icon} alt="Email Icon" />
                         <input
                             type="email"
@@ -149,16 +105,6 @@ const Login = ({ onRegisterClick, onClose }) => {
                         <img src={lock} alt="Lock Icon" />
                         <input
                             type="password"
-<<<<<<< HEAD
-                            placeholder="Nhập mật khẩu"
-                            className="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button className="loginbutton" type="submit">Đăng nhập</button>
-=======
                             name="password"
                             placeholder="Nhập mật khẩu"
                             className="password"
@@ -174,7 +120,6 @@ const Login = ({ onRegisterClick, onClose }) => {
                     <button className="loginbutton" disabled={isLoading}>
                         {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
                     </button>
->>>>>>> main
                 </form>
                 <div className="registerredirect">
                     <a href="#" className="forgotpassword">Quên mật khẩu?</a>
