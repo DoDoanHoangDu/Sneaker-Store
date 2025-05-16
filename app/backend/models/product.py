@@ -27,5 +27,6 @@ class Product(Base):
     category = relationship("ProductCategory", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
     promotion = relationship("ProductPromotion", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
     size = relationship("ProductSize", back_populates = "product_link", cascade="all, delete-orphan", lazy="joined")
+    featured_entry = relationship("FeaturedProduct", uselist=False, back_populates="product", cascade="all, delete")
 
 

@@ -8,6 +8,7 @@ from backend.db.session import engine
 from backend.api.deps import get_db
 from backend import crud
 from backend.models.product import Product, ProductCategory, ProductPromotion, ProductSize
+from backend.models.featured_product import FeaturedProduct
 from backend.models.account import Account
 from backend.models.order import Order
 from backend.models.order_has_product import order_has_product
@@ -71,6 +72,7 @@ def get_all_brands(
         if product.brand not in output:
             output.add(product.brand)
     return list(output)
+
 @router.get("/product/search")
 def get_product_general(
     db: Session = Depends(get_db),
@@ -123,6 +125,24 @@ def get_product_general(
         } for product in result
     ]
 
+@router.get("/product/featured_product")
+def get_featured_product(db: Session = Depends(get_db)):
+    featured_products = db.query(FeaturedProduct).all()
+
+    if not featured_products:
+        raise HTTPException(status_code=404, detail="No featured product found")
+
+    return [
+        {
+            **fp.product.__dict__,
+            "category": [cat.category_name for cat in fp.product.category],
+            "promotion": [promo.promotion_name for promo in fp.product.promotion],
+            "size": [size.size for size in fp.product.size],
+        }
+        for fp in featured_products
+        if fp.product is not None
+    ]
+
 @router.post("/upload-image")
 def upload_image(image: UploadFile = File(...)):
     try:
@@ -137,6 +157,17 @@ def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     if not main_part:
         raise HTTPException(status_code=409, detail="Product already exists")
     return { "message" : "Product created successfully" }
+
+@router.post("/product/featured_product")
+def add_featured_product(product_id: int, db: Session = Depends(get_db)):
+    main_part = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_part:
+        raise HTTPException(status_code=404, detail="Product not found")
+    featured_product = FeaturedProduct(product_id = product_id)
+    db.add(featured_product)
+    db.commit()
+    db.refresh(featured_product)
+    return { "message" : "Featured product created successfully" }
 
 @router.put("/product/update/{product_id}")
 def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
@@ -171,3 +202,15 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Product not found")
     crud.crud_product.product.remove(db = db, id = product_id)
     return { "message" : "Product deleted successfully" }
+
+@router.delete("/product/featured_product/{product_id}")
+def delete_featured_product(product_id: int, db: Session = Depends(get_db)):
+    main_part = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_part:
+        raise HTTPException(status_code=404, detail="Product not found")
+    featured_product = db.query(FeaturedProduct).filter(FeaturedProduct.product_id == product_id).first()
+    if not featured_product:
+        raise HTTPException(status_code=404, detail="Featured product not found")
+    db.delete(featured_product)
+    db.commit()
+    return { "message" : "Featured product deleted successfully" }
