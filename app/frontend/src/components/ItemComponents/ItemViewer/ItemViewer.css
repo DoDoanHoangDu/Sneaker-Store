@@ -55,3 +55,13 @@
 .reset-button:hover {
   background-color: hsl(0, 0%, 95%);
 }
+
+.product-showing-count {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    margin:5px;
+    margin-left: 15px;
+    font-size: 1rem;
+    color: rgb(60, 60, 60);
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Store from './Pages/Store/Store.jsx';
 import Cart from './Pages/Cart/Cart.jsx';
 import MainPage from './Pages/MainPage/MainPage.jsx';
@@ -10,7 +10,9 @@ import Footer from './components/Footer/Footer.jsx';
 import UserProfile from './Pages/UserProfile/UserProfile.jsx';
 import ItemUpdater from './Pages/ItemUpdater/ItemUpdater.jsx';
 import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
+import ProductDetails from './Pages/ProductDetails/ProductDetails.jsx';
 import {Routes, Route, useNavigate } from 'react-router-dom';
+import searchItem from './customHook/searchItem.jsx';
 import Modal from "react-modal";
 
 function AppContent() {
@@ -25,6 +27,14 @@ function AppContent() {
     };
 
     const [searchResults, setSearchResults] = useState([]);
+
+    useEffect (() => {
+        const fetchItems = async () => {
+            const data = await searchItem('');
+            setSearchResults(data);
+        }
+        fetchItems()
+    }, [])
     const navigate = useNavigate();
 
     const handleSearch = (results) => {
@@ -44,6 +54,7 @@ function AppContent() {
                 <Route path="/admin" element={<MainPage adminForce={true} />} />
                 <Route path="/itemcreator" element={<ItemCreator />} />
                 <Route path="/itemupdater" element={<ItemUpdater />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
             </Routes>
             <Modal
                 isOpen={showLogin}

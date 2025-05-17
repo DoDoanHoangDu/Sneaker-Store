@@ -5,6 +5,7 @@ import useWindowSize from "../../../customHook/useWindowSize";
 import getBrands from "../../../customHook/getBrands";
 import getCategories from "../../../customHook/getCategories";
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom"
 import "./ItemViewer.css"
 
 function ItemViewer({items}) {
@@ -61,7 +62,7 @@ function ItemViewer({items}) {
         filtered = filtered.filter(item => selectedCategories.every(cat => item.category.includes(cat)));
       }
       if (selectedBrands.length > 0) {
-        filtered = filtered.filter(item => selectedBrands.every(brand => item.brand.includes(brand)));
+        filtered = filtered.filter(item => selectedBrands.some(brand => item.brand.includes(brand)));
       }
       if (selectedGenders.length > 0) {
         filtered = filtered.filter(item => selectedGenders.every(gender => item.category.includes(gender)));
@@ -132,11 +133,17 @@ function ItemViewer({items}) {
           
 
           {currentItems && currentItems.length > 0 ? (
+            <>
+            <div className="product-showing-count">{currentItems.length} sản phẩm</div>
             <div className={`product-container ${windowSize < 1000 ? "product-container-small" : ""}`}>
               {currentItems.map(item => (
-                <ItemCard key={item.product_id} item={item} />
+                <Link to={`/product/${item.product_id}`} key={item.product_id}>
+                  <ItemCard key={item.product_id} item={item} />
+                </Link>
               ))}
             </div>
+            </>
+            
           ) : (
             <p>Không có sản phẩm nào để hiển thị.</p>
       )}

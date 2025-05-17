@@ -1,0 +1,133 @@
+.product-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color:  #f2f4f7;
+}
+
+.product-details .page-name {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    gap: 0.5rem;
+    color: rgb(60, 60, 60);
+}
+
+.product-details-basic {
+    display: flex;
+    width: 90%;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.left-part {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    aspect-ratio: 3/2;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    
+}
+
+.right-part {
+    width: 40%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-left: 3%;
+}
+
+.product-details-name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.product-details-price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3rem;
+}
+
+.product-details-price-discounted {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: red;
+}
+
+.product-details-price-original {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: line-through;
+    color: grey;
+}
+
+.product-details-discount {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: red;
+}
+
+.product-details-size {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.2rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: -1.2rem
+}
+
+
+.add-to-cart-button {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid black;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+}
+
+.product-details-brand,
+.product-details-categories {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+}
+
+.product-details-indepth {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 90%;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.description-start {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.product-details-description {
+    font-size: 1.2rem;
+}

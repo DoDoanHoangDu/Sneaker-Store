@@ -12,7 +12,6 @@
     box-sizing: border-box;
     border-radius: 10px;
     box-shadow: 1px 1px 1px hsla(0, 0%, 0%,0.1);
-    display: inline-block;
     padding-bottom: 5px;
     transition: transform 50ms ease-in-out, border 50ms ease-in-out;
 }
@@ -23,8 +22,7 @@
 
 .card-image-container {
     display: flex;
-    width: 98%;
-    height: 70%;
+    aspect-ratio: 1 / 1;
     margin: 1%;
     align-items: center;
     justify-content: center;
@@ -32,9 +30,9 @@
 }
 
 .card-image {
-    object-fit: cover;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     border-radius: 5px;
     
 }
@@ -52,7 +50,6 @@
   color: black;
   word-wrap: break-word;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
