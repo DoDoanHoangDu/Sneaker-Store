@@ -1,24 +1,24 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 class OrderBase(BaseModel):
-    pass
+    account_id: Optional[int] = None
+    customer_name : str
+    customer_phone : str
+    customer_address : str
+    ordered_time : datetime
+    delivery_method : str
+    total_price : float
+
+class OrderItem(BaseModel):
+    product_id: int
+    quantity: int
+
 
 # schema to create order
 class OrderCreate(OrderBase):
-    account_id : int
-    ordered_time : datetime
-    delivery_method : str
+    items: List[OrderItem]
 
-class OrderInDBBase(OrderCreate):
-    id : int
-
-class Order(OrderInDBBase):
-    pass
-
-class OrderUpdate(OrderBase):
-    pass
-
-class OrderSearchResults(Order):
-    pass
+class OrderInDB(OrderBase):
+    id: int
