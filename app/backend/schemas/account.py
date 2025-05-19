@@ -34,10 +34,13 @@ class Account(AccountInDB):
     sex : Optional[str] = None
     pass
 
-class AccountUpdate(BaseModel):
+class AccountUpdateMe(BaseModel):
     full_name: Optional[str] = None
     dob: Optional[datetime] = None
     phone_number: Optional[str] = None
     address: Optional[str] = None
     sex : Optional[str] = None
+
+class AccountUpdateAdmin(AccountUpdateMe):
+    role : Optional[str] = None
 
