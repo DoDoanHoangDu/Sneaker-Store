@@ -2,7 +2,7 @@ import "./Header.css";
 import SearchBar from "../SearchBar/SearchBar";
 import LoginHeader from "../LoginHeader/LoginHeader";
 import CartHeader from "../CartHeader/CartHeader";
-import { useAuth } from "../../../customHook/useAuth";
+import { useAuth } from "../../../context/useAuth";
 import { Link } from "react-router-dom";
 
 function Header({ onLoginClick,onSearch,cartLength }) {

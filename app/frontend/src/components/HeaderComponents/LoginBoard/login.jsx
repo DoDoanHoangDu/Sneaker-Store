@@ -5,7 +5,7 @@ import close_icon from "/close_icon.png";
 import './login.css'; 
 import './error.css';
 import { useState } from "react";
-import { useAuth } from "../../../customHook/useAuth.jsx";
+import { useAuth } from "../../../context/useAuth.jsx";
 
 const Login = ({ onRegisterClick, onClose }) => {
     const [email, setEmail] = useState('');

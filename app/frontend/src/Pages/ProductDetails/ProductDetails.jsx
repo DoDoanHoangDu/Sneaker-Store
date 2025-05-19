@@ -6,8 +6,10 @@ import formatPrice from "../../customHook/formatPrice";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
 import {Link} from "react-router-dom"
+import { useCart } from "../../context/CartContext";
 
 function ProductDetails() {
+    const { cartItems,addToCart } = useCart();
     const { id } = useParams();
     const itemID = id || 0;
     const [product, setProduct] = useState(null);
@@ -44,6 +46,16 @@ function ProductDetails() {
             console.log({ categories, genders, ages, size });
         }
     }, [product]);
+
+    const handleAddToCart = () => {
+        if (size) {
+            addToCart(itemID,size);
+            console.log(cartItems);
+        } else {
+            alert("Hãy chọn kích thước cho sản phẩm!");
+        }
+        
+    }
 
 
     if (!product) {
@@ -82,7 +94,7 @@ function ProductDetails() {
                     <p className="product-details-brand"><strong>Thương hiệu:</strong> {product.brand}</p>
                     <p className="product-details-categories"><strong>Loại giày:</strong> {categories.join(", ")}</p>
                     <p className="product-details-brand"><strong>Tình trạng:</strong> {(product.remaining >0 ? "còn hàng" : "hết hàng")}</p>
-                    <button className="add-to-cart-button">Thêm vào giỏ hàng</button>
+                    <button className="add-to-cart-button" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                 </div>
             </div>
 

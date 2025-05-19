@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import './AdminAcoountBoard.css';
-import { useAuth } from '../../customHook/useAuth';
+import { useAuth } from '../../context/useAuth';
 
 // Helper function to get demo account data
 const getDemoAccounts = (userData) => {

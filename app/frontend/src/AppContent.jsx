@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import Store from './Pages/Store/Store.jsx';
 import Cart from './Pages/Cart/Cart.jsx';
 import MainPage from './Pages/MainPage/MainPage.jsx';
@@ -12,21 +12,11 @@ import ItemUpdater from './Pages/ItemUpdater/ItemUpdater.jsx';
 import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
 import ProductDetails from './Pages/ProductDetails/ProductDetails.jsx';
 import {Routes, Route, useNavigate } from 'react-router-dom';
+import { useCart } from './context/CartContext.jsx';
 import Modal from "react-modal";
 
 function AppContent() {
-    const [cart,setCart] = useState({
-        items: [201,202,203],
-        quantities: [1,2,3],
-        sizes: [37,38,38]
-    });
-
-    const resetCart = () => {
-        setFormData({
-            items: [],
-            quantities: []
-        });
-    }
+    const { cartItems } = useCart();
 
     const [showLogin, setShowLogin] = useState(false);
 
@@ -46,13 +36,13 @@ function AppContent() {
     };
     return (
         <>
-            <Header onLoginClick={handleLoginClick} onSearch = {handleSearch} cartLength = {cart.quantities.reduce((acc, current) => acc + current, 0)}/>
+            <Header onLoginClick={handleLoginClick} onSearch = {handleSearch}cartLength={cartItems.reduce((total, item) => total + item.quantity, 0)}/>
             <NavigationBar onSearch={handleSearch}/>
             <Routes>          
                 <Route path="/" element={<MainPage />} />
                 <Route path="/store" element={<Store />} />
                 <Route path="/store/:keyword" element={<Store/>} />
-                <Route path="/cart" element={<Cart cart = {cart} setCart = {setCart} resetCart = {resetCart}/>} />
+                <Route path="/cart" element={<Cart/>} />
                 <Route path="/about" element={<UserProfile />} />
                 <Route path="/admin" element={<MainPage adminForce={true} />} />
                 <Route path="/itemcreator" element={<ItemCreator />} />

@@ -1,6 +1,6 @@
 import ProductSection from '../../components/ItemComponents/ProductSlider/ProductSection';
 import AdminAccountsTable from '../AdminControl/AdminAcoountBoard';
-import { useAuth } from '../../customHook/useAuth';
+import { useAuth } from '../../context/useAuth';
 import './MainPage.css';
 
 function MainPage({ adminForce = false }) {

@@ -15,6 +15,7 @@
 
 .cart-item-left {
     height: 100%;
+    overflow: cover;
 }
 
 .cart-item-right {
@@ -29,6 +30,8 @@
 
 .cart-item .cart-item-image {
     height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
     border-radius: 3px;
 }
 

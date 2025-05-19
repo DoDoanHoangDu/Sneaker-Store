@@ -4,76 +4,76 @@ import useWindowSize from "../../../customHook/useWindowSize";
 import getItemById from "../../../customHook/getItemById";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../../context/CartContext";
+import formatPrice from "../../../customHook/formatPrice";
 
-function CartViewer({ cart, setCart, resetCart }) {
-    const [cartItems, setCartItems] = useState([]);
-    const [itemQuantity, setItemQuantity] = useState([]);
-    const [itemSize, setItemSize] = useState([])
+function CartViewer() {
+    const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const [detailedItems, setDetailedItems] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
         const fetchItems = async () => {
-            const tempItems = await Promise.all(cart.items.map(id => getItemById(id)));
-            const tempQuantities = [...cart.quantities];
-            const tempSizes = [...cart.sizes];
-            setCartItems(tempItems);
-            setItemQuantity(tempQuantities);
-            setItemSize(tempSizes);
+            const items = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
+            setDetailedItems(items);
         };
-
         fetchItems();
-        console.log(cartItems);
-    }, [cart]);
+    }, [cartItems]);
 
-    const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item, index) => {
-            const discountedPrice = Math.round(item.price * (1 - item.discount) / 1000) * 1000;
-            return total + discountedPrice * itemQuantity[index];
-        }, 0);
-    };
+    useEffect(() => {
+        const calculateTotalPrice = () => {
+            return detailedItems.reduce((total, item, index) => {
+                const discountedPrice = Math.round(item.price * (1 - item.discount) / 1000) * 1000;
+                return total + discountedPrice * cartItems[index].quantity;
+            }, 0);
+        };
+        const calculatedPrice = calculateTotalPrice();
+        setTotalPrice(calculatedPrice);
+    }, [detailedItems]);
+
+    const handleDelete = (id,size) => {
+        const tempItems = [];
+        for (let i =0; i < detailedItems.length; i++) {
+            if (cartItems[i].product_id == id && cartItems[i].size == size) {
+                continue;
+            }
+            tempItems.push(detailedItems[i]);
+        }
+        setDetailedItems(tempItems);
+        removeFromCart(id, size);
+    }
+
+    const createOrder = () => {
+        console.log(cartItems);
+    }
 
     const windowSize = useWindowSize();
 
     return (
         <div className={`cart-viewer ${windowSize < 1000 ? "cart-viewer-small" : ""}`}>
-            {cartItems.length > 0 ? (
+            {detailedItems.length > 0 ? (
                 <div className="cart-has-item">
-                    {cartItems.map((item, index) => (
+                    {detailedItems.map((item, index) => (
                         <CartItem
-                            key={item.product_id}
+                            key={item.product_id + cartItems[index].size}
                             item={item}
-                            quantity={itemQuantity[index]}
-                            size = {itemSize[index]}
+                            quantity={cartItems[index].quantity}
+                            size={cartItems[index].size}
                             onQuantityChange={(newQty) => {
-                                const updatedQuantities = [...itemQuantity];
-                                updatedQuantities[index] = newQty;
-                                setItemQuantity(updatedQuantities);
-
-                                const updatedCart = { ...cart };
-                                updatedCart.quantities = updatedQuantities;
-                                setCart(updatedCart);
+                                updateQuantity(cartItems[index].product_id, cartItems[index].size, newQty);
                             }}
                             onRemove={() => {
-                                const updatedItems = [...cart.items];
-                                const updatedQuantities = [...cart.quantities];
-                                updatedItems.splice(index, 1);
-                                updatedQuantities.splice(index, 1);
-
-                                const updatedCart = {
-                                    ...cart,
-                                    items: updatedItems,
-                                    quantities: updatedQuantities,
-                                };
-
-                                setCart(updatedCart);
+                                handleDelete(cartItems[index].product_id, cartItems[index].size);
                             }}
                         />
+
                     ))}
                     <div className="total-price">
                         <div className="total-price-label">Tổng tiền:</div>
-                        <div className="total-price-number">{calculateTotalPrice().toLocaleString()}₫</div>
+                        <div className="total-price-number">{formatPrice(totalPrice)}₫</div>
                     </div>
                     
-                    <div className="order-button">ĐẶT HÀNG</div>
+                    <div className="order-button" onClick={createOrder}>ĐẶT HÀNG</div>
                 </div>
             ) : (
                 <div className="cart-empty">

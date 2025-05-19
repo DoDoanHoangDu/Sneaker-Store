@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './UserProfile.css';
-import { useAuth } from '../../customHook/useAuth';
+import { useAuth } from '../../context/useAuth';
 import { fetchProvinces, fetchDistrictsByProvince, fetchWardsByDistrict } from '../../utils/locationData';
 
 function UserProfile() {
