@@ -5,7 +5,7 @@ import CartHeader from "../CartHeader/CartHeader";
 import { useAuth } from "../../../customHook/useAuth";
 import { Link } from "react-router-dom";
 
-function Header({ onLoginClick,onSearch }) {
+function Header({ onLoginClick,onSearch,cartLength }) {
     const source_logo = "/logo.png";
     const { isLoggedIn, username, userRole } = useAuth();
 
@@ -16,7 +16,7 @@ function Header({ onLoginClick,onSearch }) {
             <span className="brand-name">topShoe</span>
             </Link>
             <SearchBar onSearch = {onSearch}/>
-            <CartHeader />            
+            <CartHeader cartLength = {cartLength}/>            
             <LoginHeader 
                 onLoginClick={onLoginClick} 
                 isLoggedIn={isLoggedIn} 

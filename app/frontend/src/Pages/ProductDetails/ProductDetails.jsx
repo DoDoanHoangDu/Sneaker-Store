@@ -9,6 +9,7 @@ import {Link} from "react-router-dom"
 
 function ProductDetails() {
     const { id } = useParams();
+    const itemID = id || 0;
     const [product, setProduct] = useState(null);
     const [categories, setCategories] = useState([]);
     const [genders, setGenders] = useState([])
@@ -18,12 +19,12 @@ function ProductDetails() {
 
     useEffect(() => {
         const fetchItem = async () => {
-            const data = await getItemById(id);
+            const data = await getItemById(itemID);
             console.log(data)
             setProduct(data);
         };
         fetchItem();
-    }, [id]);
+    }, [itemID]);
 
     useEffect(() => {
         if (product) {

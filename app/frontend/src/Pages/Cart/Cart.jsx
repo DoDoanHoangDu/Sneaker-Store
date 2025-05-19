@@ -1,10 +1,10 @@
 import "./Cart.css"
 import CartViewer from "../../components/ItemComponents/CartViewer/CartViewer"
-function Cart() {
+function Cart({cart,setCart,resetCart}) {
     return(
         <div className="cart">
             <div className="cart-content">
-                <CartViewer/>
+                <CartViewer cart = {cart} setCart = {setCart} resetCart = {resetCart}/>
             </div>
         </div>
     )

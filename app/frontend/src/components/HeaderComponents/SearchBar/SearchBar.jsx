@@ -1,18 +1,12 @@
 import { useState } from "react";
-import searchItem from "../../../customHook/searchItem";
 import "./SearchBar.css";
 
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
 
-  const handleSearch = async () => {
-    const results = await searchItem(query);
-    onSearch(results);
-  };
-
   return (
     <div className="search-bar">
-      <img src="/search-icon.png" className="search-icon" onClick={handleSearch}/>
+      <img src="/search-icon.png" className="search-icon" onClick={() => onSearch(query)}/>
       <input
         type="search"
         className="search-input"
@@ -20,7 +14,7 @@ function SearchBar({ onSearch }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") handleSearch();
+          if (e.key === "Enter") onSearch(query);
         }}
       />
     </div>

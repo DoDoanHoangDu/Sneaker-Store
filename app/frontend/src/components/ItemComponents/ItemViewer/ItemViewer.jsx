@@ -5,7 +5,6 @@ import useWindowSize from "../../../customHook/useWindowSize";
 import getBrands from "../../../customHook/getBrands";
 import getCategories from "../../../customHook/getCategories";
 import { useEffect, useState } from "react";
-import {Link} from "react-router-dom"
 import "./ItemViewer.css"
 
 function ItemViewer({items}) {
@@ -137,9 +136,7 @@ function ItemViewer({items}) {
             <div className="product-showing-count">{currentItems.length} sản phẩm</div>
             <div className={`product-container ${windowSize < 1000 ? "product-container-small" : ""}`}>
               {currentItems.map(item => (
-                <Link to={`/product/${item.product_id}`} key={item.product_id}>
-                  <ItemCard key={item.product_id} item={item} />
-                </Link>
+                <ItemCard key={item.product_id} item={item} />
               ))}
             </div>
             </>
