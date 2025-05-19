@@ -8,9 +8,9 @@ from backend.api import deps
 from backend.models.account import Account
 from backend.models.product import Product
 from backend.models.order import Order
-from backend.models.order_has_product import order_has_product as OrderHasProduct
+from backend.models.order_has_product import order_has_product 
 
-from backend.schemas.order import OrderCreate
+from backend.schemas.order import OrderCreate, OrderBase, OrderInDB
 from backend.schemas.order_has_product import OrderHasProductCreate
 
 router = APIRouter(prefix="/order")
@@ -42,31 +42,31 @@ def get_order(
         raise HTTPException(status_code=404, detail="Order not found")
     return order
 
-@router.post("/", response_model=OrderCreate)
+@router.post("/", response_model=OrderBase)
 def create_order(
-    order_has_products : List[OrderHasProductCreate],
+    order: OrderCreate,
     db: Session = Depends(deps.get_db),
-    current_account: Account = Depends(deps.get_current_user),
-) -> OrderCreate:
+) -> OrderInDB:
     """
-    Create a new order for the current account
+    Create a new order
     """
-    order = Order(account_id=current_account.account_id)
+    order_data = order.model_dump(exclude_unset=True)
+    items = order_data.pop("items")
+    print(order_data)
+    order = Order(**order_data)
     db.add(order)
     db.commit()
     db.refresh(order)
-    for order_has_product in order_has_products:
-        product = db.query(Product).filter(Product.product_id == order_has_product.product_id).first()
-        if not product:
-            raise HTTPException(status_code=404, detail="Product not found")
-        if product.remaining < order_has_product.quantity:
-            raise HTTPException(status_code=400, detail="Not enough stock for product")
-        product.remaining -= order_has_product.quantity
-        db.add(product)
 
-        order_has_product = OrderHasProduct(**order_has_product.model_dump(), order_id=order.order_id)
-        db.add(order_has_product)
+    for item in items:
+        print(item)
+        order_has_product_schema = OrderHasProductCreate(
+            order_id=order.order_id,
+            product_id=item['product_id'],
+            quantity=item['quantity']
+        )
+        order_has_product_instance = order_has_product(**order_has_product_schema.model_dump())
+        db.add(order_has_product_instance)
     db.commit()
-    db.refresh(order)
-    return order   
-
+    
+    return order
