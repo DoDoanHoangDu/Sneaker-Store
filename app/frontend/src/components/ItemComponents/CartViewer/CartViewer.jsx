@@ -15,11 +15,25 @@ function CartViewer({confirmation = false}) {
 
     useEffect(() => {
         const fetchItems = async () => {
-            const items = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
-            setDetailedItems(items);
+            const results = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
+
+            const validItems = [];
+            const invalidIndices = [];
+
+            results.forEach((item, index) => {
+                if (item) {
+                    validItems.push(item);
+                } else {
+                    const invalidItem = cartItems[index];
+                    removeFromCart(invalidItem.product_id, invalidItem.size);
+                }
+            });
+
+            setDetailedItems(validItems);
         };
-        fetchItems();
+            fetchItems();
     }, [cartItems]);
+
 
     useEffect(() => {
         const calculateTotalPrice = () => {

@@ -3,7 +3,7 @@ import './ProductSection.css';
 import ItemCard from '../ItemCard/ItemCard';
 import getItemById from '../../../customHook/getItemById';
 
-function ProductSection({ids = [201, 202, 203, 204, 205, 206, 207, 208, 209, 210]}) {
+function ProductSection({ids = [202, 203, 204, 205, 206, 207, 208, 209, 210]}) {
     const productGridRef = useRef(null);
     const [isManualScroll, setIsManualScroll] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
