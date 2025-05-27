@@ -12,7 +12,6 @@ class OrderBase(BaseModel):
     total_price : float
 
 class OrderItem(BaseModel):
-    product_id: int
     size_id : int
     quantity: int
 
