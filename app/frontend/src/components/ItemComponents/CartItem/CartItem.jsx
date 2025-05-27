@@ -3,7 +3,7 @@ import formatPrice from "../../../customHook/formatPrice";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function CartItem({ item, quantity,size, onQuantityChange, onRemove }) {
+function CartItem({ item, quantity,size, onQuantityChange, onRemove,confirmation }) {
     const [tempQuantity, setTempQuantity] = useState(quantity.toString());
 
     useEffect(() => {
@@ -62,17 +62,17 @@ function CartItem({ item, quantity,size, onQuantityChange, onRemove }) {
                     <span className="cart-item-original-price">{formatPrice(item.price)}₫</span>
                     <br />
                     <div className="item-quantity-container">
-                        <button className="decrease-btn" onClick={decreaseQuantity}> - </button>
+                        <button className={`decrease-btn ${confirmation ? "confirmation" : ""}`} onClick={decreaseQuantity}> - </button>
                         <input
-                            className="quantity-input"
+                            className={`quantity-input ${confirmation ? "input-confirmation" : ""}`}
                             value={tempQuantity}
                             onChange={handleTempQuantityChange}
                             onBlur={applyQuantityChange}
                             onKeyDown={handleKeyDown}
                         />
-                        <button className="increase-btn" onClick={increaseQuantity}> + </button>
+                        <button className={`increase-btn ${confirmation ? "confirmation" : ""}`} onClick={increaseQuantity}> + </button>
                     </div>
-                    <button className="remove-from-cart-btn" onClick={removeItem}>Xóa</button>
+                    <button className={`remove-from-cart-btn ${confirmation ? "confirmation" : ""}`} onClick={removeItem}>Xóa</button>
                 </div>
             </div>
         </div>
