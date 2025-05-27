@@ -9,7 +9,7 @@ from backend.api import deps
 from backend.models.account import Account
 from backend.schemas.account import Account as AccountSchema
 from backend.crud.crud_account import account
-from backend.schemas.account import AccountInDB , AccountCreate, AccountUpdate
+from backend.schemas.account import AccountInDB , AccountCreate, AccountUpdateMe, AccountUpdateAdmin
 from backend.core.auth import (authenticate, create_access_token)
 
 router = APIRouter(prefix="/auth")
@@ -78,7 +78,7 @@ def get_me(
 
 @router.put("/me/update", response_model=AccountSchema)
 def update_me(
-    account_in: AccountUpdate,
+    account_in: AccountUpdateMe,
     db: Session = Depends(deps.get_db),
     current_account: AccountSchema = Depends(deps.get_current_user),
 ) -> AccountSchema:
@@ -102,7 +102,7 @@ def get_all_accounts(
 @router.put("/admin/update/{username}", response_model=AccountSchema)
 def admin_update_user(
     username: str,
-    account_in: AccountUpdate,
+    account_in: AccountUpdateAdmin,
     db: Session = Depends(deps.get_db),
     current_account: AccountSchema = Depends(deps.get_current_active_Admin_user),
 ) -> AccountSchema:
