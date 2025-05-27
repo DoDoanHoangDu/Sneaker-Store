@@ -73,3 +73,14 @@
     font-family: "SF Pro Display", 'Arial', sans-serif;
     cursor: pointer;
 }
+
+.confirmation {
+    display: none;
+    pointer-events: none;
+    user-select: none;
+}
+
+.input-confirmation {
+    pointer-events: none;
+    user-select: none;
+}

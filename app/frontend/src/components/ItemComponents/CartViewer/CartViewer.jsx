@@ -3,11 +3,12 @@ import CartItem from "../CartItem/CartItem";
 import useWindowSize from "../../../customHook/useWindowSize";
 import getItemById from "../../../customHook/getItemById";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import formatPrice from "../../../customHook/formatPrice";
 
-function CartViewer() {
+function CartViewer({confirmation = false}) {
+    const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity } = useCart();
     const [detailedItems, setDetailedItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0)
@@ -45,6 +46,11 @@ function CartViewer() {
 
     const createOrder = () => {
         console.log(cartItems);
+        if (cartItems.length === 0) {
+            alert("Giỏ hàng trống!");
+            return;
+        }
+        navigate('/orderconfirmation', { state: { fromTrigger: true } });
     }
 
     const windowSize = useWindowSize();
@@ -65,6 +71,7 @@ function CartViewer() {
                             onRemove={() => {
                                 handleDelete(cartItems[index].product_id, cartItems[index].size);
                             }}
+                            confirmation={confirmation}
                         />
 
                     ))}
@@ -73,7 +80,7 @@ function CartViewer() {
                         <div className="total-price-number">{formatPrice(totalPrice)}₫</div>
                     </div>
                     
-                    <div className="order-button" onClick={createOrder}>ĐẶT HÀNG</div>
+                    <div className={`order-button ${confirmation ? "confirmation" : ""}`} onClick={createOrder}>ĐẶT HÀNG</div>
                 </div>
             ) : (
                 <div className="cart-empty">
