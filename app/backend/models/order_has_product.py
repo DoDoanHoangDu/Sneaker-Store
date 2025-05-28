@@ -11,4 +11,3 @@ class order_has_product(Base):
     quantity = Column(Integer)
 
     orders = relationship("Order", back_populates="product_list")
-    product = relationship("Product")
