@@ -143,6 +143,20 @@ def get_featured_product(db: Session = Depends(get_db)):
         if fp.product is not None
     ]
 
+@router.get("/product/size_id")
+def get_size_id_by_product_id_and_size(product_id: int, size: int, db: Session = Depends(get_db)):
+    main_result = crud.crud_product.product.get(db = db, id = product_id)
+    if not main_result:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    size_entry = next((s for s in main_result.size if s.size == size), None)
+    if not size_entry:
+        raise HTTPException(status_code=404, detail="Size not found for this product")
+    
+    result = {
+        "size_id": size_entry.id,
+    }
+    return result
 @router.post("/upload-image")
 def upload_image(image: UploadFile = File(...)):
     try:
