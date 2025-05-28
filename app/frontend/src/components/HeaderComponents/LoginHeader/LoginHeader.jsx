@@ -46,8 +46,7 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
         navigate('/about');
         setShowDropdown(false);
     };
-    
-    const handleAdminNav = (e) => {
+      const handleAdminNav = (e) => {
         e.stopPropagation();
         // Navigate to admin dashboard
         navigate('/admin');
@@ -72,12 +71,11 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
                 )}
             </div>            {isLoggedIn && showDropdown && (
                 <div className="login-dropdown">
-                    {isAdmin && (
-                        <>
+                    {isAdmin && (                        <>
                             <div className="dropdown-item admin-role-indicator">
                                 Admin User
                             </div>                            <div className="dropdown-item admin-dropdown-item" onClick={handleAdminNav}>
-                                Quản lý hệ thống
+                                Account Management
                             </div>
                         </>
                     )}

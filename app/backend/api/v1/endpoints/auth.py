@@ -48,13 +48,14 @@ def login(
     db: Session = Depends(deps.get_db),
     form_data: OAuth2PasswordRequestForm = Depends(),
 ):
-    account = authenticate(db= db, username=form_data.username, password=form_data.password)
+    account = authenticate(db=db, username=form_data.username, password=form_data.password)
     if not account:
         raise HTTPException(
             status_code=400,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
     access_token = create_access_token(sub=account.account_id)
     return {
         "access_token": access_token,
@@ -62,6 +63,9 @@ def login(
         "account": {
             "email": account.email,
             "phone_number": account.phone_number,
+            "username": account.username,
+            "role": account.role,
+            "full_name": account.full_name
         }
     }
 

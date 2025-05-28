@@ -39,18 +39,17 @@ const Login = ({ onRegisterClick, onClose }) => {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: formData.toString()
-            });
-
-            if (response.ok) {
-                const data = await response.json();                console.log('Login successful:', data);
-                // Add 'abcd' to the list of admin usernames
-                const adminUsers = ['admin', 'abcd'];
-                // Use capital first letter for roles to match database constraints
-                const role = adminUsers.includes(username) ? 'Admin' : 'Customer';
+            });            if (response.ok) {
+                const data = await response.json();                
+                console.log('Login successful:', data);
+                
+                // Get role from backend response or fallback to 'Customer' if not available
+                const role = data.account?.role || 'Customer';
                 
                 console.log('Login successful - Username:', username);
                 console.log('Login successful - Assigned role:', role);
-                  // Use our auth context to save the user's login state
+                
+                // Use our auth context to save the user's login state
                 login({
                     username: username,
                     email: email,

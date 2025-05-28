@@ -87,36 +87,43 @@ export const useAuth = () => {
       
       // Try to get a fresh token by forcing a re-login
       console.log('Attempting to refresh token for user:', userData.username);
-      
-      // If we have the password in local storage for development purposes
+        // If we have the password in local storage for development purposes
       // In production, you would use a refresh token or prompt for re-login
       if (userData.originalPassword) {
         try {
+          // Create form data for login
+          const formData = new URLSearchParams();
+          formData.append('grant_type', 'password');
+          formData.append('username', userData.username);
+          formData.append('password', userData.originalPassword);
+          formData.append('scope', '');
+          formData.append('client_id', '');
+          formData.append('client_secret', '');
+          
           // Attempt to get a new token by logging in again
           const response = await fetch('http://127.0.0.1:8000/auth/login', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({
-              username: userData.username,
-              password: userData.originalPassword
-            })
+            body: formData.toString()
           });
           
           if (response.ok) {
             const newTokenData = await response.json();
             
-            // Update the token in localStorage
+            // Update the token and user information in localStorage
             const updatedUserData = {
               ...userData,
-              access_token: newTokenData.access_token
+              access_token: newTokenData.access_token,
+              // Update role from backend if available
+              role: newTokenData.account?.role || userData.role
             };
             
             localStorage.setItem('user', JSON.stringify(updatedUserData));
-            console.log('Token refreshed successfully');
+            console.log('Token refreshed successfully with updated role:', updatedUserData.role);
             
-            // Force page reload to get the new token
+            // Force page reload to apply changes
             window.location.reload();
             return true;
           } else {

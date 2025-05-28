@@ -1,24 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import './ProductSection.css';
 import ItemCard from '../ItemCard/ItemCard';
-import getItemById from '../../../customHook/getItemById';
 
-function ProductSection({ids = [202, 203, 204, 205, 206, 207, 208, 209, 210]}) {
+function ProductSection({ items = [], isLoading = false }) {
     const productGridRef = useRef(null);
     const [isManualScroll, setIsManualScroll] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
-
-    const [items, setItems] = useState([]);
-
-    useEffect(() => {
-        const fetchItems = async () => {
-            const fetchedItems = await Promise.all(
-            ids.map(id => getItemById(id))
-            );
-            setItems(fetchedItems.filter(item => item !== null));
-        };
-        fetchItems();
-    }, [ids]);
 
     useEffect(() => {
         const scrollInterval = setInterval(() => {
@@ -102,22 +89,30 @@ function ProductSection({ids = [202, 203, 204, 205, 206, 207, 208, 209, 210]}) {
         setTimeout(() => {
             setIsManualScroll(false);
         }, 2000); // Reset manual scroll after 5 seconds of inactivity
-    };
-
-    return (
+    };    return (
         <div className="product-section">
             <h2>Discover our featured products</h2>
-            <div className="product-grid-container">
-                <button className="scroll-button left" onClick={handleScrollLeft}>&lt;</button>
-                <div className="product-grid" ref={productGridRef}>
-                    {items.map((item, index) => (
-                        <div key={index} className="card-container">
-                        <ItemCard item={item} />
-                        </div>
-                    ))}
+            {isLoading ? (
+                <div className="loading-container">
+                    <p>Loading featured products...</p>
                 </div>
-                <button className="scroll-button right" onClick={handleScrollRight}>&gt;</button>
-            </div>
+            ) : (
+                <div className="product-grid-container">
+                    <button className="scroll-button left" onClick={handleScrollLeft}>&lt;</button>
+                    <div className="product-grid" ref={productGridRef}>
+                        {items.length > 0 ? (
+                            items.map((item, index) => (
+                                <div key={index} className="card-container">
+                                    <ItemCard item={item} />
+                                </div>
+                            ))
+                        ) : (
+                            <p>No products found</p>
+                        )}
+                    </div>
+                    <button className="scroll-button right" onClick={handleScrollRight}>&gt;</button>
+                </div>
+            )}
         </div>
     );
 }

@@ -4,9 +4,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './UserProfile.css';
 import { useAuth } from '../../context/useAuth';
 import { fetchProvinces, fetchDistrictsByProvince, fetchWardsByDistrict } from '../../utils/locationData';
+import { FaUser } from 'react-icons/fa';
 
 function UserProfile() {
-    const { isLoggedIn, username } = useAuth();
+    const { isLoggedIn, username, userData } = useAuth();
     const [selectedDate, setSelectedDate] = useState(null);
     const [formData, setFormData] = useState({
         full_name: '',
@@ -24,6 +25,18 @@ function UserProfile() {
         street_address: ''
     });
     
+    // User profile data for display
+    const [profileData, setProfileData] = useState({
+        username: username || '',
+        full_name: '',
+        email: '',
+        phone_number: '',
+        dob: '',
+        sex: '',
+        address: '',
+        role: ''
+    });
+    
     // Location data lists
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -38,7 +51,28 @@ function UserProfile() {
             ...formData,
             [name]: value
         });
-    };    // Handle address change
+    };
+    
+    // Format date for display
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('vi-VN');
+    };
+    
+    // Format address for display
+    const formatAddress = (address) => {
+        if (!address) return '';
+        return address;
+    };
+
+    // Format gender for display
+    const formatGender = (gender) => {
+        if (!gender) return '';
+        return gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : 'Khác';
+    };
+
+    // Handle address change
     const handleAddressChange = async (e) => {
         const { name, value } = e.target;
         
@@ -88,15 +122,32 @@ function UserProfile() {
         if (isLoggedIn) {
             const fetchUserData = async () => {
                 try {
+                    const storedUser = localStorage.getItem('user');
+                    if (!storedUser) return;
+                    
+                    const { access_token } = JSON.parse(storedUser);
+                    
                     const response = await fetch('http://127.0.0.1:8000/auth/me', {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : ''}`
+                            'Authorization': `Bearer ${access_token}`
                         }
                     });
                     
                     if (response.ok) {
                         const userData = await response.json();
+                        
+                        // Set profile data for display
+                        setProfileData({
+                            username: userData.username || username || '',
+                            full_name: userData.full_name || '',
+                            email: userData.email || '',
+                            phone_number: userData.phone_number || '',
+                            dob: userData.dob || '',
+                            sex: userData.sex || '',
+                            address: userData.address || '',
+                            role: userData.role || ''
+                        });
                         
                         // Update form data with user info
                         setFormData({
@@ -123,7 +174,7 @@ function UserProfile() {
             
             fetchUserData();
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, username]);
     
     // Helper function to parse full address into components
     const parseAndSetAddress = (fullAddress) => {
@@ -210,18 +261,39 @@ function UserProfile() {
         };
 
         try {
+            const storedUser = localStorage.getItem('user');
+            if (!storedUser) {
+                setMessage('Lỗi: Không tìm thấy thông tin đăng nhập');
+                setIsLoading(false);
+                return;
+            }
+            
+            const { access_token } = JSON.parse(storedUser);
+            
             const response = await fetch('http://127.0.0.1:8000/auth/me/update', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : ''}`
+                    'Authorization': `Bearer ${access_token}`
                 },
                 body: JSON.stringify(formattedData)
             });
 
             if (response.ok) {
+                const updatedData = await response.json();
+                
+                // Update the profile display data
+                setProfileData({
+                    ...profileData,
+                    full_name: updatedData.full_name || '',
+                    email: updatedData.email || '',
+                    phone_number: updatedData.phone_number || '',
+                    dob: updatedData.dob || '',
+                    sex: updatedData.sex || '',
+                    address: updatedData.address || ''
+                });
+                
                 setMessage('Thông tin đã được cập nhật thành công!');
-                // You could update the auth context here if needed
             } else {
                 const errorData = await response.json();
                 setMessage(`Lỗi: ${errorData.detail || 'Không thể cập nhật thông tin'}`);
@@ -235,19 +307,69 @@ function UserProfile() {
 
     return (
         <div className="user-profile">
-            <div className="form-container">                {/* User Info Section */}                
-                <h2>Thông tin tài khoản</h2>
-                {!isLoggedIn ? (
+            {!isLoggedIn ? (
+                <div className="form-container">
                     <div className="not-logged-in-message">
-                        Vui lòng đăng nhập để cập nhật thông tin cá nhân.
+                        Vui lòng đăng nhập để xem và cập nhật thông tin cá nhân.
                     </div>
-                ) : (
-                    <>
+                </div>
+            ) : (
+                <div className="profile-layout">
+                    {/* Profile Display Section */}
+                    <div className="profile-display">                        <div className="profile-photo">
+                            <div className="profile-photo-placeholder">
+                                <FaUser size={70} />
+                            </div>
+                        </div>
+                        
+                        <div className="profile-info">
+                            <h2 className="profile-name">{profileData.full_name || 'Chưa cập nhật'}</h2>
+                            <div className="profile-username">@{profileData.username}</div>
+                            
+                            <div className="profile-details">
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Vai trò:</div>
+                                    <div className="profile-detail-value">{profileData.role || 'Customer'}</div>
+                                </div>
+                                
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Email:</div>
+                                    <div className="profile-detail-value">{profileData.email || 'Chưa cập nhật'}</div>
+                                </div>
+                                
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Số điện thoại:</div>
+                                    <div className="profile-detail-value">{profileData.phone_number || 'Chưa cập nhật'}</div>
+                                </div>
+                                
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Ngày sinh:</div>
+                                    <div className="profile-detail-value">{formatDate(profileData.dob) || 'Chưa cập nhật'}</div>
+                                </div>
+                                
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Giới tính:</div>
+                                    <div className="profile-detail-value">{formatGender(profileData.sex) || 'Chưa cập nhật'}</div>
+                                </div>
+                                
+                                <div className="profile-detail">
+                                    <div className="profile-detail-label">Địa chỉ:</div>
+                                    <div className="profile-detail-value">{formatAddress(profileData.address) || 'Chưa cập nhật'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Form Container Section */}
+                    <div className="form-container">
+                        <h2>Cập nhật thông tin tài khoản</h2>
+                        
                         {message && (
                             <div className={`message ${message.includes('Lỗi') ? 'error' : 'success'}`}>
                                 {message}
                             </div>
                         )}
+                        
                         <form className="user-info-form" onSubmit={handleSubmit}>
                             <div className="form-row">
                                 <div className="form-group">
@@ -320,7 +442,8 @@ function UserProfile() {
                             </div>
                             
                             {/* Address Update Section */}
-                            <h2>Địa chỉ</h2>                            <div className="form-row">
+                            <h2>Địa chỉ</h2>
+                            <div className="form-row">
                                 <div className="form-group">
                                     <label>Tỉnh/Thành phố</label>
                                     <select 
@@ -393,9 +516,9 @@ function UserProfile() {
                                 </button>
                             </div>
                         </form>
-                    </>
-                )}
-            </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

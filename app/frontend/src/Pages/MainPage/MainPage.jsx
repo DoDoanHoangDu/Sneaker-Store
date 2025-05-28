@@ -1,27 +1,26 @@
+import { useEffect } from 'react';
 import ProductSection from '../../components/ItemComponents/ProductSlider/ProductSection';
-import AdminAccountsTable from '../AdminControl/AdminAcoountBoard';
 import { useAuth } from '../../context/useAuth';
+import { useProduct } from '../../context/ProductContext';
 import './MainPage.css';
 
-function MainPage({ adminForce = false }) {
+function MainPage() {
     const { isLoggedIn, userRole, isAdmin } = useAuth();
-      console.log('MainPage rendering - isLoggedIn:', isLoggedIn);
+    const { featuredProducts, fetchFeaturedProducts, isLoading } = useProduct();
+    
+    console.log('MainPage rendering - isLoggedIn:', isLoggedIn);
     console.log('MainPage rendering - userRole:', userRole);
     console.log('MainPage rendering - isAdmin:', isAdmin);
     
-    // Force the component to detect the role change or use adminForce parameter
-    // Use the isAdmin value from useAuth which has the correct case-insensitive check
-    const showAdminDashboard = isAdmin || adminForce;
-    
-    console.log('MainPage - showing admin dashboard?', showAdminDashboard);
+    // Fetch featured products only once when component mounts
+    useEffect(() => {
+        fetchFeaturedProducts([1]);
+        // No dependencies array means this effect runs only once when component mounts
+    }, []);
     
     return (
         <div className="main-page">
-            {showAdminDashboard ? (
-                <AdminAccountsTable/>
-            ) : (
-                <ProductSection/>
-            )}
+            <ProductSection items={featuredProducts} isLoading={isLoading} />
         </div>
     );
 }

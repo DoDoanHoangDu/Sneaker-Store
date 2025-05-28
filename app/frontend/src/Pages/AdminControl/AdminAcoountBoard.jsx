@@ -5,7 +5,7 @@ import {
   DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem,
   FormHelperText, CircularProgress
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import './AdminAcoountBoard.css';
 import { useAuth } from '../../context/useAuth';
@@ -508,6 +508,7 @@ const updateAccount = async (accountData, token) => {
 
 export default function AdminAccountsTable() {
   const { isLoggedIn, token, isAdmin, userData, refreshToken, login } = useAuth();
+  const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -521,6 +522,15 @@ export default function AdminAccountsTable() {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [currentAccount, setCurrentAccount] = useState(null);
   const [formErrors, setFormErrors] = useState({});
+  
+  // Add effect to check if the user is authorized to access this page
+  useEffect(() => {
+    // If not logged in or not an admin, redirect to home page
+    if (!isLoading && (!isLoggedIn || !isAdmin)) {
+      console.log('Access restricted: User not authorized to view admin page');
+      navigate('/');
+    }
+  }, [isLoggedIn, isAdmin, navigate, isLoading]);
   
   // Form state for create/edit
   const [formData, setFormData] = useState({

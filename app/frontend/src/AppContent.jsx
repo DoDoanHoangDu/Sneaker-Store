@@ -12,6 +12,7 @@ import ItemUpdater from './Pages/ItemUpdater/ItemUpdater.jsx';
 import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
 import ProductDetails from './Pages/ProductDetails/ProductDetails.jsx';
 import OrderConfirmation from './Pages/OrderConfirmation/OrderConfirmation.jsx';
+import AdminAccountsTable from './Pages/AdminControl/AdminAcoountBoard.jsx';
 import {Routes, Route, useNavigate } from 'react-router-dom';
 import { useCart } from './context/CartContext.jsx';
 import Modal from "react-modal";
@@ -38,14 +39,13 @@ function AppContent() {
     return (
         <>
             <Header onLoginClick={handleLoginClick} onSearch = {handleSearch}cartLength={cartItems.reduce((total, item) => total + item.quantity, 0)}/>
-            <NavigationBar onSearch={handleSearch}/>
-            <Routes>          
+            <NavigationBar onSearch={handleSearch}/>            <Routes>          
                 <Route path="/" element={<MainPage />} />
                 <Route path="/store" element={<Store />} />
                 <Route path="/store/:keyword" element={<Store/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/about" element={<UserProfile />} />
-                <Route path="/admin" element={<MainPage adminForce={true} />} />
+                <Route path="/admin" element={<AdminAccountsTable />} />
                 <Route path="/itemcreator" element={<ItemCreator />} />
                 <Route path="/itemupdater" element={<ItemUpdater />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
