@@ -6,8 +6,12 @@ import { useAuth } from '../../context/useAuth';
 import { fetchProvinces, fetchDistrictsByProvince, fetchWardsByDistrict } from '../../utils/locationData';
 import { FaUser } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
+import createOrder from '../../customHook/createOrder';
 
 function UserProfile() {
+    const { cartItems, clearCart  } = useCart();
+    console.log(cartItems);
     const location = useLocation();
     const { isLoggedIn, username, userData } = useAuth();
     const [selectedDate, setSelectedDate] = useState(null);
@@ -37,6 +41,15 @@ function UserProfile() {
         sex: '',
         address: '',
         role: ''
+    });
+
+    const [userOrderData, setUserOrderData] = useState({
+        account_id: null,
+        customer_name: '',
+        customer_phone: '',
+        customer_address: '',
+        ordered_time: '',
+        delivery_method:'tiêu chuẩn'
     });
     
     // Location data lists
@@ -158,6 +171,15 @@ function UserProfile() {
                             email: userData.email || '',
                             sex: userData.sex || 'male'
                         });
+
+                        setUserOrderData({
+                            ...userOrderData,
+                            account_id: userData.account_id || null,
+                            customer_name: userData.full_name || '',
+                            customer_phone: userData.phone_number || '',
+                            customer_address: userData.address || '',
+                            ordered_time: new Date().toISOString(),
+                        })
                         
                         // Set date of birth if available
                         if (userData.dob) {
@@ -262,48 +284,72 @@ function UserProfile() {
             address: fullAddress
         };
 
-        try {
-            const storedUser = localStorage.getItem('user');
-            if (!storedUser) {
-                setMessage('Lỗi: Không tìm thấy thông tin đăng nhập');
-                setIsLoading(false);
-                return;
-            }
-            
-            const { access_token } = JSON.parse(storedUser);
-            
-            const response = await fetch('http://127.0.0.1:8000/auth/me/update', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${access_token}`
-                },
-                body: JSON.stringify(formattedData)
-            });
+        const submitUserOrderData = {
+            ...userOrderData,
+            customer_address: fullAddress,
+            ordered_time: new Date().toISOString(),
+        };
 
-            if (response.ok) {
-                const updatedData = await response.json();
-                
-                // Update the profile display data
-                setProfileData({
-                    ...profileData,
-                    full_name: updatedData.full_name || '',
-                    email: updatedData.email || '',
-                    phone_number: updatedData.phone_number || '',
-                    dob: updatedData.dob || '',
-                    sex: updatedData.sex || '',
-                    address: updatedData.address || ''
-                });
-                
-                setMessage('Thông tin đã được cập nhật thành công!');
-            } else {
-                const errorData = await response.json();
-                setMessage(`Lỗi: ${errorData.detail || 'Không thể cập nhật thông tin'}`);
+
+        if (location.pathname === '/orderconfirmation') {
+            try {
+                const orderResponse = await createOrder(submitUserOrderData, cartItems);
+                if (orderResponse) {
+                    setMessage('Đơn hàng đã được tạo thành công!');
+                    clearCart();
+                } else {
+                    setMessage('Lỗi: Không thể tạo đơn hàng');
+                }
+            } catch (error) {
+                setMessage(`Có lỗi xảy ra khi tạo đơn hàng: ${error.message}`);
+                console.error('Order creation error:', error);
             }
-        } catch (error) {
-            setMessage(`Có lỗi xảy ra: ${error.message}`);
-        } finally {
             setIsLoading(false);
+        } 
+        else {
+            try {
+                const storedUser = localStorage.getItem('user');
+                if (!storedUser) {
+                    setMessage('Lỗi: Không tìm thấy thông tin đăng nhập');
+                    setIsLoading(false);
+                    return;
+                }
+                
+                const { access_token } = JSON.parse(storedUser);
+                
+                const response = await fetch('http://127.0.0.1:8000/auth/me/update', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${access_token}`
+                    },
+                    body: JSON.stringify(formattedData)
+                });
+
+                if (response.ok) {
+                    const updatedData = await response.json();
+                    
+                    // Update the profile display data
+                    setProfileData({
+                        ...profileData,
+                        full_name: updatedData.full_name || '',
+                        email: updatedData.email || '',
+                        phone_number: updatedData.phone_number || '',
+                        dob: updatedData.dob || '',
+                        sex: updatedData.sex || '',
+                        address: updatedData.address || ''
+                    });
+                    
+                    setMessage('Thông tin đã được cập nhật thành công!');
+                } else {
+                    const errorData = await response.json();
+                    setMessage(`Lỗi: ${errorData.detail || 'Không thể cập nhật thông tin'}`);
+                }
+            } catch (error) {
+                setMessage(`Có lỗi xảy ra: ${error.message}`);
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -364,7 +410,7 @@ function UserProfile() {
                     
                     {/* Form Container Section */}
                     <div className="form-container">
-                        <h2>Cập nhật thông tin tài khoản</h2>
+                        <h2>Cập nhật thông tin</h2>
                         
                         {message && (
                             <div className={`message ${message.includes('Lỗi') ? 'error' : 'success'}`}>
@@ -507,14 +553,26 @@ function UserProfile() {
                                 </div>
                             </div>
 
+
                             {/* Save Button */}
                             <div className="form-actions">
+                                <label className='delivery-method-label'>Phương pháp giao hàng</label>
+                                <label>
+                                    <input type='radio' value={"tiêu chuẩn"} checked={userOrderData.delivery_method === "tiêu chuẩn"} onChange={(e) => setUserOrderData({...userOrderData,delivery_method: e.target.value})}/>
+                                    Giao hàng tiêu chuẩn (trong ngày / 30k)
+                                </label>
+
+                                <label>
+                                    <input type='radio' value={"nhanh"} checked={userOrderData.delivery_method === "nhanh"} onChange={(e) => setUserOrderData({...userOrderData,delivery_method: e.target.value})}/>
+                                    Giao hàng nhanh (2 - 3h / 50k)
+                                </label>
+                                
                                 <button 
                                     type="submit" 
                                     className="save-button"
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? 'ĐANG LƯU...' : 'LƯU THAY ĐỔI'}
+                                    {isLoading ? 'ĐANG LƯU...' : 'LƯU THÔNG TIN'}
                                 </button>
                             </div>
                         </form>

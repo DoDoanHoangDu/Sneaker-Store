@@ -11,50 +11,45 @@ function CartViewer({confirmation = false}) {
     const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity } = useCart();
     const [detailedItems, setDetailedItems] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
-        const fetchItems = async () => {
-            const results = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
+    const fetchItems = async () => {
+        const results = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
 
-            const validItems = [];
-            const invalidIndices = [];
+        const mergedItems = [];
 
-            results.forEach((item, index) => {
-                if (item) {
-                    validItems.push(item);
-                } else {
-                    const invalidItem = cartItems[index];
-                    removeFromCart(invalidItem.product_id, invalidItem.size);
-                }
+        results.forEach((item, index) => {
+        if (item) {
+            mergedItems.push({
+            ...item,
+            quantity: cartItems[index].quantity,
+            size: cartItems[index].size,
+            product_id: cartItems[index].product_id
             });
+        } else {
+            const invalidItem = cartItems[index];
+            removeFromCart(invalidItem.product_id, invalidItem.size);
+        }
+        });
 
-            setDetailedItems(validItems);
-        };
-            fetchItems();
+        setDetailedItems(mergedItems);
+    };
+    fetchItems();
     }, [cartItems]);
 
 
+
     useEffect(() => {
-        const calculateTotalPrice = () => {
-            return detailedItems.reduce((total, item, index) => {
-                const discountedPrice = Math.round(item.price * (1 - item.discount) / 1000) * 1000;
-                return total + discountedPrice * cartItems[index].quantity;
-            }, 0);
-        };
-        const calculatedPrice = calculateTotalPrice();
-        setTotalPrice(calculatedPrice);
-    }, [detailedItems]);
+        const total = detailedItems.reduce((sum, item) => {
+            const discounted = Math.round(item.price * (1 - item.discount) / 1000) * 1000;
+            return sum + discounted * item.quantity;
+        }, 0);
+        setTotalPrice(total);
+        }, [detailedItems]);
+
 
     const handleDelete = (id,size) => {
-        const tempItems = [];
-        for (let i =0; i < detailedItems.length; i++) {
-            if (cartItems[i].product_id == id && cartItems[i].size == size) {
-                continue;
-            }
-            tempItems.push(detailedItems[i]);
-        }
-        setDetailedItems(tempItems);
         removeFromCart(id, size);
     }
 
@@ -73,17 +68,17 @@ function CartViewer({confirmation = false}) {
         <div className={`cart-viewer ${windowSize < 1000 ? "cart-viewer-small" : ""}`}>
             {detailedItems.length > 0 ? (
                 <div className="cart-has-item">
-                    {detailedItems.map((item, index) => (
+                    {detailedItems.map((item) => (
                         <CartItem
-                            key={item.product_id + cartItems[index].size}
+                            key={item.product_id + item.size}
                             item={item}
-                            quantity={cartItems[index].quantity}
-                            size={cartItems[index].size}
+                            quantity={item.quantity}
+                            size={item.size}
                             onQuantityChange={(newQty) => {
-                                updateQuantity(cartItems[index].product_id, cartItems[index].size, newQty);
+                                updateQuantity(item.product_id, item.size, newQty);
                             }}
                             onRemove={() => {
-                                handleDelete(cartItems[index].product_id, cartItems[index].size);
+                                handleDelete(item.product_id, item.size);
                             }}
                             confirmation={confirmation}
                         />

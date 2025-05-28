@@ -208,6 +208,10 @@ h2 {
     margin-top: 30px;
 }
 
+.form-actions label {
+    display: none;
+}
+
 .save-button {
     background-color: red;
     color: white;

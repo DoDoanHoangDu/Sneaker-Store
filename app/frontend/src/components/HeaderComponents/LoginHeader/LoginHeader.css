@@ -1,6 +1,7 @@
 .login-header-container {
     position: relative;
     display: inline-block;
+    margin: 10px 5px;
 }
 
 .login-header {
@@ -8,10 +9,9 @@
     align-items: center; /* Center items vertically */
     justify-content: center; /* Center items horizontally */
     width: fit-content;
-    margin: 10px 5px;
     border-radius: 5px;
     border: solid;
-    padding: 5px; 
+    padding: 3px; 
     gap: 8px;
 }
 

@@ -9,6 +9,18 @@
     width: 45%;
 }
 
+.order-confirmation-container .user-profile {
+    width: 48%;
+}
+
+.order-confirmation-small .user-profile{
+    width: 90%;
+}
+
+.order-confirmation-small .dropdown {
+    width: 85%;
+}
+
 .order-confirmation-container .dropdown-btn {
     padding-left: 0;
     padding-right: 0;
@@ -24,4 +36,34 @@
 .order-confirmation-container .cart-viewer {
     box-sizing: border-box;
     width: 100%;
+}
+
+.order-confirmation-container .profile-display {
+    display: none;
+}
+
+.order-confirmation-container .save-button {
+    width: 100%
+}
+
+.order-confirmation-container h1 {
+    font-size: 2rem;
+}
+
+.order-confirmation-container .form-actions {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    gap:10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.order-confirmation-container .form-actions label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.order-confirmation-container .delivery-method-label {
+    font-weight: bold;
+    margin:5px
 }
