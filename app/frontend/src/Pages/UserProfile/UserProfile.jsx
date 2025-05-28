@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './UserProfile.css';
 import { useAuth } from '../../context/useAuth';
 import { fetchProvinces, fetchDistrictsByProvince, fetchWardsByDistrict } from '../../utils/locationData';
 import { FaUser } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import createOrder from '../../customHook/createOrder';
+import formatPrice from '../../customHook/formatPrice';
+import getItemById from '../../customHook/getItemById';
 
 function UserProfile() {
-    const { cartItems, clearCart  } = useCart();
-    console.log(cartItems);
     const location = useLocation();
+    const navigate = useNavigate();
     const { isLoggedIn, username, userData } = useAuth();
     const [selectedDate, setSelectedDate] = useState(null);
     const [formData, setFormData] = useState({
@@ -51,6 +52,47 @@ function UserProfile() {
         ordered_time: '',
         delivery_method:'tiêu chuẩn'
     });
+
+    const { cartItems, clearCart  } = useCart();
+    const [detailedItems, setDetailedItems] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    useEffect(() => {
+    const fetchItems = async () => {
+        const results = await Promise.all(cartItems.map(i => getItemById(i.product_id)));
+
+        const mergedItems = [];
+
+        results.forEach((item, index) => {
+            if (item) {
+                mergedItems.push({
+                ...item,
+                quantity: cartItems[index].quantity,
+                size: cartItems[index].size,
+                product_id: cartItems[index].product_id
+                });
+            } else {
+                const invalidItem = cartItems[index];
+                removeFromCart(invalidItem.product_id, invalidItem.size);
+            }
+            });
+
+            setDetailedItems(mergedItems);
+        };
+        fetchItems();
+    }, [cartItems]);
+
+    useEffect(() => {
+        const total = detailedItems.reduce((sum, item) => {
+            const discounted = Math.round(item.price * (1 - item.discount) / 1000) * 1000;
+            return sum + discounted * item.quantity;
+        }, 0);
+        if (userOrderData.delivery_method === 'nhanh') {
+            setTotalPrice(total + 50000);
+        }
+        else {
+            setTotalPrice(total + 30000);
+        }
+    }, [detailedItems, userOrderData.delivery_method]);
     
     // Location data lists
     const [provinces, setProvinces] = useState([]);
@@ -293,9 +335,10 @@ function UserProfile() {
 
         if (location.pathname === '/orderconfirmation') {
             try {
-                const orderResponse = await createOrder(submitUserOrderData, cartItems);
+                const orderResponse = await createOrder(submitUserOrderData, cartItems,totalPrice);
                 if (orderResponse) {
                     setMessage('Đơn hàng đã được tạo thành công!');
+                    navigate('/ordersuccess', {replace: true, state: { fromTrigger: true } });
                     clearCart();
                 } else {
                     setMessage('Lỗi: Không thể tạo đơn hàng');
@@ -566,7 +609,10 @@ function UserProfile() {
                                     <input type='radio' value={"nhanh"} checked={userOrderData.delivery_method === "nhanh"} onChange={(e) => setUserOrderData({...userOrderData,delivery_method: e.target.value})}/>
                                     Giao hàng nhanh (2 - 3h / 50k)
                                 </label>
-                                
+                                <div className="total-price">
+                                    <div className="total-price-label">Tổng tiền:</div>
+                                    <div className="total-price-number">{formatPrice(totalPrice)}₫</div>
+                                </div>
                                 <button 
                                     type="submit" 
                                     className="save-button"

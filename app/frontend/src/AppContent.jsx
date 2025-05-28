@@ -13,6 +13,7 @@ import ItemCreator from './Pages/ItemCreator/ItemCreator.jsx';
 import ProductDetails from './Pages/ProductDetails/ProductDetails.jsx';
 import OrderConfirmation from './Pages/OrderConfirmation/OrderConfirmation.jsx';
 import AdminAccountsTable from './Pages/AdminControl/AdminAcoountBoard.jsx';
+import OrderSuccess from './Pages/OrderSuccess/OrderSuccess.jsx';
 import {Routes, Route, useNavigate } from 'react-router-dom';
 import { useCart } from './context/CartContext.jsx';
 import Modal from "react-modal";
@@ -50,6 +51,7 @@ function AppContent() {
                 <Route path="/itemupdater" element={<ItemUpdater />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/orderconfirmation" element={<OrderConfirmation />} />
+                <Route path="/ordersuccess" element={<OrderSuccess />} />
             </Routes>
             <Modal
                 isOpen={showLogin}

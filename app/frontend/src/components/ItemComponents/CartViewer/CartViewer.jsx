@@ -20,22 +20,22 @@ function CartViewer({confirmation = false}) {
         const mergedItems = [];
 
         results.forEach((item, index) => {
-        if (item) {
-            mergedItems.push({
-            ...item,
-            quantity: cartItems[index].quantity,
-            size: cartItems[index].size,
-            product_id: cartItems[index].product_id
+            if (item) {
+                mergedItems.push({
+                ...item,
+                quantity: cartItems[index].quantity,
+                size: cartItems[index].size,
+                product_id: cartItems[index].product_id
+                });
+            } else {
+                const invalidItem = cartItems[index];
+                removeFromCart(invalidItem.product_id, invalidItem.size);
+            }
             });
-        } else {
-            const invalidItem = cartItems[index];
-            removeFromCart(invalidItem.product_id, invalidItem.size);
-        }
-        });
 
-        setDetailedItems(mergedItems);
-    };
-    fetchItems();
+            setDetailedItems(mergedItems);
+        };
+        fetchItems();
     }, [cartItems]);
 
 
@@ -46,7 +46,7 @@ function CartViewer({confirmation = false}) {
             return sum + discounted * item.quantity;
         }, 0);
         setTotalPrice(total);
-        }, [detailedItems]);
+    }, [detailedItems]);
 
 
     const handleDelete = (id,size) => {
