@@ -11,12 +11,12 @@ export const ProductProvider = ({ children }) => {
   const [lastFetchTime, setLastFetchTime] = useState(null);
   
   // Default IDs for featured products if none are specified
-  const defaultFeaturedIds = [1];
+  const defaultFeaturedIds = [204,205,206,202,203,207,208,209,210];
 
   // Function to fetch products - can be called from components
   const fetchFeaturedProducts = async (ids = defaultFeaturedIds) => {
     // Only fetch if we haven't fetched before or it's been at least 30 minutes since the last fetch
-    const shouldFetch = !lastFetchTime || (Date.now() - lastFetchTime > 30 * 60 * 1000);
+    const shouldFetch = !lastFetchTime;
     
     if (shouldFetch && !isLoading && (featuredProducts.length === 0 || ids.toString() !== defaultFeaturedIds.toString())) {
       try {

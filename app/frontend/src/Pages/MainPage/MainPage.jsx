@@ -14,7 +14,7 @@ function MainPage() {
     
     // Fetch featured products only once when component mounts
     useEffect(() => {
-        fetchFeaturedProducts([1]);
+        fetchFeaturedProducts([204,205,206,202,203,207,208,209,210]);
         // No dependencies array means this effect runs only once when component mounts
     }, []);
     

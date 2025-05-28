@@ -5,8 +5,10 @@ import './UserProfile.css';
 import { useAuth } from '../../context/useAuth';
 import { fetchProvinces, fetchDistrictsByProvince, fetchWardsByDistrict } from '../../utils/locationData';
 import { FaUser } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 
 function UserProfile() {
+    const location = useLocation();
     const { isLoggedIn, username, userData } = useAuth();
     const [selectedDate, setSelectedDate] = useState(null);
     const [formData, setFormData] = useState({
@@ -307,7 +309,7 @@ function UserProfile() {
 
     return (
         <div className="user-profile">
-            {!isLoggedIn ? (
+            {!isLoggedIn && !(location.pathname === '/orderconfirmation') ? (
                 <div className="form-container">
                     <div className="not-logged-in-message">
                         Vui lòng đăng nhập để xem và cập nhật thông tin cá nhân.
