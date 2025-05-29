@@ -5,16 +5,18 @@ import getBrands from "../../customHook/getBrands";
 import getCategories from "../../customHook/getCategories";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import { useAuth } from "../../context/useAuth";
 
 function ItemCreator() {
-  const location = useLocation();
   const navigate = useNavigate();
+  const { isLoggedIn, isAdmin } = useAuth();
   useEffect(() => {
-        if (!location.state?.fromTrigger) {
-        navigate("/", { replace: true });
-        }
-    }, []);
+    if (!isLoggedIn || !isAdmin) {
+      console.log('Access restricted: User not authorized to view admin page');
+      navigate('/admin');
+    }
+  }, [isLoggedIn, isAdmin]);
   const fileInputRef = useRef(null);
   const sizeInputRef = useRef(null);
   const [brands, setBrands] = useState([]);
@@ -147,6 +149,12 @@ function ItemCreator() {
   };
 
   return (
+    <div className="item-creator">
+    <div className="page-name">
+        <Link  to="/admin"><p >Quản lý sản phẩm</p></Link>
+        <p>/</p>
+        <p>Tạo sản phẩm mới</p>
+    </div>
     <div className="item-creator-container">
       <h1 className="item-creator-title">Nhập sản phẩm mới</h1>
 
@@ -293,6 +301,7 @@ function ItemCreator() {
         <button className="item-creator-button" onClick={handleSubmit}>Tạo sản phẩm</button>
         <button className="item-creator-button" onClick={resetCreator}>Hủy</button>
       </div>
+    </div>
     </div>
   );
 }

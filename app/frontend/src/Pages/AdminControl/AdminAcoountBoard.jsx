@@ -1431,7 +1431,7 @@ export default function AdminAccountsTable() {
         variant="contained" 
         color="primary"
         className="manage-items-btn"
-        onClick={console.log('Create Item')}
+        onClick={() => navigate('/itemcreator')}
       >
         Create Item
       </Button>
@@ -1439,26 +1439,10 @@ export default function AdminAccountsTable() {
         variant="contained" 
         color="primary"
         className="manage-items-btn"
-        onClick={console.log('Update Item')}
+        onClick={() => navigate('/itemupdater')}
       >
         Update Item
       </Button>
-      <Button 
-        variant="contained" 
-        color="primary"
-        className="manage-items-btn"
-        onClick={console.log('Delete Item')}
-      >
-        Delete Items
-      </Button>
-      <Button 
-          variant="contained" 
-          color="primary"
-          className="manage-items-btn"
-          onClick={console.log('Set Featured Items')}
-        >
-          Set Featured Items
-        </Button>
     </Box>
   );
 }
