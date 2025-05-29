@@ -5,8 +5,16 @@ import getBrands from "../../customHook/getBrands";
 import getCategories from "../../customHook/getCategories";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
+import { useLocation,useNavigate } from "react-router-dom";
 
 function ItemCreator() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+        if (!location.state?.fromTrigger) {
+        navigate("/", { replace: true });
+        }
+    }, []);
   const fileInputRef = useRef(null);
   const sizeInputRef = useRef(null);
   const [brands, setBrands] = useState([]);

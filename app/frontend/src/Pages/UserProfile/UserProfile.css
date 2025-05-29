@@ -212,6 +212,10 @@ h2 {
     display: none;
 }
 
+.form-actions .total-price {
+    display: none;
+}
+
 .save-button {
     background-color: red;
     color: white;

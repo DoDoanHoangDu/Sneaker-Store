@@ -2,13 +2,19 @@ const getItemById = async (productId) => {
     try {
         const response = await fetch(`http://localhost:8000/product/id/${productId}`);
         if (!response.ok) {
-            throw new Error("Failed to fetch categories");
+            const error = new Error(`Failed to fetch product ${productId}`);
+            error.status = response.status;
+            throw error;
         }
         const data = await response.json();
         delete data.start_date;
         delete data.end_date;
         return data;
     } catch (error) {
+        if (error && error.status === 404) {
+            alert(`Item ID not found: ${productId}`);
+            return null;
+        }
         console.error("Error fetching item:", error);
         return null;
     }

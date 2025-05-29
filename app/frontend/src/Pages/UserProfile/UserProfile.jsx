@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './UserProfile.css';
@@ -9,6 +9,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import createOrder from '../../customHook/createOrder';
 import formatPrice from '../../customHook/formatPrice';
+import formatDate from '../../customHook/formatDate';
+import formatGender from '../../customHook/formatGender';
+import formatAddress from '../../customHook/formatAddress';
 import getItemById from '../../customHook/getItemById';
 
 function UserProfile() {
@@ -108,25 +111,6 @@ function UserProfile() {
             ...formData,
             [name]: value
         });
-    };
-    
-    // Format date for display
-    const formatDate = (dateString) => {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('vi-VN');
-    };
-    
-    // Format address for display
-    const formatAddress = (address) => {
-        if (!address) return '';
-        return address;
-    };
-
-    // Format gender for display
-    const formatGender = (gender) => {
-        if (!gender) return '';
-        return gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : 'Khác';
     };
 
     // Handle address change

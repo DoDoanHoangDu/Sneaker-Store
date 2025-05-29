@@ -1421,6 +1421,44 @@ export default function AdminAccountsTable() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Typography variant="h3" gutterBottom className="admin-account-title">
+        Product Management
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom className="admin-subtitle">
+        Manage products
+      </Typography>
+      <Button 
+        variant="contained" 
+        color="primary"
+        className="manage-items-btn"
+        onClick={console.log('Create Item')}
+      >
+        Create Item
+      </Button>
+      <Button 
+        variant="contained" 
+        color="primary"
+        className="manage-items-btn"
+        onClick={console.log('Update Item')}
+      >
+        Update Item
+      </Button>
+      <Button 
+        variant="contained" 
+        color="primary"
+        className="manage-items-btn"
+        onClick={console.log('Delete Item')}
+      >
+        Delete Items
+      </Button>
+      <Button 
+          variant="contained" 
+          color="primary"
+          className="manage-items-btn"
+          onClick={console.log('Set Featured Items')}
+        >
+          Set Featured Items
+        </Button>
     </Box>
   );
 }
