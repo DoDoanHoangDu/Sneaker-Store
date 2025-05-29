@@ -6,7 +6,7 @@ class OrderHasProductBase(BaseModel):
 class OrderHasProductCreate(OrderHasProductBase):
     order_id : int
     size_id : int
-    product_prize : int
+    product_price : int
     quantity : int
 
 class OrderHasProductInDBBase(OrderHasProductCreate):
