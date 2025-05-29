@@ -63,7 +63,8 @@ def create_order(
         order_has_product_schema = OrderHasProductCreate(
             order_id=order.order_id,
             size_id=item['size_id'],
-            quantity=item['quantity']
+            quantity=item['quantity'],
+            product_prize=item['product_price']
         )
         order_has_product_instance = order_has_product(**order_has_product_schema.model_dump())
         db.add(order_has_product_instance)

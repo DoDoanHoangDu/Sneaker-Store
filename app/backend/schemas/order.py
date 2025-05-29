@@ -13,6 +13,7 @@ class OrderBase(BaseModel):
 
 class OrderItem(BaseModel):
     size_id : int
+    product_price: int
     quantity: int
 
 
