@@ -75,7 +75,7 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
                             <div className="dropdown-item admin-role-indicator">
                                 Admin User
                             </div>                            <div className="dropdown-item admin-dropdown-item" onClick={handleAdminNav}>
-                                Account Management
+                                Quản lý
                             </div>
                         </>
                     )}

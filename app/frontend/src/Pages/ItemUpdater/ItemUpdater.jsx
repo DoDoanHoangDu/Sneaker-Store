@@ -1,4 +1,4 @@
-import { useState,useEffect,useRef, use  } from "react";
+import { useState,useEffect,useRef  } from "react";
 import "./ItemUpdater.css";
 import getItemById from "../../customHook/getItemById";
 import updateItem from "../../customHook/updateItem";
@@ -6,8 +6,16 @@ import getBrands from "../../customHook/getBrands";
 import getCategories from "../../customHook/getCategories";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
+import { useLocation,useNavigate } from "react-router-dom";
 
-function ItemUpdater({itemID = 405}) {
+function ItemUpdater({itemID = ""}) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+        if (!location.state?.fromTrigger) {
+        navigate("/", { replace: true });
+        }
+    }, []);
   const fileInputRef = useRef(null);
   const sizeInputRef = useRef(null);
   const [brands, setBrands] = useState([]);
@@ -86,12 +94,17 @@ function ItemUpdater({itemID = 405}) {
         }
         console.log("Fetched item data:", data);
     } catch (error) {
-        alert("Error fetching item:", error);
+        console.log("Error fetching item:", error);
+        if (productIdInput === "" || !productIdInput) {
+            alert("Vui lòng nhập ID sản phẩm để cập nhật.");
+        } else {
+            alert("Error fetching item");
+        };
     }
   };
 
   useEffect(() => {
-    if (productIdInput !== "") {
+    if (productIdInput && productIdInput !== "") {
       fetchItem(productIdInput);
     }
   }, []);

@@ -143,3 +143,7 @@
   padding: 2rem;
   color: rgba(0, 0, 0, 0.6);
 }
+
+.manage-items-btn {
+  margin-right: 5px !important;
+}

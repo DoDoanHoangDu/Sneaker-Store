@@ -67,3 +67,7 @@
     font-weight: bold;
     margin:5px
 }
+
+.order-confirmation-container .form-actions .total-price {
+    display: flex;
+}
