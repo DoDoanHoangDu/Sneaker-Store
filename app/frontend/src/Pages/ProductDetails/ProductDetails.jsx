@@ -5,15 +5,19 @@ import { useParams } from "react-router-dom";
 import formatPrice from "../../customHook/formatPrice";
 import Dropdown from "../../components/DropdownComponents/Dropdown/Dropdown";
 import DropdownItem from "../../components/DropdownComponents/DropdownItem/DropdownItem";
-import {Link} from "react-router-dom"
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import {Link, useNavigate} from "react-router-dom"
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/useAuth";
 import StarButton from "../../components/StarButton/StarButton";
 import getFeaturedProducts from "../../customHook/getFeaturedProducts";
 import setFeaturedProduct from "../../customHook/setFeaturedProduct";
 import removeFeaturedProduct from "../../customHook/removeFeaturedProduct";
+import deleteItem from "../../customHook/deleteItem";
 
 function ProductDetails() {
+    const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState(false);
     const { isLoggedIn, isAdmin } = useAuth();
     const { cartItems,addToCart } = useCart();
     const { id } = useParams();
@@ -106,9 +110,46 @@ function ProductDetails() {
         };
     };
 
+    const toggleModal = () => {
+        if (isLoggedIn && isAdmin) {
+            setModalOpen(!modalOpen);
+        } else {
+            alert("Bạn không có quyền thực hiện hành động này!");
+            return;
+        }
+    };
+
+    const handleDeleteProduct = async () => {
+        toggleModal();
+        try {
+            const response = await deleteItem(itemID);
+            if (response) {
+                navigate("/store");
+            } else {
+                alert("Không thể xóa sản phẩm này. Vui lòng thử lại sau.");
+            }
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+        }
+    };
 
     if (!product) {
-        return <p>Sản phẩm không tồn tại</p>;
+        return (
+            <div className="unavailable-product">
+                <div className="page-name">
+                    <Link  to="/store"><p >Danh sách sản phẩm</p></Link>
+                    <p>/</p>
+                    <p>Sản phẩm</p>
+                </div>
+                <div className="product-not-exist">
+                    <p>Sản phẩm không tồn tại</p>
+                    <Link  to="/store"><p >Quay lại cửa hàng</p></Link>
+                </div>
+                
+
+            </div>
+        );
     }
 
     return (
@@ -118,6 +159,8 @@ function ProductDetails() {
                 <p>/</p>
                 <p>{product.product_name + ((isLoggedIn && isAdmin) ? (" - ID: " + id) : "")  }</p>
             </div>
+            {isLoggedIn && isAdmin && (<button className="delete-product-btn" onClick={toggleModal}>Xóa sản phẩm</button>)}
+            
             
             
             <div className="product-details-basic">
@@ -154,6 +197,12 @@ function ProductDetails() {
                 <p className="description-start">Mô tả sản phẩm:</p>
                 <p className="product-details-description"> {product.description}</p>
             </div>
+            <ConfirmationModal
+                isOpen={modalOpen}
+                onConfirm={handleDeleteProduct}
+                onCancel={toggleModal}
+                message="Xóa sản phẩm này?"
+            />
         </div>
     );
 }
