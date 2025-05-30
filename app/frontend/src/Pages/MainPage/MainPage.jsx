@@ -1,22 +1,34 @@
 import { useEffect } from 'react';
 import ProductSection from '../../components/ItemComponents/ProductSlider/ProductSection';
-import { useAuth } from '../../context/useAuth';
 import { useProduct } from '../../context/ProductContext';
+import getFeaturedProducts from '../../customHook/getFeaturedProducts';
 import './MainPage.css';
 
 function MainPage() {
-    const { isLoggedIn, userRole, isAdmin } = useAuth();
     const { featuredProducts, fetchFeaturedProducts, isLoading } = useProduct();
-    
-    console.log('MainPage rendering - isLoggedIn:', isLoggedIn);
-    console.log('MainPage rendering - userRole:', userRole);
-    console.log('MainPage rendering - isAdmin:', isAdmin);
-    
-    // Fetch featured products only once when component mounts
     useEffect(() => {
-        fetchFeaturedProducts([204,205,206,202,203,207,208,209,210]);
-        // No dependencies array means this effect runs only once when component mounts
+        const fetchFeatured = async () => {
+            const ids = [];
+            try {
+                const products = await getFeaturedProducts();
+                if (products) {
+                    products.forEach(product => {
+                        if (product.product_id) {
+                            ids.push(product.product_id);
+                        }
+                    });
+                    fetchFeaturedProducts(ids);
+                } else {
+                    console.error("No featured products found");
+                }
+            } catch (error) {
+                alert("Error fetching featured products. Please try again later.");
+            }
+        };
+        fetchFeatured();
+        
     }, []);
+    
     
     return (
         <div className="main-page">

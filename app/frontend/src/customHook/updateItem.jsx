@@ -12,13 +12,18 @@ const updateItem = async (productId,formData) => {
             body: JSON.stringify(formData),
         });
         if (!response.ok) {
-            throw new Error("Failed to update item");
+            const error = new Error("Failed to update item");
+            error.status = response.status;
+            throw error
         }
         alert("Item updated successfully");
         return true;
     } catch (error) {
         console.error("Error updating item:", error);
-        alert("Error updating item:", error);
+        if (error.status === 404) {
+            alert(`Item not found: ${productId}`);
+        }
+        else alert("Error updating item");
         return false;
     }
 }
