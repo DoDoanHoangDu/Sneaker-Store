@@ -1,0 +1,14 @@
+.order-view {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.order-view .dropdown {
+    width: 90%;
+}
+
+.order-view .dropdown-btn {
+    width: 100%;
+    justify-content: center;
+}

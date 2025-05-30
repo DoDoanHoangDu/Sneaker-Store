@@ -20,7 +20,7 @@ function CartViewer({confirmation = false}) {
         const mergedItems = [];
 
         results.forEach((item, index) => {
-            if (item) {
+            if (item && item.remaining > 0) {
                 mergedItems.push({
                 ...item,
                 quantity: cartItems[index].quantity,

@@ -1,7 +1,31 @@
-.order-history-guest {
+.order-history-guest, .order-history-empty {
     width: 100%;
     background-color: white;
     text-align: center;
     padding: 5% 0;
     font-size: large;
+}
+
+.order-history-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order-history {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 10px
+}
+
+.order-history-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: sans-serif;
 }

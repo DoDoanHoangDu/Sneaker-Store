@@ -149,11 +149,15 @@
     font-weight: bold;
     text-transform: uppercase;
     padding: 0.6rem 1.2rem;
-    border: 1px solid black;
     border-radius: 8px;
     font-size: 1.2rem;
     cursor: pointer;
     margin-bottom: 1.5rem;
+}
+
+.add-to-cart-button.disabled {
+    pointer-events: none;
+    background-color: gray;
 }
 
 .product-details-brand,

@@ -189,7 +189,7 @@ function ProductDetails() {
                     <p className="product-details-brand"><strong>Thương hiệu:</strong> {product.brand}</p>
                     <p className="product-details-categories"><strong>Loại giày:</strong> {categories.join(", ")}</p>
                     <p className="product-details-condition"><strong>Tình trạng:</strong> {(product.remaining >0 ? "còn hàng" : "hết hàng")}</p>
-                    <button className="add-to-cart-button" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
+                    <button className={`add-to-cart-button ${product.remaining>0 ? '' : 'disabled'}`} onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                 </div>
             </div>
 
