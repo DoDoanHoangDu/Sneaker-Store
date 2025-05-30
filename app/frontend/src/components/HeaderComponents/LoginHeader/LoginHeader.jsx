@@ -52,13 +52,22 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
         navigate('/admin');
         setShowDropdown(false);
     };
+
+    const handleOrderHistory = (e) => {
+        e.stopPropagation();
+        // Navigate to admin dashboard
+        navigate('/order-history');
+        setShowDropdown(false);
+    };
     
     return (
-        <div className="login-header-container" ref={dropdownRef}>            <div className="login-header" onClick={handleClick}>                <img 
-                    className="login-logo" 
-                    src={isLoggedIn ? (isAdmin ? source_admin_logo : source_user_logo) : source_login_logo} 
-                    alt={isLoggedIn ? (isAdmin ? "Admin" : "Account") : "Login"} 
-                />                {isLoggedIn ? (
+        <div className="login-header-container" ref={dropdownRef}>            
+            <div className="login-header" onClick={handleClick}>                
+                <img 
+                        className="login-logo" 
+                        src={isLoggedIn ? (isAdmin ? source_admin_logo : source_user_logo) : source_login_logo} 
+                        alt={isLoggedIn ? (isAdmin ? "Admin" : "Account") : "Login"} />                
+                {isLoggedIn ? (
                     <span className="login-block-text username-text">
                         <span>{username}</span>
                         {isAdmin && <span style={{ marginLeft: '5px', color: 'red', fontSize: '0.7rem' }}>(Admin)</span>}
@@ -69,24 +78,27 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
                         <span>nhập</span>
                     </span>
                 )}
-            </div>            {isLoggedIn && showDropdown && (
-                <div className="login-dropdown">
-                    {isAdmin && (                        <>
-                            <div className="dropdown-item admin-role-indicator">
-                                Admin User
-                            </div>                            <div className="dropdown-item admin-dropdown-item" onClick={handleAdminNav}>
-                                Quản lý
-                            </div>
-                        </>
-                    )}
-                    <div className="dropdown-item" onClick={handleProfile}>
-                        Xem hồ sơ
-                    </div>
-                    <div className="dropdown-item" onClick={handleLogout}>
-                        Đăng xuất
-                    </div>
+            </div>            
+            <div className={`login-dropdown ${(isLoggedIn && showDropdown) ? 'show': ''}`}>
+                {isAdmin && (                        <>
+                        <div className="dropdown-item admin-role-indicator">
+                            Admin User
+                        </div>                            
+                        <div className="dropdown-item admin-dropdown-item" onClick={handleAdminNav}>
+                            Quản lý
+                        </div>
+                    </>
+                )}
+                <div className="dropdown-item" onClick={handleProfile}>
+                    Xem hồ sơ
                 </div>
-            )}
+                <div className="dropdown-item" onClick={handleOrderHistory}>
+                    Đơn hàng của tôi
+                </div>
+                <div className="dropdown-item" onClick={handleLogout}>
+                    Đăng xuất
+                </div>
+            </div>
         </div>
     );
 }

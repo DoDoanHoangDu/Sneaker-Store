@@ -324,12 +324,12 @@ function UserProfile() {
         }));
 
 
-        if (location.pathname === '/orderconfirmation') {
+        if (location.pathname === '/order-confirmation') {
             try {
                 const orderResponse = await createOrder(submitUserOrderData, submitCartData,totalPrice);
                 if (orderResponse) {
                     setMessage('Đơn hàng đã được tạo thành công!');
-                    navigate('/ordersuccess', {replace: true, state: { fromTrigger: true } });
+                    navigate('/order-success', {replace: true, state: { fromTrigger: true } });
                     clearCart();
                 } else {
                     setMessage('Lỗi: Không thể tạo đơn hàng');

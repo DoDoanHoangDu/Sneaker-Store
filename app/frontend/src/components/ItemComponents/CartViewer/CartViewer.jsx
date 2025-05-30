@@ -59,7 +59,7 @@ function CartViewer({confirmation = false}) {
             alert("Giỏ hàng trống!");
             return;
         }
-        navigate('/orderconfirmation', { state: { fromTrigger: true } });
+        navigate('/order-confirmation', { state: { fromTrigger: true } });
     }
 
     const windowSize = useWindowSize();

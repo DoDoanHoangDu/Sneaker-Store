@@ -17,6 +17,7 @@ import OrderSuccess from './Pages/OrderSuccess/OrderSuccess.jsx';
 import {Routes, Route, useNavigate } from 'react-router-dom';
 import { useCart } from './context/CartContext.jsx';
 import Modal from "react-modal";
+import OrderHistory from './Pages/OrderHistory/OrderHistory.jsx';
 
 function AppContent() {
     const { cartItems } = useCart();
@@ -40,18 +41,21 @@ function AppContent() {
     return (
         <>
             <Header onLoginClick={handleLoginClick} onSearch = {handleSearch}cartLength={cartItems.reduce((total, item) => total + item.quantity, 0)}/>
-            <NavigationBar onSearch={handleSearch}/>            <Routes>          
+            <NavigationBar onSearch={handleSearch}/>            
+            <Routes>          
                 <Route path="/" element={<MainPage />} />
                 <Route path="/store" element={<Store />} />
                 <Route path="/store/:keyword" element={<Store/>} />
                 <Route path="/cart" element={<Cart/>} />
                 <Route path="/about" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminAccountsTable />} />
-                <Route path="/itemcreator" element={<ItemCreator />} />
-                <Route path="/itemupdater" element={<ItemUpdater />} />
+                <Route path="/item-creator" element={<ItemCreator />} />
+                <Route path="/item-updater" element={<ItemUpdater />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/orderconfirmation" element={<OrderConfirmation />} />
-                <Route path="/ordersuccess" element={<OrderSuccess />} />
+                <Route path="/order-confirmation" element={<OrderConfirmation />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/order-history" element={<OrderHistory />} />
+                
             </Routes>
             <Modal
                 isOpen={showLogin}

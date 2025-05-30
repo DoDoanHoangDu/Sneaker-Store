@@ -56,13 +56,18 @@
     z-index: 1000;
     overflow: hidden;
     margin-top: 8px;
-    animation: fadeIn 0.2s ease-out;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+.login-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
+
 
 .dropdown-item {
     padding: 14px 16px;

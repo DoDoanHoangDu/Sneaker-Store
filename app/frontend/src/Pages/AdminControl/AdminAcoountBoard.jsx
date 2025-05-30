@@ -5,7 +5,7 @@ import {
   DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem,
   FormHelperText, CircularProgress
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import './AdminAcoountBoard.css';
 import { useAuth } from '../../context/useAuth';
@@ -1431,7 +1431,7 @@ export default function AdminAccountsTable() {
         variant="contained" 
         color="primary"
         className="manage-items-btn"
-        onClick={() => navigate('/itemcreator')}
+        onClick={() => navigate('/item-creator')}
       >
         Create Item
       </Button>
@@ -1439,7 +1439,7 @@ export default function AdminAccountsTable() {
         variant="contained" 
         color="primary"
         className="manage-items-btn"
-        onClick={() => navigate('/itemupdater')}
+        onClick={() => navigate('/item-updater')}
       >
         Update Item
       </Button>

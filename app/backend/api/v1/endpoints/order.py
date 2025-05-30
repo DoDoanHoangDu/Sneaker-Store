@@ -15,7 +15,7 @@ from backend.schemas.order_has_product import OrderHasProductCreate
 
 router = APIRouter(prefix="/order")
 
-@router.get("/", response_model= List[OrderCreate])
+@router.get("/all", response_model= List[OrderCreate])
 def get_orders(
     db: Session = Depends(deps.get_db),
     current_account: Account = Depends(deps.get_current_user),
