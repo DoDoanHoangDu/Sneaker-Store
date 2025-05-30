@@ -11,4 +11,4 @@ class Order(Base):
     customer_address = Column(String)
     ordered_time = Column(TIMESTAMP)
     delivery_method = Column(String)
-    product_list = relationship("order_has_product", backref = "order") # order_has_product instance
+    items = relationship("order_has_product", backref = "order") # order_has_product instance
