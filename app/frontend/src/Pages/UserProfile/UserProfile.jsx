@@ -316,10 +316,17 @@ function UserProfile() {
             ordered_time: new Date().toISOString(),
         };
 
+        const submitCartData = detailedItems.map(item => ({
+            product_id: item.product_id,
+            size: item.size,
+            product_price: Math.round(item.price * (1 - item.discount) / 1000) * 1000,
+            quantity: item.quantity
+        }));
+
 
         if (location.pathname === '/orderconfirmation') {
             try {
-                const orderResponse = await createOrder(submitUserOrderData, cartItems,totalPrice);
+                const orderResponse = await createOrder(submitUserOrderData, submitCartData,totalPrice);
                 if (orderResponse) {
                     setMessage('Đơn hàng đã được tạo thành công!');
                     navigate('/ordersuccess', {replace: true, state: { fromTrigger: true } });

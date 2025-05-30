@@ -13,7 +13,8 @@ const createOrder = async (userOrderData,cartItems,totalPrice) => {
                 if (sizeId) {
                     return {
                         size_id: sizeId,
-                        quantity: item.quantity
+                        quantity: item.quantity,
+                        product_price: item.product_price
                     };
                 } else {
                     console.error(`Failed to get size ID for product ${item.product_id} and size ${item.size}`);
