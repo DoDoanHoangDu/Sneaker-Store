@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import parseSizeId from "../../customHook/parseSizeId";
 import getItemById from "../../customHook/getItemById";
 import formatPrice from "../../customHook/formatPrice";
+import {Link} from "react-router-dom";
 
 function OrderView({order}) {
     const [orderDetails, setOrderDetails] = useState(null);
@@ -74,7 +75,7 @@ function OrderView({order}) {
                     <div className="order-view-content">
                         {orderDetails.items.map((item) => 
                             <div className="order-item" key={item.product_id}>
-                                <div className="order-item-name">{item.product_name}</div>
+                                <Link to={`/product/${item.product_id}`} className="order-item-name">{item.product_name}</Link>
                                 <img className="order-item-image" src={item.img_url} alt={item.product_name} />
                                 <div className="order-item-size">Size: {item.size}</div>
                                 <div className="order-item-quantity">Số lượng: {item.quantity}</div>
