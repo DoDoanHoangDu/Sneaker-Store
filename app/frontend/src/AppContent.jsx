@@ -47,7 +47,7 @@ function AppContent() {
                 <Route path="/store" element={<Store />} />
                 <Route path="/store/:keyword" element={<Store/>} />
                 <Route path="/cart" element={<Cart/>} />
-                <Route path="/about" element={<UserProfile />} />
+                <Route path="/account" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminAccountsTable />} />
                 <Route path="/item-creator" element={<ItemCreator />} />
                 <Route path="/item-updater" element={<ItemUpdater />} />

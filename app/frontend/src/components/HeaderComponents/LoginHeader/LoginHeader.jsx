@@ -43,7 +43,7 @@ function LoginHeader({ onLoginClick, isLoggedIn, username, userRole }) {
       const handleProfile = (e) => {
         e.stopPropagation();
         // Navigate to profile page using React Router
-        navigate('/about');
+        navigate('/account');
         setShowDropdown(false);
     };
       const handleAdminNav = (e) => {
