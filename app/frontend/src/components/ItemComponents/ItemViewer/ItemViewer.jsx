@@ -84,6 +84,7 @@ function ItemViewer({items}) {
           filtered.sort((a, b) => b.discount - a.discount);
           break;
         default:
+          filtered.sort((a, b) => a.product_id - b.product_id);
           break;
       }
 
