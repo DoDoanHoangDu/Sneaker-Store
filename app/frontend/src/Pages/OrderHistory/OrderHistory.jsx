@@ -3,8 +3,10 @@ import { useAuth } from "../../context/useAuth";
 import { useEffect,useState } from "react";
 import getOrderHistory from "../../customHook/getOrderHistory";
 import OrderView from "../../components/OrderView/OrderView";
+import useWindowSize from "../../customHook/useWindowSize";
 
 function OrderHistory() {
+    const windowSize = useWindowSize();
     const {isLoggedIn,username} = useAuth();
     const [orderHistory, setOrderHistory] = useState([]);
 
@@ -37,7 +39,7 @@ function OrderHistory() {
 
     return (
         <div className="order-history-container">
-            <div className="order-history">
+            <div className={`order-history ${windowSize<1000 ? "order-history-small" : ""}` }>
                 <p className="order-history-title">Lịch sử mua hàng</p>
                 {orderHistory.map((order,index) => (
                     <OrderView key={index} order={order} />

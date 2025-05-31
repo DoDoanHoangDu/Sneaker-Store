@@ -14,13 +14,17 @@
 }
 
 .order-history {
-    width: 90%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     gap: 10px;
     background-color: white;
     border-radius: 12px;
     padding: 10px
+}
+
+.order-history-small {
+    width: 90%;
 }
 
 .order-history-title {
