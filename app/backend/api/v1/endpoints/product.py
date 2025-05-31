@@ -157,6 +157,23 @@ def get_size_id_by_product_id_and_size(product_id: int, size: int, db: Session =
         "size_id": size_entry.id,
     }
     return result
+
+@router.get("/product/size")
+def get_product_id_and_size_by_size_id(size_id: int, db: Session = Depends(get_db)):
+    size_entry = db.query(ProductSize).filter(ProductSize.id == size_id).first()
+    if not size_entry:
+        raise HTTPException(status_code=404, detail="Size not found")
+    
+    product = db.query(Product).filter(Product.product_id == size_entry.product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found for this size")
+    
+    result = {
+        "product_id": product.product_id,
+        "size": size_entry.size,
+    }
+    return result
+
 @router.post("/upload-image")
 def upload_image(image: UploadFile = File(...)):
     try:
