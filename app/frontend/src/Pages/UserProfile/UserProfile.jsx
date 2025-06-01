@@ -389,7 +389,7 @@ function UserProfile() {
 
     return (
         <div className="user-profile">
-            {!isLoggedIn && !(location.pathname === '/orderconfirmation') ? (
+            {!isLoggedIn && !(location.pathname === '/order-confirmation') ? (
                 <div className="form-container">
                     <div className="not-logged-in-message">
                         Vui lòng đăng nhập để xem và cập nhật thông tin cá nhân.
