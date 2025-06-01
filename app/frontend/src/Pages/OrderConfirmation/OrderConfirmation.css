@@ -42,6 +42,14 @@
     display: none;
 }
 
+.order-confirmation-container .form-group.email{
+    display: none;
+}
+
+.order-confirmation-container .form-group.dob{
+    display: none;
+}
+
 .order-confirmation-container .save-button {
     width: 100%
 }

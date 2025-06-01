@@ -111,6 +111,14 @@ function UserProfile() {
             ...formData,
             [name]: value
         });
+        switch (name) {
+            case 'full_name':
+                setUserOrderData({...userOrderData, customer_name: value});
+                break;
+            case 'phone_number':
+                setUserOrderData({...userOrderData, customer_phone: value});
+                break;
+        }
     };
 
     // Handle address change
@@ -224,6 +232,32 @@ function UserProfile() {
             
             fetchUserData();
         }
+        else {
+            setProfileData({
+                username: '',
+                full_name: '',
+                email: '',
+                phone_number: '',
+                dob: '',
+                sex: '',
+                address: '',
+                role: ''
+            });
+            setFormData({
+                full_name:  '',
+                phone_number: '',
+                email: '',
+                sex: 'male'
+            });
+            setUserOrderData({
+                account_id: null,
+                customer_name: '',
+                customer_phone: '',
+                customer_address: '',
+                ordered_time: '',
+                delivery_method:'tiêu chuẩn'
+            })
+        }
     }, [isLoggedIn, username]);
     
     // Helper function to parse full address into components
@@ -287,18 +321,26 @@ function UserProfile() {
         };
         
         loadProvinces();
-    }, []);    // Handle form submission
+    }, []);    
+    
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setMessage('');
 
+        if (!formData.full_name || !formData.phone_number) {
+            setMessage('Lỗi: Vui lòng điền đầy đủ thông tin cá nhân');
+            setIsLoading(false);
+            return;
+        }
         // Validate address fields
         if (!addressData.city || !addressData.district || !addressData.ward || !addressData.street_address) {
             setMessage('Lỗi: Vui lòng điền đầy đủ thông tin địa chỉ');
             setIsLoading(false);
             return;
         }
+
 
         // Combine address data into a single string
         const fullAddress = `${addressData.street_address}, ${addressData.ward}, ${addressData.district}, ${addressData.city}, Việt Nam`;
@@ -476,7 +518,7 @@ function UserProfile() {
                                 </div>
                             </div>
                             <div className="form-row">
-                                <div className="form-group">
+                                <div className="form-group email">
                                     <label>Email</label>
                                     <input 
                                         type="email" 
@@ -486,7 +528,7 @@ function UserProfile() {
                                         placeholder="Nhập email" 
                                     />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group dob">
                                     <label>Ngày sinh</label>
                                     <DatePicker
                                         selected={selectedDate}

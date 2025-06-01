@@ -73,8 +73,8 @@ function OrderView({order}) {
             <Dropdown buttonText={`${new Date(orderDetails.ordered_time).toLocaleString()}`} 
                 content = {
                     <div className="order-view-content">
-                        {orderDetails.items.map((item) => 
-                            <div className="order-item" key={item.product_id}>
+                        {orderDetails.items.map((item,index) => 
+                            <div className="order-item" key={index}>
                                 <Link to={`/product/${item.product_id}`} className="order-item-name">{item.product_name}</Link>
                                 <img className="order-item-image" src={item.img_url} alt={item.product_name} />
                                 <div className="order-item-size">Size: {item.size}</div>
