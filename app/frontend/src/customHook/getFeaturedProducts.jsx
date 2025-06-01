@@ -13,7 +13,7 @@ const getFeaturedProducts = async () => {
         return data;
     } catch (error) {
         if (error && error.status === 404) {
-            alert(`Product ID not found: ${id}`);
+            console.error(`Product ID not found: ${id}`);
             return null;
         }
         console.error("Error setting featured product:", error);

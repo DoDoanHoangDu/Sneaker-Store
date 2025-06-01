@@ -1,5 +1,6 @@
 const getItemById = async (productId) => {
     try {
+        console.log("Fetch by Id")
         const response = await fetch(`http://localhost:8000/product/id/${productId}`);
         if (!response.ok) {
             const error = new Error(`Failed to fetch product ${productId}`);
@@ -12,7 +13,7 @@ const getItemById = async (productId) => {
         return data;
     } catch (error) {
         if (error && error.status === 404) {
-            alert(`Item ID not found: ${productId}`);
+            console.error(`Item ID not found: ${productId}`);
             return null;
         }
         console.error("Error fetching item:", error);

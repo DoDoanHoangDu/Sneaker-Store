@@ -10,7 +10,7 @@ const parseSizeId = async (sizeId) => {
         return data;
     } catch (error) {
         if (error && error.status === 404) {
-            alert(`Item ID not found: ${sizeId}`);
+            console.error(`Size ID not found: ${sizeId}`);
             return null;
         }
         console.error("Error fetching item:", error);

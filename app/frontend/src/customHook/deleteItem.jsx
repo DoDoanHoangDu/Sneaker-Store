@@ -15,7 +15,7 @@ const deleteItem = async (productId) => {
         return true;
     } catch (error) {
         if (error && error.status === 404) {
-            alert(`Item ID not found: ${productId}`);
+            console.error(`Item ID not found: ${productId}`);
             return false;
         }
         console.error("Error deleting item:", error);

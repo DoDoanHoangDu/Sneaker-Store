@@ -134,6 +134,7 @@ function ItemUpdater({itemID = ""}) {
     console.log("Submitting form data...");
     console.log("Form data:", formData);
     try {
+      console.log(productIdInput)
       if (!(formData.image instanceof File)) {
         alert("Vui lòng chọn hình ảnh hợp lệ cho sản phẩm.");
         return;
@@ -174,7 +175,7 @@ function ItemUpdater({itemID = ""}) {
       console.log("Submit data:", submitData);
       await updateItem(productIdInput,submitData);
     } catch (error) {
-      console.error("Error creating item:", error);
+      console.error("Error updating item:", error);
       alert("Đã xảy ra lỗi khi cập nhật sản phẩm. Vui lòng thử lại.");
     }
   }

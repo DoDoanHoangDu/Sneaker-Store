@@ -7,6 +7,7 @@ import formatPrice from "../../customHook/formatPrice";
 import {Link} from "react-router-dom";
 
 function OrderView({order}) {
+    const [rawOrderDetails, setRawOrderDetails] = useState(null);
     const [orderDetails, setOrderDetails] = useState(null);
     useEffect(() => {
         const transformOrder = async () => {
@@ -29,7 +30,7 @@ function OrderView({order}) {
                     };
                 })
             );
-            setOrderDetails({...order, items: transformedItems })
+            setRawOrderDetails({...order, items: transformedItems })
             console.log("Transformed Order Details:", {...order, items: transformedItems });
         }
         transformOrder();
@@ -39,7 +40,7 @@ function OrderView({order}) {
     useEffect(() => {
         const fetchItemDetails = async () => {
             const itemsWithDetails = await Promise.all(
-                orderDetails.items.map(async(item) => {
+                rawOrderDetails.items.map(async(item) => {
                     const itemDetails = await getItemById(item.product_id);
                     if (!itemDetails) {
                         return {
@@ -55,16 +56,16 @@ function OrderView({order}) {
                     };
                 })
             );
-            setOrderDetails(prevDetails => ({
-                ...prevDetails,
+            setOrderDetails({
+                ...rawOrderDetails,
                 items: itemsWithDetails
-            }));
+            });
         }
-        if (orderDetails) {
+        if (rawOrderDetails) {
             fetchItemDetails();
         }
 
-    }, [orderDetails])
+    }, [rawOrderDetails])
 
     if (!orderDetails) return <div>Loading order details...</div>;
 
